@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#f8f6f6"
+    tools:context=".SignIn">
+
+    <!-- Header Text: Welcome back -->
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome back"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#181311"
+        android:layout_marginTop="32dp" />
+
+    <!-- Subtitle: Let's find your space. -->
+    <TextView
+        android:id="@+id/tvIntro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Let's find your space."
+        android:textSize="16sp"
+        android:textColor="#6b7280"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="40dp"/>
+
+    <!-- Email Label -->
+    <TextView
+        android:id="@+id/tvEmail1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#181311"
+        android:layout_marginTop="8dp" />
+
+    <!-- Email Input Field -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:hint="Enter your email address/phone number"
+        android:inputType="textEmailAddress"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp" />
+
+    <!-- Password Label -->
+    <TextView
+        android:id="@+id/tvPassword1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#181311"
+        android:layout_marginTop="8dp" />
+
+    <!-- Password Input Field -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:hint="Enter your password"
+        android:inputType="textPassword"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Note: The ImageButton for visibility toggle is removed to keep it simple -->
+
+    <!-- Forgot Password Link -->
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="serif"
+        android:padding="8dp"
+        android:text="Forgot password?"
+        android:textColor="#3F51B5"
+        android:textColorLink="#009688"
+        android:textSize="16sp" />
+
+    <!-- Spacer View (Pushes remaining content to the bottom using layout_weight) -->
+
+    <!-- Sign In Button -->
+    <Button
+        android:id="@+id/btnSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="#673AB7"
+        android:minHeight="56dp"
+        android:text="Sign In"
+        android:textColor="@android:color/white"
+        android:textColorLink="#7E5757"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Don't have an account? Create one (Uses a nested horizontal LinearLayout for center alignment) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="24dp">
+
+        <TextView
+            android:id="@+id/tvNoAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? "
+            android:textSize="16sp"
+            android:textColor="#6b7280" />
+
+        <TextView
+            android:id="@+id/tvCreateAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="Create one"
+            android:textColor="#3F51B5"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -11,6 +11,7 @@
         android:id="@+id/imageView5"
         android:layout_width="408dp"
         android:layout_height="728dp"
+        android:background="#D5D3D3"
         android:src="@mipmap/ic_launcher_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

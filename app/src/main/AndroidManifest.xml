@@ -15,6 +15,9 @@
             android:name=".ForgottenPassword"
             android:exported="false" />
         <activity
+            android:name=".HomeScreen1"
+            android:exported="false" />
+        <activity
             android:name=".HomeScreen"
             android:exported="false" />
         <activity

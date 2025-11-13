@@ -1,18 +1,19 @@
-package remas.example.remasfinalproject.data.MyUserTable;
+package remas.example.remasfinalproject.data.Seeker;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-public class UsersTable {
+public class Seekers {
     @Entity
-    public class MyUser {
+    public class MyLister {
         @PrimaryKey(autoGenerate = true)
         public long KeyId;
         @ColumnInfo(name = "full_Name")
         public String fullName;
+        public int age;
+        public String city;
         public String email;
-        public String phone;
         public String password;
 
         public long getKeyId() {
@@ -31,6 +32,22 @@ public class UsersTable {
             this.fullName = fullName;
         }
 
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
         public String getEmail() {
             return email;
         }
@@ -39,13 +56,6 @@ public class UsersTable {
             this.email = email;
         }
 
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
 
         public String getPassword() {
             return password;
@@ -60,8 +70,9 @@ public class UsersTable {
             return "MyUser{" +
                     "KeyId=" + KeyId +
                     ", fullName='" + fullName + '\'' +
+                    ", age=" + age +
+                    ", city='" + city + '\'' +
                     ", email='" + email + '\'' +
-                    ", phone='" + phone + '\'' +
                     ", password='" + password + '\'' +
                     '}';
         }

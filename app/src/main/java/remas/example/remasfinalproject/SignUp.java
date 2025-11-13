@@ -2,10 +2,12 @@ package remas.example.remasfinalproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,4 +77,65 @@ public class SignUp extends AppCompatActivity
 
         };
     }
+
+        private void registerUser() {
+            // --- 1. READ DATA FROM FIELDS ---
+            String FullName = et_Name.getText().toString().trim();
+            String email = et_Email1.getText().toString().trim();
+            String password = et_Password1.getText().toString().trim();
+
+
+
+            // --- 2. VALIDATE THE DATA USING A FLAG ---
+            boolean isDataValid = true; // This is our validation flag
+
+            // Validate Username
+            if (com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils.isEmpty(username)) {
+                et_Name.setError("Username is required.");
+                isDataValid = false; // Set flag to false on failure
+            } else {
+                // Clear any previous error
+                et_Name.setError(null);
+            }
+
+            // Validate Email
+            if (com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils.isEmpty(email)) {
+                et_Email1.setError("Email is required.");
+                isDataValid = false;
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                // Use Android's built-in email pattern validator
+                et_Email1.setError("Please enter a valid email address.");
+                isDataValid = false;
+            } else {
+                et_Email1.setError(null);
+            }
+
+            // Validate Password
+            if (com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils.isEmpty(password)) {
+                et_Password1.setError("Password is required.");
+                isDataValid = false;
+            } else if (password.length() < 6) {
+                et_Password1.setError("Password must be at least 6 characters long.");
+                isDataValid = false;
+            } else {
+                et_Password1.setError(null);
+            }
+
+
+            // --- 3. CHECK THE FLAG AND PROCEED ---
+            if (isDataValid) {
+                // All data is valid, proceed with registration logic
+                // For example, save to a database, call an API, etc.
+                Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+
+                // You would add your database insert logic here, e.g.:
+                // myDbHelper.addUser(username, email, password);
+
+            } else {
+                // Data is invalid, do nothing further
+                Toast.makeText(this, "Please correct the errors.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

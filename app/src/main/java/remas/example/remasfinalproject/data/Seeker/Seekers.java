@@ -3,10 +3,10 @@ package remas.example.remasfinalproject.data.Seeker;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+@Entity
 public class Seekers {
-    @Entity
-    public class MyLister {
+
+
         @PrimaryKey(autoGenerate = true)
         public long KeyId;
         @ColumnInfo(name = "full_Name")
@@ -77,4 +77,4 @@ public class Seekers {
                     '}';
         }
     }
-    }
+

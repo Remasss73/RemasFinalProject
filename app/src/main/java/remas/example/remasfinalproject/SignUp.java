@@ -2,6 +2,7 @@ package remas.example.remasfinalproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import remas.example.remasfinalproject.data.Seeker.Seekers;
 
 public class SignUp extends AppCompatActivity
 {
@@ -78,64 +81,93 @@ public class SignUp extends AppCompatActivity
         };
     }
 
-        private void registerUser() {
-            // --- 1. READ DATA FROM FIELDS ---
-            String FullName = et_Name.getText().toString().trim();
-            String email = et_Email1.getText().toString().trim();
-            String password = et_Password1.getText().toString().trim();
+    private boolean validateFields()
+    {
+        boolean isValid = true;
 
+        String name = et_Name.getText().toString().trim();
+        String ageText = et_Age.getText().toString().trim();
+        String city = et_City.getText().toString().trim();
+        String email = et_Email1.getText().toString().trim();
+        String password = et_Password1.getText().toString().trim();
 
-
-            // --- 2. VALIDATE THE DATA USING A FLAG ---
-            boolean isDataValid = true; // This is our validation flag
-
-            // Validate Username
-            if (com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils.isEmpty(username)) {
-                et_Name.setError("Username is required.");
-                isDataValid = false; // Set flag to false on failure
-            } else {
-                // Clear any previous error
-                et_Name.setError(null);
-            }
-
-            // Validate Email
-            if (com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils.isEmpty(email)) {
-                et_Email1.setError("Email is required.");
-                isDataValid = false;
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                // Use Android's built-in email pattern validator
-                et_Email1.setError("Please enter a valid email address.");
-                isDataValid = false;
-            } else {
-                et_Email1.setError(null);
-            }
-
-            // Validate Password
-            if (com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.TextUtils.isEmpty(password)) {
-                et_Password1.setError("Password is required.");
-                isDataValid = false;
-            } else if (password.length() < 6) {
-                et_Password1.setError("Password must be at least 6 characters long.");
-                isDataValid = false;
-            } else {
-                et_Password1.setError(null);
-            }
-
-
-            // --- 3. CHECK THE FLAG AND PROCEED ---
-            if (isDataValid) {
-                // All data is valid, proceed with registration logic
-                // For example, save to a database, call an API, etc.
-                Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-
-                // You would add your database insert logic here, e.g.:
-                // myDbHelper.addUser(username, email, password);
-
-            } else {
-                // Data is invalid, do nothing further
-                Toast.makeText(this, "Please correct the errors.", Toast.LENGTH_SHORT).show();
-            }
+        if (name.isEmpty())
+        {
+            et_Name.setError("Name is required");
+            isValid = false;
         }
-    }
+        else
+        {
+            et_Name.setError(null);
+        }
 
+        if (ageText.isEmpty())
+        {
+            et_Age.setError("Age is required");
+            isValid = false;
+        }
+        else if (!TextUtils.isDigitsOnly(ageText))
+        {
+            et_Age.setError("Age must be a number");
+            isValid = false;
+        }
+        else
+        {
+            et_Age.setError(null);
+        }
+
+        if (city.isEmpty())
+        {
+            et_City.setError("City is required");
+            isValid = false;
+        }
+        else
+        {
+            et_City.setError(null);
+        }
+
+        if (email.isEmpty())
+        {
+            et_Email1.setError("Email is required");
+            isValid = false;
+        }
+        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        {
+            et_Email1.setError("Please enter a valid email address");
+            isValid = false;
+        }
+        else
+        {
+            et_Email1.setError(null);
+        }
+
+        if (password.isEmpty())
+        {
+            et_Password1.setError("Password is required");
+            isValid = false;
+        }
+        else if (password.length() < 8)
+        {
+            et_Password1.setError("Password must be at least 8 characters long");
+            isValid = false;
+        }
+        else
+        {
+            et_Password1.setError(null);
+        }
+        if (isValid)
+        {
+            Seekers seeker=new Seekers();
+            seeker.setFullName(name);
+            seeker.setAge(Integer.parseInt(ageText));
+            seeker.setCity(city);
+            seeker.setEmail(email);
+            seeker.setPassword(password);
+
+
+        }
+
+        return isValid;
+    }
+      
 }

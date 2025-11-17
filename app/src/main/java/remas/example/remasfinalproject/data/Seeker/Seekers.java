@@ -3,7 +3,7 @@ package remas.example.remasfinalproject.data.Seeker;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-@Entity
+@Entity(tableName = "Seekers")
 public class Seekers {
 
 
@@ -12,10 +12,17 @@ public class Seekers {
         @ColumnInfo(name = "full_Name")
         public String fullName;
         public int age;
+        @ColumnInfo(name = "city")
         public String city;
         public String email;
         public String password;
 
+/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
+        /**
+         * Gets the KeyId.
+         * @return the KeyId
+         */
+/* <<<<<<<<<<  150b1c9e-27da-4ff4-bf00-906f3d03154d  >>>>>>>>>>> */
         public long getKeyId() {
             return KeyId;
         }

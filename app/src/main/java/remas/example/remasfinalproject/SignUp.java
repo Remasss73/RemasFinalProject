@@ -16,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import remas.example.remasfinalproject.data.AppDatabase;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
 
 public class SignUp extends AppCompatActivity
@@ -165,9 +166,19 @@ public class SignUp extends AppCompatActivity
             seeker.setPassword(password);
 
 
+            AppDatabase db = AppDatabase.getDB(SignUp.this);
+            db.getSeekersQuery().insert(seeker);
+            Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+            finish();//close current activity (return immediately to the previous activity)
+
+
+        }
+        else
+        {
+            Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
         }
 
         return isValid;
     }
-      
+
 }

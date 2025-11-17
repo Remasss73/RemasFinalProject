@@ -1,10 +1,20 @@
 package remas.example.remasfinalproject.data.Seeker;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Delete;
 import androidx.room.Entity;
+import androidx.room.Insert;
 import androidx.room.PrimaryKey;
-@Entity(tableName = "Seekers")
+import androidx.room.Query;
+import androidx.room.Update;
+
+import java.util.List;
+
+@Entity
 public class Seekers {
+
+
+
 
 
         @PrimaryKey(autoGenerate = true)

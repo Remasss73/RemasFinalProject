@@ -62,8 +62,16 @@ public class SignUp extends AppCompatActivity
         {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SignUp.this, HomeScreen.class);
-                startActivity(i);
+               if(validateFields())
+               {
+                   Intent i = new Intent(SignUp.this, HomeScreen.class);
+                   startActivity(i);
+               }
+               else
+               {
+                   Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
+               }
+
             }
         });
         tv_AlreadyHaveAnAccount = findViewById(R.id.tvAlreadyHaveAnAccount);
@@ -73,6 +81,7 @@ public class SignUp extends AppCompatActivity
         {
             @Override
             public void onClick(View view) {
+
                 Intent i = new Intent(SignUp.this, SignIn.class);
                 startActivity(i);
             }

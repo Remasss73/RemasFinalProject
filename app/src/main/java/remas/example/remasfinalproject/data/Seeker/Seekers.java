@@ -10,13 +10,8 @@ import androidx.room.Update;
 
 import java.util.List;
 
-@Entity
+@Entity (tableName = "seekers")
 public class Seekers {
-
-
-
-
-
         @PrimaryKey(autoGenerate = true)
         public long KeyId;
         @ColumnInfo(name = "full_Name")

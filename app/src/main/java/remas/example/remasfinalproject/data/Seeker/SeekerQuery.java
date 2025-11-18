@@ -8,32 +8,12 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+@Entity
 @Dao
 public interface SeekerQuery {
-    List<Seekers> getAll();
+@Insert
+    void insert(Seekers seeker);
 
-    List<Seekers> loadAllByIds(int[] userIds);
-
-
-    Seekers checkEmailPassword(String myFullName,String myEmail, String myPassword);
-
-    Seekers checkAge(Integer myAge);
-    Seekers checkCity(String myCity);
-
-
-
-
-    void insertAll(Seekers... users);
-
-    void delete(Seekers user);
-
-    void delete(int id);
-
-    void insert(Seekers myUser);
-
-    void update(Seekers... values);
-
-    @Dao
     public interface MyLister {
         @Query("SELECT * FROM Seekers")
         List<Seekers> getAll();
@@ -57,7 +37,7 @@ public interface SeekerQuery {
         void delete(int id);
 
         @Insert
-        void insert(Seekers myUser);
+       // void insert(Seekers myUser);
 
         @Update
         void update(Seekers... values);

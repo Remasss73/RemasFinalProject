@@ -3,10 +3,8 @@ package remas.example.remasfinalproject.data.MyTasksTable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-public class MyTask
-{
-@Entity
-    public class MyTasksTable
+@Entity (tableName = "myTasks")
+    public class MyTask
 {
     @PrimaryKey(autoGenerate = true)
     public long keyId;
@@ -19,4 +17,4 @@ public class MyTask
     public long userId;
 
 }
-}
+

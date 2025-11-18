@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        android:enabled="true"
+        android:checkable="true"
+        android:checked="true" />
+
+    <item
+        android:id="@+id/navigation_explore"
+        android:icon="@drawable/ic_explore"
+        android:title="Explore"
+        android:enabled="true"
+        android:checkable="true" />
+
+    <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/ic_favorite_border"
+        android:title="Favorites"
+        android:enabled="true"
+        android:checkable="true" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_person"
+        android:title="Profile"
+        android:enabled="true"
+        android:checkable="true" />
+</menu>

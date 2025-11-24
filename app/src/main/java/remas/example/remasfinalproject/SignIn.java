@@ -69,6 +69,10 @@ public class SignIn extends AppCompatActivity {
             }
         });
     }
+    /**
+     * Validates the user input fields
+     * @return true if the fields are valid, false otherwise
+     */
     private boolean validateFields()
     {
         boolean isValid = true;

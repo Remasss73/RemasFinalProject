@@ -15,10 +15,12 @@ public class Seekers {
         @PrimaryKey(autoGenerate = true)
         public long KeyId;
         @ColumnInfo(name = "full_Name")
+
         public String fullName;
         public int age;
         @ColumnInfo(name = "city")
         public String city;
+
         public String email;
         public String password;
 

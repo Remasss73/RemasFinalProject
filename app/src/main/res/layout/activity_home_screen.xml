@@ -273,7 +273,6 @@
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:src="@drawable/ic_more"
                                 android:tint="#1A73E8"
                                 android:layout_gravity="center"/>
                         </com.google.android.material.card.MaterialCardView>

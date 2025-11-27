@@ -19,6 +19,13 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract SeekerQuery getSeekersQuery();
     public abstract MyTaskQuery getMyTaskQuery();
 
+    /**
+     * Returns the single instance of the application's database.
+     * Creates the database if it doesn't exist yet.
+     *
+     * @param context The application context needed to create the database
+     * @return The AppDatabase instance for this application
+     */
     public static AppDatabase getDB(Context context) {
         if (db == null) {
             db = Room.databaseBuilder(context,
@@ -31,6 +38,3 @@ public abstract class AppDatabase extends RoomDatabase {
         return db;
     }
 }
-
-
-

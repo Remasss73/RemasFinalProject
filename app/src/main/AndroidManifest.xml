@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RemasFinalProject">
         <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ForgottenPassword"
             android:exported="false" />
         <activity

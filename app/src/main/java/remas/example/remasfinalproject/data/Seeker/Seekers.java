@@ -12,6 +12,10 @@ import java.util.List;
 
 @Entity (tableName = "seekers")
 public class Seekers {
+    /**
+     * Gets the KeyId.
+     * @return the KeyId
+     */
         @PrimaryKey(autoGenerate = true)
         public long KeyId;
         @ColumnInfo(name = "full_Name")
@@ -24,12 +28,7 @@ public class Seekers {
         public String email;
         public String password;
 
-/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
-        /**
-         * Gets the KeyId.
-         * @return the KeyId
-         */
-/* <<<<<<<<<<  150b1c9e-27da-4ff4-bf00-906f3d03154d  >>>>>>>>>>> */
+
         public long getKeyId() {
             return KeyId;
         }

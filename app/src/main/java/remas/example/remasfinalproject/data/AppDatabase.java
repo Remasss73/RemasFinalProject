@@ -6,18 +6,18 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import remas.example.remasfinalproject.data.MyTasksTable.MyTask;
-import remas.example.remasfinalproject.data.MyTasksTable.MyTaskQuery;
+import remas.example.remasfinalproject.data.Dorm.DormQuery;
+import remas.example.remasfinalproject.data.Dorm.Dorms;
 import remas.example.remasfinalproject.data.Seeker.SeekerQuery;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
 
 
-@Database(entities = {Seekers.class, MyTask.class}, version = 1)
+@Database(entities = {Seekers.class, Dorms.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase db;
 
     public abstract SeekerQuery getSeekersQuery();
-    public abstract MyTaskQuery getMyTaskQuery();
+    public abstract DormQuery getMyTaskQuery();
 
     /**
      * Returns the single instance of the application's database.

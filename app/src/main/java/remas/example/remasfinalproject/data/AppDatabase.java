@@ -12,7 +12,7 @@ import remas.example.remasfinalproject.data.Seeker.SeekerQuery;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
 
 
-@Database(entities = {Seekers.class, Dorms.class}, version = 1)
+@Database(entities = {Seekers.class, Dorms.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase db;
 

@@ -17,15 +17,6 @@ import androidx.room.PrimaryKey;
         this.keyId = keyId;
     }
 
-    public String country;
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     public String city;
 
@@ -111,7 +102,6 @@ import androidx.room.PrimaryKey;
     public String toString() {
         return "Dorms{" +
                 "keyId=" + keyId +
-                ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", address='" + address + '\'' +
                 ", zipcode='" + zipcode + '\'' +

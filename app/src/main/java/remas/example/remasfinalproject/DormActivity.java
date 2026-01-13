@@ -1,6 +1,8 @@
 package remas.example.remasfinalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
@@ -33,6 +35,9 @@ public class DormActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        
+        initializeViews();
+        setupClickListeners();
     }
 
     private void initializeViews() {
@@ -53,6 +58,13 @@ public class DormActivity extends AppCompatActivity {
         });
     }
 
+    public void onClick(View view) {
+
+        Intent i = new Intent(DormActivity.this, AddListing.class);
+        startActivity(i);
+    }
+
+
     private void AddListing() {
         // Get values from EditText fields
         String city = etCity.getText().toString();
@@ -62,6 +74,7 @@ public class DormActivity extends AppCompatActivity {
         String amenities = etAmenities.getText().toString();
         String description = etDescription.getText().toString();
         String status = etStatus.getText().toString();
+
 
         // TODO: Implement save logic
     }

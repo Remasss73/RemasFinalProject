@@ -92,6 +92,8 @@ public void setDormList(ArrayList<DormItem> dormList) {
     notifyDataSetChanged();
 }
 
+private void notifyDataSetChanged() {
+}
 
 
 public class DormsAdapter extends AppCompatActivity {

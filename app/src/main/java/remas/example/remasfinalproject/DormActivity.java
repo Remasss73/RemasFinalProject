@@ -60,7 +60,7 @@ public class DormActivity extends AppCompatActivity {
 
     public void onClick(View view) {
 
-        Intent i = new Intent(DormActivity.this, AddListing.class);
+        Intent i = new Intent(DormActivity.this, DormsListActivity.class);
         startActivity(i);
     }
 

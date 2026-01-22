@@ -18,14 +18,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import remas.example.remasfinalproject.adapters.DormAdapter;
-import remas.example.remasfinalproject.data.Dorm.DormItem;
+import remas.example.remasfinalproject.data.AppDatabase;
+import remas.example.remasfinalproject.data.Dorm.DormAdapter;
+import remas.example.remasfinalproject.data.Dorm.Dorms;
 
-public class AddListing extends AppCompatActivity {
+
+public class DormsListActivity extends AppCompatActivity {
 
     private RecyclerView rvListings;
     private DormAdapter dormAdapter;
-    private List<DormItem> dormList;
+    private List<Dorms> dormList;
     private TextView tvNoListings;
 
     @Override
@@ -40,15 +42,15 @@ public class AddListing extends AppCompatActivity {
         FloatingActionButton fabAddListing = findViewById(R.id.fabAddListing);
 
         // Setup RecyclerView
-        dormList = new ArrayList<>();
-        dormAdapter = new DormAdapter(dormList, this);
+        dormList = AppDatabase.getDB(this).getDormQuery().getAll();
+        dormAdapter = new DormAdapter(this,dormList );
         rvListings.setLayoutManager(new LinearLayoutManager(this));
         rvListings.setAdapter(dormAdapter);
 
         // Set click listener for FAB
         fabAddListing.setOnClickListener(v -> {
             // Navigate to DormActivity to add a new listing
-            startActivity(new Intent(AddListing.this, DormActivity.class));
+            startActivity(new Intent(DormsListActivity.this, DormActivity.class));
         });
 
         // Load listings
@@ -62,14 +64,9 @@ public class AddListing extends AppCompatActivity {
     }
 
     private void loadListings() {
-        // TODO: Replace with actual data loading from your data source
-        // This is just sample data
-        List<DormItem> sampleListings = new ArrayList<>();
-        sampleListings.add(new DormItem("1", "Modern Apartment", "Riyadh", "Al Olaya", 2, 1, 80, 1200, "A beautiful modern apartment in the heart of the city"));
-        sampleListings.add(new DormItem("2", "Cozy Studio", "Jeddah", "Al Hamra", 1, 1, 50, 900, "Cozy studio with great view"));
-        
+
         dormList.clear();
-        dormList.addAll(sampleListings);
+        dormList.addAll(AppDatabase.getDB(this).getDormQuery().getAll());
         dormAdapter.notifyDataSetChanged();
         
         // Show/hide empty state

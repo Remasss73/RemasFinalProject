@@ -49,7 +49,7 @@
         android:layout_height="56dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
-        android:hint="Enter your email address/phone number"
+        android:hint="Enter your email address"
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
         android:paddingEnd="15dp" />

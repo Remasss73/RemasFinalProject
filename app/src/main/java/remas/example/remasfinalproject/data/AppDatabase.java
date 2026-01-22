@@ -17,7 +17,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase db;
 
     public abstract SeekerQuery getSeekersQuery();
-    public abstract DormQuery getMyTaskQuery();
+    public abstract DormQuery getDormQuery();
 
     /**
      * Returns the single instance of the application's database.

@@ -9,89 +9,72 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import remas.example.remasfinalproject.data.Seeker.Seekers;
 
-@Entity
 @Dao
 public interface DormQuery
 {
-    @Dao
-    public interface SeekerQuery {
+   
         /**
          * Insert a Seeker into the database.
          * @param seeker Seeker to insert.
          */
         @Insert
-        void insert(Seekers seeker);
+        void insert(Dorms seeker);
         /**
-         * Get all Seekers in the database.
-         * @return List of Seekers.
+         * Get all Dorms in the database.
+         * @return List of Dorms.
          */
-        @Query("SELECT * FROM Seekers")
-        List<Seekers> getAll();
+        @Query("SELECT * FROM Dorms")
+        List<Dorms> getAll();
         /**
-         * Load all Seekers by their user Ids.
+         * Load all Dorms by their user Ids.
          * @param userIds User IDs to load.
-         * @return List of Seekers.
+         * @return List of Dorms.
          */
-        @Query("SELECT * FROM seekers WHERE keyid IN (:userIds)")
-        List<Seekers> loadAllByIds(int[] userIds);
+        @Query("SELECT * FROM Dorms WHERE keyid IN (:userIds)")
+        List<Dorms> loadAllByIds(int[] userIds);
         public interface MyLister {
 
-            @Query("SELECT * FROM seekers WHERE keyid IN (:userIds)")
-            List<Seekers> loadAllByIds(int[] userIds);
+            @Query("SELECT * FROM Dorms WHERE keyid IN (:userIds)")
+            List<Dorms> loadAllByIds(int[] userIds);
+
+
+
 
             /**
-             * Checks if a Seeker with the given email and password exists.
-             * @param myEmail The email to check.
-             * @param myPassword The password to check.
-             * @return The Seeker with the given email and password, or null if none exists.
-             */
-            @Query("SELECT * FROM seekers WHERE email = :myEmail AND password = :myPassword LIMIT 1")
-            Seekers checkEmailPassword(String myEmail, String myPassword);
-
-            /**
-             * Checks if a Seeker with the given email exists.
-             * @param myEmail The email to check.
-             * @return The Seeker with the given email, or null if none exists.
-             */
-            @Query("SELECT * FROM seekers WHERE email = :myEmail LIMIT 1")
-            Seekers checkEmail(String myEmail);
-
-            /**
-             * Insert multiple Seekers into the database.
-             * @param users Seekers to insert.
+             * Insert multiple Dorms into the database.
+             * @param users Dorms to insert.
              */
             @Insert
-            void insertAll(Seekers... users);
+            void insertAll(Dorms... users);
 
             /**
              * Deletes a Seeker from the database.
              * @param user Seeker to delete.
              */
             @Delete
-            void delete(Seekers user);
+            void delete(Dorms user);
 
             /**
              * Deletes a Seeker with the given ID from the database.
              * @param id The ID of the Seeker to delete.
              */
-            @Query("Delete From seekers WHERE keyid=:id ")
+            @Query("Delete From Dorms WHERE keyid=:id ")
             void delete(int id);
 
 
             @Insert
-            // void insert(Seekers myUser);
+            // void insert(Dorms myUser);
 
             /**
-             * Updates multiple Seekers in the database.
-             * @param values Seekers to update.
+             * Updates multiple Dorms in the database.
+             * @param values Dorms to update.
              */
             @Update
-            void update(Seekers... values);
+            void update(Dorms... values);
         }
     }
 
 
-}
+
 

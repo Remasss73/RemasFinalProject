@@ -12,10 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RemasFinalProject">
         <activity
+            android:name=".seeker_item"
+            android:exported="false" />
+        <activity
             android:name=".data.Dorm.DormAdapter"
             android:exported="false" />
         <activity
-            android:name=".AddListing"
+            android:name=".DormsListActivity"
             android:exported="false" />
         <activity
             android:name=".HomeScreen"

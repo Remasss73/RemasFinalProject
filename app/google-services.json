@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "761520920104",
+    "project_id": "remasfinalproject2",
+    "storage_bucket": "remasfinalproject2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761520920104:android:6749f95da71ed0336ec71d",
+        "android_client_info": {
+          "package_name": "remas.example.remasfinalproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjQrL-gC-hmI-S3avC-Z2zCjX7koOTAYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

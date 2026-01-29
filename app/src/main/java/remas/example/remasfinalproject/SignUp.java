@@ -11,16 +11,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import remas.example.remasfinalproject.data.AppDatabase;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
 
-public class SignUp extends AppCompatActivity
-{
+public class SignUp extends AppCompatActivity {
     private TextView tv_R;
     private TextView tv_Create;
     private TextView tv_ChitChat;
@@ -58,27 +63,22 @@ public class SignUp extends AppCompatActivity
         et_Password1 = findViewById(R.id.etPassword1);
         btn_SignUp = findViewById(R.id.btnSignUp);
 
-        btn_SignUp.setOnClickListener(new View.OnClickListener()
-        {
+        btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if(validateFields())
-               {
-                   Intent i = new Intent(SignUp.this, HomeScreen.class);
-                   startActivity(i);
-               }
-               else
-               {
-                   Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
-               }
+                if (validateFields()) {
+                    Intent i = new Intent(SignUp.this, HomeScreen.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
         tv_AlreadyHaveAnAccount = findViewById(R.id.tvAlreadyHaveAnAccount);
         tv_SignIn = findViewById(R.id.tvSignIn);
 
-        tv_SignIn.setOnClickListener(new View.OnClickListener()
-        {
+        tv_SignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -86,20 +86,19 @@ public class SignUp extends AppCompatActivity
                 startActivity(i);
             }
         });
-         {
+        {
 
-        };
+        }
+        ;
     }
 
 
     /**
      * Validates the user input fields
-      * @return true if the fields are valid, false otherwise
      *
-     *
+     * @return true if the fields are valid, false otherwise
      */
-    private boolean validateFields()
-    {
+    private boolean validateFields() {
         boolean isValid = true;
 
         String name = et_Name.getText().toString().trim();
@@ -108,73 +107,51 @@ public class SignUp extends AppCompatActivity
         String email = et_Email1.getText().toString().trim();
         String password = et_Password1.getText().toString().trim();
 
-        if (name.isEmpty())
-        {
+        if (name.isEmpty()) {
             et_Name.setError("Name is required");
             isValid = false;
-        }
-        else
-        {
+        } else {
             et_Name.setError(null);
         }
 
-        if (ageText.isEmpty())
-        {
+        if (ageText.isEmpty()) {
             et_Age.setError("Age is required");
             isValid = false;
-        }
-        else if (!TextUtils.isDigitsOnly(ageText))
-        {
+        } else if (!TextUtils.isDigitsOnly(ageText)) {
             et_Age.setError("Age must be a number");
             isValid = false;
-        }
-        else
-        {
+        } else {
             et_Age.setError(null);
         }
 
-        if (city.isEmpty())
-        {
+        if (city.isEmpty()) {
             et_City.setError("City is required");
             isValid = false;
-        }
-        else
-        {
+        } else {
             et_City.setError(null);
         }
 
-        if (email.isEmpty())
-        {
+        if (email.isEmpty()) {
             et_Email1.setError("Email is required");
             isValid = false;
-        }
-        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        {
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             et_Email1.setError("Please enter a valid email address");
             isValid = false;
-        }
-        else
-        {
+        } else {
             et_Email1.setError(null);
         }
 
-        if (password.isEmpty())
-        {
+        if (password.isEmpty()) {
             et_Password1.setError("Password is required");
             isValid = false;
-        }
-        else if (password.length() < 8)
-        {
+        } else if (password.length() < 8) {
             et_Password1.setError("Password must be at least 8 characters long");
             isValid = false;
-        }
-        else
-        {
+        } else {
             et_Password1.setError(null);
         }
-        if (isValid)
-        {
-            Seekers seeker=new Seekers();
+        if (isValid) {
+            Seekers seeker = new Seekers();
             seeker.setFullName(name);
             seeker.setAge(Integer.parseInt(ageText));
             seeker.setCity(city);
@@ -187,14 +164,28 @@ public class SignUp extends AppCompatActivity
             Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
             finish();//close current activity (return immediately to the previous activity)
 
-
-        }
-        else
-        {
+        } else {
             Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
         }
+        if (isValid) {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SignUp.this, "Signing Up Failed", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(SignUp.this, "Signing Up Failed", Toast.LENGTH_SHORT).show();
+                        et_Email1.setError(task.getException().getMessage());
+                    }
 
+
+
+
+                }
+            });
+        }
         return isValid;
     }
-
 }

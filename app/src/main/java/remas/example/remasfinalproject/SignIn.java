@@ -9,7 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import remas.example.remasfinalproject.data.AppDatabase;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
@@ -128,8 +135,25 @@ public class SignIn extends AppCompatActivity {
             Toast.makeText(SignIn.this, "User registration failed", Toast.LENGTH_SHORT).show();
         }
 
+
+        if (isValid)
+        {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()) {
+                        Toast.makeText(SignIn.this, "Signing In Succeded", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(SignIn.this, HomeScreen.class);
+                        startActivity(i);
+                    }
+                    else{
+                        Toast.makeText(SignIn.this, "Signing In Failed", Toast.LENGTH_SHORT).show();
+                        et_Email.setError(task.getException().getMessage());
+                    }
+                }
+            });
+        }
         return isValid;
     }
-
-
 }

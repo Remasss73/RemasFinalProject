@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
+
+import remas.example.remasfinalproject.data.AppDatabase;
+import remas.example.remasfinalproject.data.Dorm.Dorms;
 
 public class DormActivity extends AppCompatActivity {
 
@@ -35,7 +39,7 @@ public class DormActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        
+
         initializeViews();
         setupClickListeners();
     }
@@ -49,6 +53,13 @@ public class DormActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         etStatus = findViewById(R.id.etStatus);
         btnSaveDorm = findViewById(R.id.btnSaveDorm);
+        {
+            @Override
+            public void onClick(View view) {
+            Intent i = new Intent(SignIn.this, .class);
+            startActivity(i);
+        }
+        });
     }
 
     private void setupClickListeners() {
@@ -78,36 +89,68 @@ public class DormActivity extends AppCompatActivity {
 
         // TODO: Implement save logic
     }
-    private void validateInputs() {
+
+    private boolean validateInputs() {
         if (etCity.getText().toString().isEmpty()) {
             etCity.setError("City is required");
-            return;
+            return false;
         }
         if (etAddress.getText().toString().isEmpty()) {
             etAddress.setError("Address is required");
-            return;
+            return false;
         }
         if (etZipcode.getText().toString().isEmpty()) {
             etZipcode.setError("Zipcode is required");
-            return;
+            return false;
         }
         if (etRent.getText().toString().isEmpty()) {
             etRent.setError("Rent is required");
-            return;
+            return false;
         }
         if (etAmenities.getText().toString().isEmpty()) {
             etAmenities.setError("Amenities is required");
-            return;
+            return false;
         }
         if (etDescription.getText().toString().isEmpty()) {
             etDescription.setError("Description is required");
-            return;
+            return false;
         }
         if (etStatus.getText().toString().isEmpty()) {
             etStatus.setError("Status is required");
-            return;
+            return false;
+        }
+        return false;
+    }
+
+    private void PublicListing() {
+        if (validateInputs()) {
+            String City = etCity.getText().toString();
+            String Address = etAddress.getText().toString();
+            String Zipcode = etZipcode.getText().toString();
+            String Rent = etRent.getText().toString();
+            String Amenities = etAmenities.getText().toString();
+            String Description = etDescription.getText().toString();
+            String Status = etStatus.getText().toString();
+
+            Dorms dorm = new Dorms();
+            dorm.setCity(City);
+            dorm.setAddress(Address);
+            dorm.setZipcode(Zipcode);
+            dorm.setRent(Rent);
+            dorm.setAmenities(Amenities);
+            dorm.setDescription(Description);
+            dorm.setStatus(Status);
+
+            AppDatabase db = AppDatabase.getDB(getApplication());
+            db.getDormQuery().insert(dorm);
+
+            String msg = "Listing Published" + City + Address + Zipcode + Rent + Amenities + Description + Status;
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            finish();
+
+
         }
         // TODO: Implement validation logic
     }
-
 }
+

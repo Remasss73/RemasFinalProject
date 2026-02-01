@@ -33,7 +33,8 @@
         app:elevation="6dp"
         app:fabCustomSize="56dp"
         app:fabSize="normal"
-        app:tint="@android:color/white" />
+        app:tint="@android:color/white"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/tvNoListings"

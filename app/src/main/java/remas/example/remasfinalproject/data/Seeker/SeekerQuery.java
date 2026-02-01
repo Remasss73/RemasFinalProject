@@ -2,87 +2,95 @@ package remas.example.remasfinalproject.data.Seeker;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
-import androidx.room.Entity;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
-@Entity
+
+/**
+ * Data Access Object (DAO) for the Seekers table.
+ * This interface defines the database interactions for user/seeker accounts
+ * within the Remas application, including authentication and profile management.
+ */
 @Dao
 public interface SeekerQuery {
-        /**
-         * Insert a Seeker into the database.
-         * @param seeker Seeker to insert.
-         */
-@Insert
+
+    /**
+     * Inserts a new Seeker into the database.
+     *
+     * @param seeker The Seeker object to be saved.
+     */
+    @Insert
     void insert(Seekers seeker);
-/**
- * Get all Seekers in the database.
- * @return List of Seekers.
- */
-@Query("SELECT * FROM Seekers")
-List<Seekers> getAll();
-/**
- * Load all Seekers by their user Ids.
- * @param userIds User IDs to load.
- * @return List of Seekers.
- */
-@Query("SELECT * FROM seekers WHERE keyid IN (:userIds)")
-List<Seekers> loadAllByIds(int[] userIds);
-    public interface MyLister {
 
-        @Query("SELECT * FROM seekers WHERE keyid IN (:userIds)")
-        List<Seekers> loadAllByIds(int[] userIds);
+    /**
+     * Inserts multiple Seekers into the database.
+     *
+     * @param users Varargs list of Seekers to insert.
+     */
+    @Insert
+    void insertAll(Seekers... users);
 
-        /**
-         * Checks if a Seeker with the given email and password exists.
-         * @param myEmail The email to check.
-         * @param myPassword The password to check.
-         * @return The Seeker with the given email and password, or null if none exists.
-         */
-        @Query("SELECT * FROM seekers WHERE email = :myEmail AND password = :myPassword LIMIT 1")
-        Seekers checkEmailPassword(String myEmail, String myPassword);
+    /**
+     * Retrieves all Seekers currently registered in the database.
+     *
+     * @return A list of all Seeker records.
+     */
+    @Query("SELECT * FROM Seekers")
+    List<Seekers> getAll();
 
-        /**
-         * Checks if a Seeker with the given email exists.
-         * @param myEmail The email to check.
-         * @return The Seeker with the given email, or null if none exists.
-         */
-        @Query("SELECT * FROM seekers WHERE email = :myEmail LIMIT 1")
-        Seekers checkEmail(String myEmail);
+    /**
+     * Loads specific Seekers based on an array of primary key IDs.
+     *
+     * @param userIds Array of IDs to search for.
+     * @return A list of Seekers matching the provided IDs.
+     */
+    @Query("SELECT * FROM seekers WHERE keyid IN (:userIds)")
+    List<Seekers> loadAllByIds(int[] userIds);
 
-        /**
-         * Insert multiple Seekers into the database.
-         * @param users Seekers to insert.
-         */
-        @Insert
-        void insertAll(Seekers... users);
+    /**
+     * Authenticates a user by checking if the email and password match a record.
+     * This is used during the Login process.
+     *
+     * @param myEmail    The email entered by the user.
+     * @param myPassword The password entered by the user.
+     * @return The matching Seeker object if found, or null if credentials are invalid.
+     */
+    @Query("SELECT * FROM seekers WHERE email = :myEmail AND password = :myPassword LIMIT 1")
+    Seekers checkEmailPassword(String myEmail, String myPassword);
 
-        /**
-         * Deletes a Seeker from the database.
-         * @param user Seeker to delete.
-         */
-        @Delete
-        void delete(Seekers user);
+    /**
+     * Checks if an email is already registered in the system.
+     * This is used during the Registration process to prevent duplicate accounts.
+     *
+     * @param myEmail The email to verify.
+     * @return The Seeker object if the email exists, or null if it is available.
+     */
+    @Query("SELECT * FROM seekers WHERE email = :myEmail LIMIT 1")
+    Seekers checkEmail(String myEmail);
 
-        /**
-         * Deletes a Seeker with the given ID from the database.
-         * @param id The ID of the Seeker to delete.
-         */
-        @Query("Delete From seekers WHERE keyid=:id ")
-        void delete(int id);
+    /**
+     * Updates an existing Seeker's information in the database.
+     *
+     * @param values One or more Seekers to update.
+     */
+    @Update
+    void update(Seekers... values);
 
+    /**
+     * Deletes a specific Seeker object from the database.
+     *
+     * @param user The Seeker object to delete.
+     */
+    @Delete
+    void delete(Seekers user);
 
-        @Insert
-       // void insert(Seekers myUser);
-
-        /**
-         * Updates multiple Seekers in the database.
-         * @param values Seekers to update.
-         */
-        @Update
-        void update(Seekers... values);
-    }
+    /**
+     * Deletes a Seeker record directly using their unique ID.
+     *
+     * @param id The primary key (keyid) of the Seeker to remove.
+     */
+    @Query("DELETE FROM seekers WHERE keyid = :id")
+    void deleteById(int id);
 }
-

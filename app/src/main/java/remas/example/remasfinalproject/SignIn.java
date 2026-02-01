@@ -59,10 +59,7 @@ public class SignIn extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                if(validateFields()) {
-                    Intent i = new Intent(SignIn.this, HomeScreen.class);
-                    startActivity(i);
-                }
+                validateFields();
             }
         });
         tv_NoAccount = findViewById(R.id.tvNoAccount);
@@ -123,16 +120,25 @@ public class SignIn extends AppCompatActivity {
             seeker.setPassword(password);
 
 
-            AppDatabase db = AppDatabase.getDB(SignIn.this);
-            db.getSeekersQuery().insert(seeker);
-            Toast.makeText(SignIn.this, "You have registered successfully", Toast.LENGTH_SHORT).show();
-            finish();//close current activity (return immediately to the previous activity)
+            new Thread(() -> {
+                AppDatabase db = AppDatabase.getDB(SignIn.this);    db.getSeekersQuery().insert(seeker);
 
+                // Switch back to the main thread to navigate
+                runOnUiThread(() -> {
+                    Toast.makeText(SignIn.this, "User Signed In successfully", Toast.LENGTH_SHORT).show();
 
+                    // Go to Home Screen
+                    Intent intent = new Intent(SignIn.this, HomeScreen.class);
+                    startActivity(intent);
+
+                    // Close SignUp so user can't go back to it
+                    finish();
+                });
+            }).start();
         }
         else
         {
-            Toast.makeText(SignIn.this, "User registration failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignIn.this, "Signing In failed", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -146,14 +152,15 @@ public class SignIn extends AppCompatActivity {
                         Toast.makeText(SignIn.this, "Signing In Succeded", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(SignIn.this, HomeScreen.class);
                         startActivity(i);
+                        finish();
                     }
                     else{
                         Toast.makeText(SignIn.this, "Signing In Failed", Toast.LENGTH_SHORT).show();
                         et_Email.setError(task.getException().getMessage());
                     }
                 }
+
             });
-        }
-        return isValid;
     }
-}
+        return isValid;
+}}

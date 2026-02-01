@@ -11,29 +11,54 @@ import remas.example.remasfinalproject.data.Dorm.Dorms;
 import remas.example.remasfinalproject.data.Seeker.SeekerQuery;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
 
-
+/**
+ * Main Database class for the Remas application.
+ * This class serves as the main access point for the Room database,
+ * connecting the Seekers and Dorms entities to their respective DAOs.
+ */
 @Database(entities = {Seekers.class, Dorms.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
+
+    /**
+     * Singleton instance of the database to prevent multiple instances being open at once.
+     */
     private static AppDatabase db;
 
+    /**
+     * Provides access to the Data Access Object (DAO) for Seeker-related operations.
+     *
+     * @return The SeekerQuery DAO implementation.
+     */
     public abstract SeekerQuery getSeekersQuery();
+
+    /**
+     * Provides access to the Data Access Object (DAO) for Dorm-related operations.
+     *
+     * @return The DormQuery DAO implementation.
+     */
     public abstract DormQuery getDormQuery();
 
     /**
      * Returns the single instance of the application's database.
-     * Creates the database if it doesn't exist yet.
+     * Uses a synchronized block to ensure thread safety during database creation.
+     * Includes fallbackToDestructiveMigration to handle schema changes gracefully
+     * and allowMainThreadQueries for simplified background execution during testing.
      *
-     * @param context The application context needed to create the database
-     * @return The AppDatabase instance for this application
+     * @param context The application context needed to build the database.
+     * @return The singleton AppDatabase instance.
      */
     public static AppDatabase getDB(Context context) {
         if (db == null) {
-            db = Room.databaseBuilder(context,
-                            AppDatabase.class,
-                            "remasDataBase")
-                    .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
-                    .build();
+            synchronized (AppDatabase.class) {
+                if (db == null) {
+                    db = Room.databaseBuilder(context.getApplicationContext(),
+                                    AppDatabase.class,
+                                    "remasDataBase")
+                            .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
+                            .build();
+                }
+            }
         }
         return db;
     }

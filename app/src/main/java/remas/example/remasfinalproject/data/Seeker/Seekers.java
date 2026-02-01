@@ -1,5 +1,11 @@
 package remas.example.remasfinalproject.data.Seeker;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Delete;
 import androidx.room.Entity;
@@ -8,7 +14,14 @@ import androidx.room.PrimaryKey;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
+
+import remas.example.remasfinalproject.SignUp;
 
 @Entity (tableName = "seekers")
 public class Seekers {
@@ -88,6 +101,6 @@ public class Seekers {
                     ", email='" + email + '\'' +
                     ", password='" + password + '\'' +
                     '}';
-        }
     }
+}
 

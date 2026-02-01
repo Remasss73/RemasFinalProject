@@ -2,78 +2,77 @@ package remas.example.remasfinalproject.data.Dorm;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
-import androidx.room.Entity;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
 
-
+/**
+ * Data Access Object (DAO) for the Dorms table.
+ * This interface defines the database operations for managing dormitory listings
+ * in the Remas application, including adding, retrieving, and deleting properties.
+ */
 @Dao
-public interface DormQuery
-{
-   
-        /**
-         * Insert a Seeker into the database.
-         * @param seeker Seeker to insert.
-         */
-        @Insert
-        void insert(Dorms seeker);
-        /**
-         * Get all Dorms in the database.
-         * @return List of Dorms.
-         */
-        @Query("SELECT * FROM Dorms")
-        List<Dorms> getAll();
-        /**
-         * Load all Dorms by their user Ids.
-         * @param userIds User IDs to load.
-         * @return List of Dorms.
-         */
-        @Query("SELECT * FROM Dorms WHERE keyid IN (:userIds)")
-        List<Dorms> loadAllByIds(int[] userIds);
-        public interface MyLister {
+public interface DormQuery {
 
-            @Query("SELECT * FROM Dorms WHERE keyid IN (:userIds)")
-            List<Dorms> loadAllByIds(int[] userIds);
+    /**
+     * Inserts a new Dorm listing into the database.
+     *
+     * @param dorm The Dorms object containing the property details to be saved.
+     */
+    @Insert
+    void insert(Dorms dorm);
 
+    /**
+     * Inserts multiple Dorm listings into the database at once.
+     *
+     * @param dorms Varargs list of Dorms objects to insert.
+     */
+    @Insert
+    void insertAll(Dorms... dorms);
 
+    /**
+     * Retrieves all Dorm listings currently stored in the database.
+     *
+     * @return A List of all Dorms objects found in the "dorms" table.
+     */
+    @Query("SELECT * FROM dorms")
+    List<Dorms> getAll();
 
+    /**
+     * Loads specific Dorm listings based on an array of primary key IDs.
+     *
+     * @param dormIds Array of unique IDs (keyId) to search for.
+     * @return A List of Dorms matching the provided IDs.
+     */
+    @Query("SELECT * FROM dorms WHERE keyid IN (:dormIds)")
+    List<Dorms> loadAllByIds(int[] dormIds);
 
-            /**
-             * Insert multiple Dorms into the database.
-             * @param users Dorms to insert.
-             */
-            @Insert
-            void insertAll(Dorms... users);
+    /**
+     * Updates the information of one or more existing Dorm listings.
+     *
+     * @param values The Dorms objects with updated data to be saved.
+     */
+    @Update
+    void update(Dorms... values);
 
-            /**
-             * Deletes a Seeker from the database.
-             * @param user Seeker to delete.
-             */
-            @Delete
-            void delete(Dorms user);
+    /**
+     * Deletes a specific Dorm listing object from the database.
+     *
+     * @param dorm The Dorms object to be removed.
+     */
+    @Delete
+    void delete(Dorms dorm);
 
-            /**
-             * Deletes a Seeker with the given ID from the database.
-             * @param id The ID of the Seeker to delete.
-             */
-            @Query("Delete From Dorms WHERE keyid=:id ")
-            void delete(int id);
-
-
-            @Insert
-            // void insert(Dorms myUser);
-
-            /**
-             * Updates multiple Dorms in the database.
-             * @param values Dorms to update.
-             */
-            @Update
-            void update(Dorms... values);
-        }
-    }
+    /**
+     * Deletes a specific Dorm listing from the database using its unique ID.
+     *
+     * @param id The primary key ID (keyid) of the property to remove.
+     */
+    @Query("DELETE FROM dorms WHERE keyid = :id")
+    void deleteById(int id);
+}
 
 
 

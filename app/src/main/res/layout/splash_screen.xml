@@ -2,19 +2,99 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0F172A"
     tools:context=".SplashScreen">
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="408dp"
-        android:layout_height="728dp"
-        android:background="#D5D3D3"
-        android:src="@mipmap/ic_launcher_foreground"
+    <!-- Premium Gradient Overlay Effect -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:alpha="0.3"/>
+
+    <!-- Center Content -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- THE LOGO: Professional Home Shield Icon -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="20dp"
+            app:strokeColor="#38BDF8"
+            app:strokeWidth="2dp">
+
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="25dp"
+                android:src="@android:drawable/ic_lock_idle_lock"
+                app:tint="#38BDF8" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- THE BRAND NAME -->
+        <TextView
+            android:id="@+id/tvBrandName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="LUXE STAY"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:letterSpacing="0.3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="PREMIUM ACCOMMODATIONS"
+            android:textColor="#38BDF8"
+            android:textSize="12sp"
+            android:letterSpacing="0.2"
+            android:fontFamily="sans-serif-black"/>
+
+    </LinearLayout>
+
+    <!-- Bottom Loading State -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:indicatorColor="#38BDF8"
+            app:indicatorSize="24dp"
+            app:trackThickness="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="SECURE CONNECTION"
+            android:textColor="#475569"
+            android:textSize="10sp"
+            android:letterSpacing="0.1" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

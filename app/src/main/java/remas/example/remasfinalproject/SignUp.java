@@ -66,13 +66,7 @@ public class SignUp extends AppCompatActivity {
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateFields()) {
-                    Intent i = new Intent(SignUp.this, HomeScreen.class);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
-                }
-
+                validateFields();
             }
         });
         tv_AlreadyHaveAnAccount = findViewById(R.id.tvAlreadyHaveAnAccount);
@@ -159,10 +153,22 @@ public class SignUp extends AppCompatActivity {
             seeker.setPassword(password);
 
 
-            AppDatabase db = AppDatabase.getDB(SignUp.this);
-            db.getSeekersQuery().insert(seeker);
-            Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-            finish();//close current activity (return immediately to the previous activity)
+            // Save to local database on a background thread (Room requirement)
+            new Thread(() -> {
+                AppDatabase db = AppDatabase.getDB(SignUp.this);    db.getSeekersQuery().insert(seeker);
+
+                // Switch back to the main thread to navigate
+                runOnUiThread(() -> {
+                    Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+
+                    // Go to Home Screen
+                    Intent intent = new Intent(SignUp.this, HomeScreen.class);
+                    startActivity(intent);
+
+                    // Close SignUp so user can't go back to it
+                    finish();
+                });
+            }).start();
 
         } else {
             Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
@@ -173,7 +179,7 @@ public class SignUp extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(SignUp.this, "Signing Up Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUp.this, "Signing Up Succeeded", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         Toast.makeText(SignUp.this, "Signing Up Failed", Toast.LENGTH_SHORT).show();

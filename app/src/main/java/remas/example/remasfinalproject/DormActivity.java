@@ -53,13 +53,6 @@ public class DormActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         etStatus = findViewById(R.id.etStatus);
         btnSaveDorm = findViewById(R.id.btnSaveDorm);
-        {
-            @Override
-            public void onClick(View view) {
-            Intent i = new Intent(SignIn.this, .class);
-            startActivity(i);
-        }
-        });
     }
 
     private void setupClickListeners() {

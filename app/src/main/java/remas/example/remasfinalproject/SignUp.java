@@ -1,8 +1,11 @@
 package remas.example.remasfinalproject;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +21,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import remas.example.remasfinalproject.data.AppDatabase;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
@@ -42,6 +49,43 @@ public class SignUp extends AppCompatActivity {
     private Button btn_SignUp;
     private TextView tv_AlreadyHaveAnAccount;
     private TextView tv_SignIn;
+
+    public void saveUser(Seekers user) {// الحصول على مرجع إلى عقدة "users" في قاعدة البيانات
+
+        // تهيئة Firebase Realtime Database    //مؤشر لقاعدة البيانات
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+// ‏مؤشر لجدول المستعملين
+        DatabaseReference usersRef = database.child("users");
+        // إنشاء مفتاح فريد للمستخدم الجديد
+        DatabaseReference newUserRef = usersRef.push();
+        // تعيين معرف المستخدم في كائن MyUser
+        user.setUserId(newUserRef.getKey());
+        newUserRef.setValue(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(SignUp.this, "Succeeded to add User",  Toast.LENGTH_SHORT).show();
+                        finish();
+
+
+
+
+                        // تم حفظ البيانات بنجاح
+                        Log.d(TAG, "تم حفظ المستخدم بنجاح: " + user.getUserId());
+                        // تحديث واجهة المستخدم أو تنفيذ إجراءات أخرى
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // معالجة الأخطاء
+                        Log.e(TAG, "خطأ في حفظ المستخدم: " + e.getMessage(), e);
+                        Toast.makeText(SignUp.this, "Failed to add User", Toast.LENGTH_SHORT).show();
+                        // عرض رسالة خطأ للمستخدم
+                    }
+                });
+    }
+
 
 
     @Override

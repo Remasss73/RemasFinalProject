@@ -120,36 +120,23 @@ public class SignIn extends AppCompatActivity {
             seeker.setPassword(password);
 
 
-            new Thread(() -> {
-                AppDatabase db = AppDatabase.getDB(SignIn.this);    db.getSeekersQuery().insert(seeker);
 
-                // Switch back to the main thread to navigate
-                runOnUiThread(() -> {
-                    Toast.makeText(SignIn.this, "User Signed In successfully", Toast.LENGTH_SHORT).show();
+                AppDatabase db = AppDatabase.getDB(SignIn.this);
+                Seekers sk = db.getSeekersQuery().checkEmailPassword(email, password);
+                if(sk!=null)
+                {
+                    Toast.makeText(SignIn.this, "Signing In Succeeded", Toast.LENGTH_SHORT).show();
 
-                    // Go to Home Screen
-                    Intent intent = new Intent(SignIn.this, HomeScreen.class);
-                    startActivity(intent);
-
-                    // Close SignUp so user can't go back to it
-                    finish();
-                });
-            }).start();
-        }
-        else
-        {
-            Toast.makeText(SignIn.this, "Signing In failed", Toast.LENGTH_SHORT).show();
-        }
+                }
 
 
-        if (isValid)
-        {
+
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
-                        Toast.makeText(SignIn.this, "Signing In Succeded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignIn.this, "Signing In Succeeded", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(SignIn.this, HomeScreen.class);
                         startActivity(i);
                         finish();

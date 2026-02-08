@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import remas.example.remasfinalproject.data.AppDatabase;
@@ -50,7 +49,7 @@ public class DormsListActivity extends AppCompatActivity {
         // Set click listener for FAB
         fabAddListing.setOnClickListener(v -> {
             // Navigate to DormActivity to add a new listing
-            startActivity(new Intent(DormsListActivity.this, DormActivity.class));
+            startActivity(new Intent(DormsListActivity.this, AddDormActivity.class));
         });
 
         // Load listings
@@ -65,9 +64,7 @@ public class DormsListActivity extends AppCompatActivity {
 
     private void loadListings() {
 
-        dormList.clear();
-        dormList.addAll(AppDatabase.getDB(this).getDormQuery().getAll());
-        dormAdapter.notifyDataSetChanged();
+      dormAdapter.setDormList(AppDatabase.getDB(this).getDormQuery().getAll());
         
         // Show/hide empty state
         if (dormList.isEmpty()) {

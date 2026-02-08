@@ -64,102 +64,152 @@ public class Dorms implements Serializable {
     public Dorms() {
     }
 
+    private String DormId;
+
     /**
      * Returns the unique database key for this listing.
+     *
      * @return The primary key ID.
      */
-    public long getKeyId() { return keyId; }
+    public long getKeyId() {
+        return keyId;
+    }
 
     /**
      * Sets the unique database key for this listing.
+     *
      * @param keyId The primary key ID to set.
      */
-    public void setKeyId(long keyId) { this.keyId = keyId; }
+    public void setKeyId(long keyId) {
+        this.keyId = keyId;
+    }
 
     /**
      * @return The city name.
      */
-    public String getCity() { return city; }
+    public String getCity() {
+        return city;
+    }
 
     /**
      * @param city The city name to set.
      */
-    public void setCity(String city) { this.city = city; }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     /**
      * @return The property address.
      */
-    public String getAddress() { return address; }
+    public String getAddress() {
+        return address;
+    }
 
     /**
      * @param address The property address to set.
      */
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     /**
      * @return The property zipcode.
      */
-    public String getZipcode() { return zipcode; }
+    public String getZipcode() {
+        return zipcode;
+    }
 
     /**
      * @param zipcode The property zipcode to set.
      */
-    public void setZipcode(String zipcode) { this.zipcode = zipcode; }
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
 
     /**
      * @return The property description.
      */
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
     /**
      * @param description The property description to set.
      */
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * @return The monthly rent value.
      */
-    public String getRent() { return rent; }
+    public String getRent() {
+        return rent;
+    }
 
     /**
      * @param rent The monthly rent value to set.
      */
-    public void setRent(String rent) { this.rent = rent; }
+    public void setRent(String rent) {
+        this.rent = rent;
+    }
 
     /**
      * @return The property amenities.
      */
-    public String getAmenities() { return amenities; }
+    public String getAmenities() {
+        return amenities;
+    }
 
     /**
      * @param amenities The property amenities to set.
      */
-    public void setAmenities(String amenities) { this.amenities = amenities; }
+    public void setAmenities(String amenities) {
+        this.amenities = amenities;
+    }
 
     /**
      * @return The photos path/URI.
      */
-    public String getPhotos() { return photos; }
+    public String getPhotos() {
+        return photos;
+    }
 
     /**
      * @param photos The photos path/URI to set.
      */
-    public void setPhotos(String photos) { this.photos = photos; }
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
 
     /**
      * @return The property availability status.
      */
-    public String getStatus() { return status; }
+    public String getStatus() {
+        return status;
+    }
 
     /**
      * @param status The property availability status to set.
      */
-    public void setStatus(String status) { this.status = status; }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     /**
      * Helper method to return a formatted string for debugging purposes.
+     *
      * @return A string representation of the Dorms object.
      */
+
+
+    public void setDormId(String key) {
+    }
+
+    public String getDormId() {
+        return DormId;
+    }
+
     @Override
     public String toString() {
         return "Dorms{" +
@@ -172,6 +222,7 @@ public class Dorms implements Serializable {
 
     /**
      * Adapter Helper: Formats the rent price for display in the RecyclerView list.
+     *
      * @return The rent string prefixed with a currency symbol.
      */
     public String getPrice() {
@@ -180,6 +231,7 @@ public class Dorms implements Serializable {
 
     /**
      * Adapter Helper: Provides the city name as the primary title for listing cards.
+     *
      * @return The city name or a default placeholder.
      */
     public String getTitle() {
@@ -188,6 +240,7 @@ public class Dorms implements Serializable {
 
     /**
      * Adapter Helper: Maps amenities data to the 'Beds' display area in the UI layout.
+     *
      * @return The amenities string or N/A.
      */
     public String getBeds() {
@@ -196,6 +249,7 @@ public class Dorms implements Serializable {
 
     /**
      * Adapter Helper: Returns a static placeholder for bathroom info as this field is not in the DB yet.
+     *
      * @return A fixed bathroom count string.
      */
     public String getBaths() {
@@ -204,9 +258,39 @@ public class Dorms implements Serializable {
 
     /**
      * Adapter Helper: Returns the property status as the 'Owner' or 'Availability' name.
+     *
      * @return The status string or a default placeholder.
      */
     public String getOwnerName() {
         return status != null ? status : "Available";
+    }
+
+    public class Dorm {
+        private String DormId; // معرف فريد للمستخدم(يمكن أن يكون فارغًا في البداية)
+        private String city;
+        private String address;
+        private String zipcode;
+        private String description;
+        private String rent;
+        private String amenities;
+        private String photos;
+        private String status;
+
+
+        // دالة إنشاء افتراضية (مطلوبة بواسطة Firebase)
+        public Dorm() {
+        }
+
+        public Dorm(String DormId, String city, String address, String zipcode, String description, String rent, String amenities, String photos, String status) {
+            this.DormId = DormId;
+            this.city = city;
+            this.address = address;
+            this.zipcode = zipcode;
+            this.description = description;
+            this.rent = rent;
+            this.amenities = amenities;
+            this.photos = photos;
+            this.status = status;
+        }
     }
 }

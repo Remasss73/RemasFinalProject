@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import remas.example.remasfinalproject.DormActivity;
+import remas.example.remasfinalproject.AddDormActivity;
 import remas.example.remasfinalproject.R;
 
 /**
@@ -45,7 +44,8 @@ public class DormAdapter extends RecyclerView.Adapter<DormAdapter.DormViewHolder
      * @param dormList The new list of Dorms objects.
      */
     public void setDormList(List<Dorms> dormList) {
-        this.dormList = dormList;
+        this.dormList.clear();
+        this.dormList.addAll(dormList);
         notifyDataSetChanged();
     }
 
@@ -86,7 +86,7 @@ public class DormAdapter extends RecyclerView.Adapter<DormAdapter.DormViewHolder
 
         // Set listener for the 'View Details' button to open the DormActivity
         holder.btnViewDetails.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DormActivity.class);
+            Intent intent = new Intent(context, AddDormActivity.class);
             // Passing the current Dorms object (Serializable) to the details screen
             intent.putExtra("selected_dorm", current);
             context.startActivity(intent);

@@ -32,7 +32,7 @@
             android:name=".HomeScreen"
             android:exported="false" />
         <activity
-            android:name=".DormActivity"
+            android:name=".AddDormActivity"
             android:exported="false" />
         <activity
             android:name=".Chat"

@@ -16,7 +16,7 @@ import remas.example.remasfinalproject.data.Seeker.Seekers;
  * This class serves as the main access point for the Room database,
  * connecting the Seekers and Dorms entities to their respective DAOs.
  */
-@Database(entities = {Seekers.class, Dorms.class}, version = 2)
+@Database(entities = {Seekers.class, Dorms.class}, version = 4)
 public abstract class AppDatabase extends RoomDatabase {
 
     /**

@@ -50,41 +50,6 @@ public class SignUp extends AppCompatActivity {
     private TextView tv_AlreadyHaveAnAccount;
     private TextView tv_SignIn;
 
-    public void saveUser(Seekers user) {// الحصول على مرجع إلى عقدة "users" في قاعدة البيانات
-
-        // تهيئة Firebase Realtime Database    //مؤشر لقاعدة البيانات
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-// ‏مؤشر لجدول المستعملين
-        DatabaseReference usersRef = database.child("users");
-        // إنشاء مفتاح فريد للمستخدم الجديد
-        DatabaseReference newUserRef = usersRef.push();
-        // تعيين معرف المستخدم في كائن MyUser
-        user.setUserId(newUserRef.getKey());
-        newUserRef.setValue(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(SignUp.this, "Succeeded to add User",  Toast.LENGTH_SHORT).show();
-                        finish();
-
-
-
-
-                        // تم حفظ البيانات بنجاح
-                        Log.d(TAG, "تم حفظ المستخدم بنجاح: " + user.getUserId());
-                        // تحديث واجهة المستخدم أو تنفيذ إجراءات أخرى
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // معالجة الأخطاء
-                        Log.e(TAG, "خطأ في حفظ المستخدم: " + e.getMessage(), e);
-                        Toast.makeText(SignUp.this, "Failed to add User", Toast.LENGTH_SHORT).show();
-                        // عرض رسالة خطأ للمستخدم
-                    }
-                });
-    }
 
 
 
@@ -198,31 +163,19 @@ public class SignUp extends AppCompatActivity {
 
 
             // Save to local database on a background thread (Room requirement)
-            new Thread(() -> {
-                AppDatabase db = AppDatabase.getDB(SignUp.this);    db.getSeekersQuery().insert(seeker);
 
-                // Switch back to the main thread to navigate
-                runOnUiThread(() -> {
-                    Toast.makeText(SignUp.this, "User registered successfully", Toast.LENGTH_SHORT).show();
 
-                    // Go to Home Screen
-                    Intent intent = new Intent(SignUp.this, HomeScreen.class);
-                    startActivity(intent);
 
-                    // Close SignUp so user can't go back to it
-                    finish();
-                });
-            }).start();
 
-        } else {
-            Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
-        }
-        if (isValid) {
+
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        AppDatabase db = AppDatabase.getDB(SignUp.this);
+                        db.getSeekersQuery().insert(seeker);
+                        saveUser(seeker);
                         Toast.makeText(SignUp.this, "Signing Up Succeeded", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
@@ -238,4 +191,43 @@ public class SignUp extends AppCompatActivity {
         }
         return isValid;
     }
+    public void saveUser(Seekers user) {// الحصول على مرجع إلى عقدة "users" في قاعدة البيانات
+
+        // تهيئة Firebase Realtime Database    //مؤشر لقاعدة البيانات
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+// ‏مؤشر لجدول المستعملين
+        DatabaseReference usersRef = database.child("seekes");
+        // إنشاء مفتاح فريد للمستخدم الجديد
+        DatabaseReference newUserRef = usersRef.push();
+        // تعيين معرف المستخدم في كائن MyUser
+        user.setUserId(newUserRef.getKey());
+        // حفظ بيانات المستخدم في قاعدة البيانات
+        //اضافة كائن "لمجموعة" المستعملين ومعالج حدث لفحص نجاح المطلوب
+       // معالج حدث لفحص هل تم المطلوب من قاعدة البيانات //
+        newUserRef.setValue(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(SignUp.this, "Succeeded to add User",  Toast.LENGTH_SHORT).show();
+                        finish();
+
+
+
+
+                        // تم حفظ البيانات بنجاح
+                        Log.d(TAG, "تم حفظ المستخدم بنجاح: " + user.getUserId());
+                        // تحديث واجهة المستخدم أو تنفيذ إجراءات أخرى
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // معالجة الأخطاء
+                        Log.e(TAG, "خطأ في حفظ المستخدم: " + e.getMessage(), e);
+                        Toast.makeText(SignUp.this, "Failed to add User", Toast.LENGTH_SHORT).show();
+                        // عرض رسالة خطأ للمستخدم
+                    }
+                });
+    }
+
 }

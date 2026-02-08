@@ -1,23 +1,32 @@
 package remas.example.remasfinalproject;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import remas.example.remasfinalproject.data.AppDatabase;
 import remas.example.remasfinalproject.data.Dorm.Dorms;
+import remas.example.remasfinalproject.data.Seeker.Seekers;
 
-public class DormActivity extends AppCompatActivity {
+public class AddDormActivity extends AppCompatActivity {
 
     private EditText etCity;
     private EditText etAddress;
@@ -41,7 +50,6 @@ public class DormActivity extends AppCompatActivity {
         });
 
         initializeViews();
-        setupClickListeners();
     }
 
     private void initializeViews() {
@@ -53,18 +61,20 @@ public class DormActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         etStatus = findViewById(R.id.etStatus);
         btnSaveDorm = findViewById(R.id.btnSaveDorm);
+
+        btnSaveDorm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PublicListing();
+            }
+        });
+
     }
 
-    private void setupClickListeners() {
-        btnSaveDorm.setOnClickListener(v -> {
-            validateInputs();
-            AddListing();
-        });
-    }
 
     public void onClick(View view) {
 
-        Intent i = new Intent(DormActivity.this, DormsListActivity.class);
+        Intent i = new Intent(AddDormActivity.this, DormsListActivity.class);
         startActivity(i);
     }
 
@@ -112,7 +122,7 @@ public class DormActivity extends AppCompatActivity {
             etStatus.setError("Status is required");
             return false;
         }
-        return false;
+        return true;
     }
 
     private void PublicListing() {
@@ -144,6 +154,41 @@ public class DormActivity extends AppCompatActivity {
 
         }
         // TODO: Implement validation logic
+    }
+
+    public void saveUser(Dorms dorm) {// الحصول على مرجع إلى عقدة "users" في قاعدة البيانات
+
+        // تهيئة Firebase Realtime Database    //مؤشر لقاعدة البيانات
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+// ‏مؤشر لجدول المستعملين
+        DatabaseReference usersRef = database.child("seekes");
+        // إنشاء مفتاح فريد للمستخدم الجديد
+        DatabaseReference newUserRef = usersRef.push();
+        // تعيين معرف المستخدم في كائن MyUser
+        dorm.setDormId(newUserRef.getKey());
+        // حفظ بيانات المستخدم في قاعدة البيانات
+        //اضافة كائن "لمجموعة" المستعملين ومعالج حدث لفحص نجاح المطلوب
+        // معالج حدث لفحص هل تم المطلوب من قاعدة البيانات //
+        newUserRef.setValue(dorm)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(AddDormActivity.this, "Succeeded to add User", Toast.LENGTH_SHORT).show();
+                        finish();
+                        // تم حفظ البيانات بنجاح
+                        Log.d(TAG, "تم حفظ المستخدم بنجاح: " + dorm.getDormId());
+                        // تحديث واجهة المستخدم أو تنفيذ إجراءات أخرى
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // معالجة الأخطاء
+                        Log.e(TAG, "خطأ في حفظ المستخدم: " + e.getMessage(), e);
+                        Toast.makeText(AddDormActivity.this, "Failed to add User", Toast.LENGTH_SHORT).show();
+                        // عرض رسالة خطأ للمستخدم
+                    }
+                });
     }
 }
 

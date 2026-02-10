@@ -156,12 +156,12 @@ public class AddDormActivity extends AppCompatActivity {
         // TODO: Implement validation logic
     }
 
-    public void saveUser(Dorms dorm) {// الحصول على مرجع إلى عقدة "users" في قاعدة البيانات
+    public void saveListing(Dorms dorm) {// الحصول على مرجع إلى عقدة "users" في قاعدة البيانات
 
         // تهيئة Firebase Realtime Database    //مؤشر لقاعدة البيانات
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 // ‏مؤشر لجدول المستعملين
-        DatabaseReference usersRef = database.child("seekes");
+        DatabaseReference usersRef = database.child("seekers");
         // إنشاء مفتاح فريد للمستخدم الجديد
         DatabaseReference newUserRef = usersRef.push();
         // تعيين معرف المستخدم في كائن MyUser

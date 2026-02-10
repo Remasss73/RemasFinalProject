@@ -85,7 +85,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(SignUp.this, SignIn.class);
+                Intent i = new Intent(SignUp.this, HomeScreen.class);
                 startActivity(i);
             }
         });
@@ -163,11 +163,7 @@ public class SignUp extends AppCompatActivity {
 
 
             // Save to local database on a background thread (Room requirement)
-
-
-
-
-
+            saveUser(seeker);
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -177,7 +173,9 @@ public class SignUp extends AppCompatActivity {
                         db.getSeekersQuery().insert(seeker);
                         saveUser(seeker);
                         Toast.makeText(SignUp.this, "Signing Up Succeeded", Toast.LENGTH_SHORT).show();
-                        finish();
+                        Intent i = new Intent(SignUp.this, HomeScreen.class);
+                        startActivity(i);
+
                     } else {
                         Toast.makeText(SignUp.this, "Signing Up Failed", Toast.LENGTH_SHORT).show();
                         et_Email1.setError(task.getException().getMessage());

@@ -16,7 +16,7 @@ import remas.example.remasfinalproject.data.Seeker.Seekers;
  * This class serves as the main access point for the Room database,
  * connecting the Seekers and Dorms entities to their respective DAOs.
  */
-@Database(entities = {Seekers.class, Dorms.class}, version = 4)
+@Database(entities = {Seekers.class, Dorms.class}, version = 5) // Database entities and schema version
 public abstract class AppDatabase extends RoomDatabase {
 
     /**
@@ -48,14 +48,15 @@ public abstract class AppDatabase extends RoomDatabase {
      * @return The singleton AppDatabase instance.
      */
     public static AppDatabase getDB(Context context) {
-        if (db == null) {
-            synchronized (AppDatabase.class) {
-                if (db == null) {
+        if (db == null) { // Check if database instance already exists
+            synchronized (AppDatabase.class) { // Ensure thread safety during creation
+                if (db == null) { // Double-check locking pattern
+                    // Build the database with specified configuration
                     db = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class,
-                                    "remasDataBase")
-                            .fallbackToDestructiveMigration()
-                            .allowMainThreadQueries()
+                                    "remasDataBase") // Database name
+                            .fallbackToDestructiveMigration() // Recreate database on schema changes
+                            .allowMainThreadQueries() // Allow queries on main thread (use with caution)
                             .build();
                 }
             }

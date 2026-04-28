@@ -31,8 +31,8 @@ import remas.example.remasfinalproject.R;
  */
 public class DormAdapter extends RecyclerView.Adapter<DormAdapter.DormViewHolder> {
 
-    private List<Dorms> dormList;
-    private Context context;
+    private List<Dorms> dormList; // List to hold all dormitory objects
+    private Context context; // Application context for inflating layouts and starting activities
 
     /**
      * Constructor for the DormAdapter.
@@ -51,8 +51,10 @@ public class DormAdapter extends RecyclerView.Adapter<DormAdapter.DormViewHolder
      * @param dormList The new list of Dorms objects.
      */
     public void setDormList(List<Dorms> dormList) {
+        // Clear existing data and add all new dorms to prevent duplicates
         this.dormList.clear();
         this.dormList.addAll(dormList);
+        // Notify RecyclerView that the data has changed to refresh the UI
         notifyDataSetChanged();
     }
 
@@ -66,7 +68,7 @@ public class DormAdapter extends RecyclerView.Adapter<DormAdapter.DormViewHolder
     @NonNull
     @Override
     public DormViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflates the custom layout created for a single row/item
+        // Inflate the custom layout for a single dorm item from XML
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dorm_item_layout, parent, false);
         return new DormViewHolder(itemView);
     }
@@ -79,24 +81,26 @@ public class DormAdapter extends RecyclerView.Adapter<DormAdapter.DormViewHolder
      */
     @Override
     public void onBindViewHolder(@NonNull DormViewHolder holder, int position) {
+        // Get the dorm object at the current position in the list
         Dorms current = dormList.get(position);
 
-        // Bind data using the helper methods or direct public fields from the Dorms entity
-        holder.tvPrice.setText(current.getPrice());
-        holder.tvTitle.setText(current.getTitle());
-        holder.tvAddress.setText(current.address);
+        // Bind dorm data to the corresponding TextView elements
+        holder.tvPrice.setText(current.getPrice()); // Display rental price
+        holder.tvTitle.setText(current.getTitle()); // Display dorm title/name
+        holder.tvAddress.setText(current.address); // Display dorm address
 
-        // Displaying amenities in the area designated for 'beds'
-        holder.tvBeds.setText(current.getBeds());
-        holder.tvBaths.setText(current.getBaths());
-        holder.tvOwnerName.setText(current.getOwnerName());
+        // Display room and bathroom information
+        holder.tvBeds.setText(current.getBeds()); // Number of beds available
+        holder.tvBaths.setText(current.getBaths()); // Number of bathrooms
+        holder.tvOwnerName.setText(current.getOwnerName()); // Property owner name
 
-        // Set listener for the 'View Details' button to open the DormActivity
+        // Set click listener for the 'View Details' button
         holder.btnViewDetails.setOnClickListener(v -> {
+            // Create intent to navigate to dorm details screen
             Intent intent = new Intent(context, AddDormActivity.class);
-            // Passing the current Dorms object (Serializable) to the details screen
+            // Pass the selected dorm object to the details activity using Serializable
             intent.putExtra("selected_dorm", current);
-            context.startActivity(intent);
+            context.startActivity(intent); // Start the details activity
         });
     }
 
@@ -125,13 +129,14 @@ public class DormAdapter extends RecyclerView.Adapter<DormAdapter.DormViewHolder
          */
         public DormViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvAddress = itemView.findViewById(R.id.tvAddress);
-            tvBeds = itemView.findViewById(R.id.tvBeds);
-            tvBaths = itemView.findViewById(R.id.tvBaths);
-            tvOwnerName = itemView.findViewById(R.id.tvOwnerName);
-            btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+        // Find and initialize all UI components from the inflated layout
+        tvPrice = itemView.findViewById(R.id.tvPrice); // Price TextView
+        tvTitle = itemView.findViewById(R.id.tvTitle); // Title TextView
+        tvAddress = itemView.findViewById(R.id.tvAddress); // Address TextView
+        tvBeds = itemView.findViewById(R.id.tvBeds); // Beds count TextView
+        tvBaths = itemView.findViewById(R.id.tvBaths); // Baths count TextView
+        tvOwnerName = itemView.findViewById(R.id.tvOwnerName); // Owner name TextView
+        btnViewDetails = itemView.findViewById(R.id.btnViewDetails); // Details button
         }
     }
 }

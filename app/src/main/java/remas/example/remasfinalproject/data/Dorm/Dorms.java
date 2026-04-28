@@ -64,7 +64,7 @@ public class Dorms implements Serializable {
     public Dorms() {
     }
 
-    private String DormId;
+    private String DormId; // Alternative ID field for Firebase integration (currently unused)
 
     /**
      * Returns the unique database key for this listing.
@@ -85,13 +85,36 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The city name.
+     * Sets the alternative Dorm ID for Firebase integration.
+     * Note: This method is currently empty and may be used for future Firebase synchronization.
+     *
+     * @param key The Dorm ID to set.
+     */
+    public void setDormId(String key) {
+        // TODO: Implement Firebase ID assignment logic
+    }
+
+    /**
+     * Gets the alternative Dorm ID for Firebase integration.
+     *
+     * @return The Dorm ID, or null if not set.
+     */
+    public String getDormId() {
+        return DormId;
+    }
+
+    /**
+     * Gets the city name where the dormitory is located.
+     *
+     * @return The city name, or null if not set.
      */
     public String getCity() {
         return city;
     }
 
     /**
+     * Sets the city name for the dormitory location.
+     *
      * @param city The city name to set.
      */
     public void setCity(String city) {
@@ -99,13 +122,17 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The property address.
+     * Gets the full street address of the dormitory.
+     *
+     * @return The property address, or null if not set.
      */
     public String getAddress() {
         return address;
     }
 
     /**
+     * Sets the full street address for the dormitory.
+     *
      * @param address The property address to set.
      */
     public void setAddress(String address) {
@@ -113,13 +140,17 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The property zipcode.
+     * Gets the postal code for the dormitory location.
+     *
+     * @return The property zipcode, or null if not set.
      */
     public String getZipcode() {
         return zipcode;
     }
 
     /**
+     * Sets the postal code for the dormitory location.
+     *
      * @param zipcode The property zipcode to set.
      */
     public void setZipcode(String zipcode) {
@@ -127,13 +158,17 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The property description.
+     * Gets the detailed description of the property.
+     *
+     * @return The property description, or null if not set.
      */
     public String getDescription() {
         return description;
     }
 
     /**
+     * Sets the detailed description for the property.
+     *
      * @param description The property description to set.
      */
     public void setDescription(String description) {
@@ -141,13 +176,17 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The monthly rent value.
+     * Gets the monthly rent amount for the dormitory.
+     *
+     * @return The monthly rent value, or null if not set.
      */
     public String getRent() {
         return rent;
     }
 
     /**
+     * Sets the monthly rent amount for the dormitory.
+     *
      * @param rent The monthly rent value to set.
      */
     public void setRent(String rent) {
@@ -155,13 +194,17 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The property amenities.
+     * Gets the list of amenities available in the property.
+     *
+     * @return The property amenities, or null if not set.
      */
     public String getAmenities() {
         return amenities;
     }
 
     /**
+     * Sets the list of amenities available in the property.
+     *
      * @param amenities The property amenities to set.
      */
     public void setAmenities(String amenities) {
@@ -169,13 +212,17 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The photos path/URI.
+     * Gets the URI or path to the property's images.
+     *
+     * @return The photos path/URI, or null if not set.
      */
     public String getPhotos() {
         return photos;
     }
 
     /**
+     * Sets the URI or path to the property's images.
+     *
      * @param photos The photos path/URI to set.
      */
     public void setPhotos(String photos) {
@@ -183,31 +230,21 @@ public class Dorms implements Serializable {
     }
 
     /**
-     * @return The property availability status.
+     * Gets the current availability status of the property.
+     *
+     * @return The property availability status, or null if not set.
      */
     public String getStatus() {
         return status;
     }
 
     /**
+     * Sets the current availability status of the property.
+     *
      * @param status The property availability status to set.
      */
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    /**
-     * Helper method to return a formatted string for debugging purposes.
-     *
-     * @return A string representation of the Dorms object.
-     */
-
-
-    public void setDormId(String key) {
-    }
-
-    public String getDormId() {
-        return DormId;
     }
 
     @Override
@@ -265,22 +302,41 @@ public class Dorms implements Serializable {
         return status != null ? status : "Available";
     }
 
+    /**
+     * Inner class representing a simplified Dorm model for Firebase integration.
+     * This class contains the same fields as the outer class but is specifically designed
+     * for Firebase Realtime Database operations.
+     */
     public class Dorm {
-        private String DormId; // معرف فريد للمستخدم(يمكن أن يكون فارغًا في البداية)
-        private String city;
-        private String address;
-        private String zipcode;
-        private String description;
-        private String rent;
-        private String amenities;
-        private String photos;
-        private String status;
+        private String DormId; // Unique identifier for the dorm (can be empty initially)
+        private String city; // City where the dorm is located
+        private String address; // Full street address
+        private String zipcode; // Postal code
+        private String description; // Detailed property description
+        private String rent; // Monthly rent amount
+        private String amenities; // Available amenities/features
+        private String photos; // Image URI or path
+        private String status; // Current availability status
 
-
-        // دالة إنشاء افتراضية (مطلوبة بواسطة Firebase)
+        /**
+         * Default constructor required by Firebase for deserialization.
+         */
         public Dorm() {
         }
 
+        /**
+         * Parameterized constructor to create a new Dorm object with all properties.
+         *
+         * @param DormId      Unique identifier for the dorm
+         * @param city        City location
+         * @param address     Full address
+         * @param zipcode     Postal code
+         * @param description Property description
+         * @param rent        Monthly rent
+         * @param amenities   Available amenities
+         * @param photos      Image path/URI
+         * @param status      Availability status
+         */
         public Dorm(String DormId, String city, String address, String zipcode, String description, String rent, String amenities, String photos, String status) {
             this.DormId = DormId;
             this.city = city;

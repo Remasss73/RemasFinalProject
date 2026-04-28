@@ -39,6 +39,13 @@ public class SignIn extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+//        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+//        {
+//            Intent i = new Intent(SignIn.this, HomeScreen.class);
+//            startActivity(i);
+//            finish();
+//        }
         tv_welcome = findViewById(R.id.tvWelcome);
         tv_Intro = findViewById(R.id.tvIntro);
         tv_Email = findViewById(R.id.tvEmail1);
@@ -121,13 +128,7 @@ public class SignIn extends AppCompatActivity {
 
 
 
-                AppDatabase db = AppDatabase.getDB(SignIn.this);
-                Seekers sk = db.getSeekersQuery().checkEmailPassword(email, password);
-                if(sk!=null)
-                {
-                    Toast.makeText(SignIn.this, "Signing In Succeeded", Toast.LENGTH_SHORT).show();
 
-                }
 
 
 
@@ -137,6 +138,13 @@ public class SignIn extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
                         Toast.makeText(SignIn.this, "Signing In Succeeded", Toast.LENGTH_SHORT).show();
+                        AppDatabase db = AppDatabase.getDB(SignIn.this);
+                        Seekers sk = db.getSeekersQuery().checkEmailPassword(email, password);
+                        if(sk!=null)
+                        {
+                            Toast.makeText(SignIn.this, "Signing In Succeeded", Toast.LENGTH_SHORT).show();
+
+                        }
                         Intent i = new Intent(SignIn.this, HomeScreen.class);
                         startActivity(i);
                         finish();

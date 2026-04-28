@@ -1,10 +1,16 @@
 package remas.example.remasfinalproject;
 
+/**
+ * Contains the SignUp Activity for user registration.
+ *
+ * @see remas.example.remasfinalproject.SignUp
+ */
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,31 +45,17 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         // 1. Initialize all UI views from the layout
-        et_Name = findViewById(R.id.etName);
-        et_Age = findViewById(R.id.etAge);
-        et_City = findViewById(R.id.etCity);
-        et_Email1 = findViewById(R.id.etEmail1);
-        et_Password1 = findViewById(R.id.etPassword1);
-        btn_SignUp = findViewById(R.id.btnSignUp);
-        tv_SignIn = findViewById(R.id.tvSignIn);
+        et_Name = findViewById(R.id.etName); // Name input field
+        et_Age = findViewById(R.id.etAge); // Age input field
+        et_City = findViewById(R.id.etCity); // City input field
+        et_Email1 = findViewById(R.id.etEmail1); // Email input field
+        et_Password1 = findViewById(R.id.etPassword1); // Password input field
+        btn_SignUp = findViewById(R.id.btnSignUp); // Sign up button
+        tv_SignIn = findViewById(R.id.tvSignIn); // Sign in link
 
-        /**
-         * Listener for the Sign Up button.
-         * Starts the validation chain. Data saving is triggered inside this chain.
-         */
+        // Set click listener for the sign-up button
         btn_SignUp.setOnClickListener(view -> {
-            // Only call validation. Navigation is handled later in the success listeners.
-            validateFields();
-        });
-
-        /**
-         * Listener for the "Already have an account?" text.
-         * Redirects the user back to the SignIn screen manually.
-         */
-        tv_SignIn.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUp.this, SignIn.class);
-            startActivity(intent);
-            finish();
+            validateFields(); // Validate input and attempt registration
         });
     }
 
@@ -71,7 +63,7 @@ public class SignUp extends AppCompatActivity {
      * Retrieves text from input fields and performs basic validation.
      * Checks for empty fields and minimum password length.
      */
-    private void validateFields() {
+    private boolean validateFields() {
         String name = et_Name.getText().toString().trim();
         String ageStr = et_Age.getText().toString().trim();
         String city = et_City.getText().toString().trim();
@@ -80,9 +72,15 @@ public class SignUp extends AppCompatActivity {
 
         if (name.isEmpty() || ageStr.isEmpty() || city.isEmpty() || email.isEmpty() || password.length() < 8) {
             Toast.makeText(this, "Please fill all fields (Password min 8 chars)", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            return false;
 
+        }
+    /**
+     * Validates the user input fields and performs the registration process.
+     * Attempts to register the user with Firebase Authentication.
+     *
+     * @return true if the registration process was successful, false otherwise
+     */
         // Create the data model object
         Seekers seeker = new Seekers();
         seeker.setFullName(name);
@@ -92,6 +90,8 @@ public class SignUp extends AppCompatActivity {
         seeker.setPassword(password);
 
         performRegistration(seeker);
+
+        return true;
     }
 
     /**

@@ -30,7 +30,7 @@ public class Seekers {
      * @return the KeyId
      */
         @PrimaryKey(autoGenerate = true)
-        public long KeyId;
+        public long keyId;
         @ColumnInfo(name = "full_Name")
 
         public String fullName;
@@ -44,11 +44,11 @@ public class Seekers {
 
 
     public long getKeyId() {
-            return KeyId;
+            return keyId;
         }
 
         public void setKeyId(long keyId) {
-            KeyId = keyId;
+            keyId = keyId;
         }
 
         public String getFullName() {
@@ -132,7 +132,7 @@ public class Seekers {
         @Override
         public String toString() {
             return "MyUser{" +
-                    "KeyId=" + KeyId +
+                    "KeyId=" + keyId +
                     ", fullName='" + fullName + '\'' +
                     ", age=" + age +
                     ", city='" + city + '\'' +

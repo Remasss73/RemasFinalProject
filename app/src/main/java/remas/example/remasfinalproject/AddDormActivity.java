@@ -180,6 +180,8 @@ public class AddDormActivity extends AppCompatActivity {
             String Description = etDescription.getText().toString();
             String Status = etStatus.getText().toString();
 
+
+
             // Create new Dorms object and set its properties
             Dorms dorm = new Dorms();
             dorm.setCity(City);
@@ -189,15 +191,9 @@ public class AddDormActivity extends AppCompatActivity {
             dorm.setAmenities(Amenities);
             dorm.setDescription(Description);
             dorm.setStatus(Status);
-
+            saveListing(dorm);
             // Get database instance and insert the new dormitory
-            AppDatabase db = AppDatabase.getDB(getApplication());
-            db.getDormQuery().insert(dorm);
 
-            // Create success message with dormitory details
-            String msg = "Listing Published: " + City + ", " + Address + ", " + Zipcode + ", " + Rent + ", " + Amenities + ", " + Description + ", " + Status;
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            finish(); // Close the activity
         }
         // TODO: Implement validation logic (Note: validation is already implemented above)
     }
@@ -211,7 +207,7 @@ public class AddDormActivity extends AppCompatActivity {
     public void saveListing(Dorms dorm) {
         // Get reference to the "seekers" node in Firebase Realtime Database
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference usersRef = database.child("seekers"); // Reference to users table
+        DatabaseReference usersRef = database.child("dorms"); // Reference to users table
         
         // Create a unique key for the new dormitory listing
         DatabaseReference newUserRef = usersRef.push();
@@ -228,6 +224,8 @@ public class AddDormActivity extends AppCompatActivity {
                         Toast.makeText(AddDormActivity.this, "Successfully added dormitory", Toast.LENGTH_SHORT).show();
                         finish(); // Close the activity
                         Log.d(TAG, "Dormitory saved successfully: " + dorm.getDormId());
+                        AppDatabase db = AppDatabase.getDB(getApplication());
+                        db.getDormQuery().insert(dorm);
                         // Update UI or perform other actions as needed
                     }
                 })

@@ -40,12 +40,12 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-//        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
-//        {
-//            Intent i = new Intent(SignIn.this, HomeScreen.class);
-//            startActivity(i);
-//            finish();
-//        }
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+        {
+           Intent i = new Intent(SignIn.this, HomeScreen.class);
+            startActivity(i);
+            finish();
+        }
         tv_welcome = findViewById(R.id.tvWelcome);
         tv_Intro = findViewById(R.id.tvIntro);
         tv_Email = findViewById(R.id.tvEmail1);

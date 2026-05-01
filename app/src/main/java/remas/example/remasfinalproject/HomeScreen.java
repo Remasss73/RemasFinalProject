@@ -214,7 +214,7 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 // Handle back press - show exit confirmation
-                new AlertDialog.Builder(HomeScreen.this)
+                new androidx.appcompat.app.AlertDialog.Builder(HomeScreen.this)
                         .setTitle("Exit App")
                         .setMessage("Are you sure you want to exit?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

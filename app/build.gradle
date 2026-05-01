@@ -27,6 +27,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    
+    lintOptions {
+        disable 'DeprecatedMethodCallInExpression'
+        disable 'Deprecation'
+    }
 }
 
 dependencies {

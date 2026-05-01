@@ -51,6 +51,15 @@
                 android:layout_marginTop="4dp"
                 android:layout_gravity="end"/>
 
+            <ImageView
+                android:id="@+id/ivUserMessageStatus"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@android:drawable/ic_menu_preferences"
+                android:layout_gravity="end"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#FFFFFF"/>
+
         </LinearLayout>
 
         <ImageView
@@ -151,6 +160,15 @@
                         android:src="@android:drawable/ic_menu_close_clear_cancel"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:backgroundTint="#94A3B8"/>
+
+                    <ImageView
+                        android:id="@+id/ivAIMessageStatus"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/ic_menu_preferences"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:backgroundTint="#94A3B8"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

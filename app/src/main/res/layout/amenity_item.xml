@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#334155"
+    android:padding="8dp"
+    android:layout_margin="4dp"
+    android:layout_marginEnd="8dp">
+
+    <ImageView
+        android:id="@+id/ivAmenity"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@android:drawable/ic_menu_preferences"
+        android:backgroundTint="#38BDF8"
+        android:layout_marginEnd="6dp"
+        tools:src="@android:drawable/ic_menu_preferences"/>
+
+    <TextView
+        android:id="@+id/tvAmenity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WiFi"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        tools:text="WiFi"/>
+
+</LinearLayout>

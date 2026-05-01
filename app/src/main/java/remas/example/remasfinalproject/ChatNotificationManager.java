@@ -7,8 +7,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.widget.RemoteViews;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
  * WhatsApp-Style Notification Manager
  * Handles beautiful notifications with sender info, preview, and actions
  */
-public class NotificationManager {
+public class ChatNotificationManager {
     
     private static final String CHANNEL_ID = "chat_messages";
     private static final String CHANNEL_NAME = "Chat Messages";
@@ -33,7 +33,7 @@ public class NotificationManager {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     
-    public NotificationManager(Context context) {
+    public ChatNotificationManager(Context context) {
         this.context = context;
         this.notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -84,21 +84,25 @@ public class NotificationManager {
     }
     
     public void showWhatsAppStyleNotification(MessageData message) {
-        // Create custom layout for WhatsApp-style notification
-        RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_whatsapp_style);
+        // Create standard notification (since custom layout was deleted)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(android.R.drawable.ic_dialog_email)
+                .setContentTitle(message.getSenderName())
+                .setContentText(message.getMessageText())
+                .setSubText(message.getFormattedTime())
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.DEFAULT_ALL);
         
-        // Set sender info
-        notificationLayout.setTextViewText(R.id.tvNotificationTitle, message.getSenderName());
-        notificationLayout.setTextViewText(R.id.tvNotificationMessage, message.getMessageText());
-        notificationLayout.setTextViewText(R.id.tvNotificationTime, message.getFormattedTime());
-        
-        // Set sender profile picture (use default for now)
-        notificationLayout.setImageViewResource(R.id.ivNotificationProfile, android.R.drawable.ic_menu_myplaces);
-        
-        // Create intents for notification actions
-        Intent chatIntent = new Intent(context, ChatsFinal.class);
-        chatIntent.putExtra("chatId", message.getChatId());
-        chatIntent.putExtra("senderName", message.getSenderName());
+        // Create intent to open chat
+        Intent chatIntent;
+        if (message.getChatId().equals("ai_assistant")) {
+            chatIntent = new Intent(context, AIChatActivity.class);
+        } else {
+            chatIntent = new Intent(context, ChatsFinal.class);
+            chatIntent.putExtra("chatId", message.getChatId());
+            chatIntent.putExtra("userName", message.getSenderName());
+        }
         chatIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         
         PendingIntent chatPendingIntent = PendingIntent.getActivity(
@@ -108,28 +112,7 @@ public class NotificationManager {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
         
-        // Reply action
-        Intent replyIntent = new Intent(context, NotificationReplyReceiver.class);
-        replyIntent.putExtra("chatId", message.getChatId());
-        replyIntent.putExtra("senderName", message.getSenderName());
-        
-        PendingIntent replyPendingIntent = PendingIntent.getBroadcast(
-                context, 
-                1, 
-                replyIntent, 
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-        
-        // Build notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_email)
-                .setCustomContentView(notificationLayout)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setContentIntent(chatPendingIntent)
-                .addAction(android.R.drawable.ic_menu_send, "Reply", replyPendingIntent)
-                .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Mark as Read", null);
+        builder.setContentIntent(chatPendingIntent);
         
         // Show notification
         notificationManager.notify(NOTIFICATION_ID, builder.build());

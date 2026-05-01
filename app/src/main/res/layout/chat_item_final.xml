@@ -125,32 +125,55 @@
                 android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2m ago"
+                android:text="2:30 PM"
                 android:textColor="#64748B"
                 android:textSize="12sp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="4dp"/>
 
             <!-- Unread Count Badge -->
             <TextView
                 android:id="@+id/tvUnreadCount"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="3"
                 android:textColor="#FFFFFF"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:background="#38BDF8"
-                android:layout_marginBottom="8dp"/>
+                android:background="@drawable/unread_count_badge"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                android:minWidth="20dp"
+                android:minHeight="20dp"
+                android:layout_marginBottom="4dp"/>
 
-            <!-- Message Status -->
-            <ImageView
-                android:id="@+id/ivMessageStatus"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@android:drawable/ic_menu_preferences"
-                android:backgroundTint="#10B981"
-                android:visibility="gone"/>
+            <!-- Message Status & Voice Note Indicator -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Voice Note Indicator -->
+                <ImageView
+                    android:id="@+id/ivVoiceNote"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@android:drawable/ic_lock_idle_lock"
+                    android:backgroundTint="#94A3B8"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <!-- Message Status -->
+                <ImageView
+                    android:id="@+id/ivMessageStatus"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@android:drawable/ic_menu_preferences"
+                    android:backgroundTint="#10B981"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

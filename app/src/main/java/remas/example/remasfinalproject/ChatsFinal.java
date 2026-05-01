@@ -77,6 +77,18 @@ public class ChatsFinal extends AppCompatActivity {
         emptyState = findViewById(R.id.emptyState);
         rvChats = findViewById(R.id.rvChats);
         btnStartChat = findViewById(R.id.btnStartChat);
+        
+        // AI Chat Container
+        LinearLayout aiChatContainer = findViewById(R.id.aiChatContainer);
+        aiChatContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open AI Chat Activity
+                Intent intent = new Intent(ChatsFinal.this, AIChatActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
     }
     
     private void setupRecyclerView() {
@@ -146,19 +158,6 @@ public class ChatsFinal extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chatList.clear();
                 archivedChatList.clear();
-                
-                // Always add AI Assistant as pinned chat
-                ChatItem aiAssistant = new ChatItem();
-                aiAssistant.setChatId("ai_assistant");
-                aiAssistant.setUserId("ai_bot");
-                aiAssistant.setUserName("LUXE STAY AI");
-                aiAssistant.setLastMessage("Hello! I am here to help you find the perfect property. Ask me anything!");
-                aiAssistant.setTimestamp(System.currentTimeMillis());
-                aiAssistant.setUnreadCount(0);
-                aiAssistant.setArchived(false);
-                aiAssistant.setVerified(true);
-                aiAssistant.setOnline(true);
-                chatList.add(0, aiAssistant);
                 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatItem chat = snapshot.getValue(ChatItem.class);
@@ -310,13 +309,21 @@ public class ChatsFinal extends AppCompatActivity {
     }
     
     private void openChat(ChatItem chat) {
-        // Create a more realistic chat opening experience
-        Intent intent = new Intent(this, Chat.class);
-        intent.putExtra("chatId", chat.getChatId());
-        intent.putExtra("userName", chat.getUserName());
-        intent.putExtra("userId", chat.getUserId());
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        // Check if it's the AI assistant
+        if (chat.getChatId().equals("ai_assistant")) {
+            // Open AI Chat Activity
+            Intent intent = new Intent(this, AIChatActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else {
+            // Open regular chat
+            Intent intent = new Intent(this, Chat.class);
+            intent.putExtra("chatId", chat.getChatId());
+            intent.putExtra("userName", chat.getUserName());
+            intent.putExtra("userId", chat.getUserId());
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
     
     private void showChatOptions(ChatItem chat) {
@@ -478,19 +485,28 @@ public class ChatsFinal extends AppCompatActivity {
             // Special handling for AI Assistant
             boolean isAI = chat.getChatId().equals("ai_assistant");
             
-            // Profile and status
+            // Profile and status - Use email icon for AI
             if (isAI) {
-                holder.ivProfilePic.setImageResource(android.R.drawable.ic_lock_idle_lock);
+                holder.ivProfilePic.setImageResource(android.R.drawable.ic_dialog_email);
                 holder.ivProfilePic.setBackgroundColor(0xFF38BDF8);
+                holder.onlineStatus.setVisibility(View.VISIBLE); // Always show AI as online
             } else {
                 holder.ivProfilePic.setImageResource(android.R.drawable.ic_menu_myplaces);
                 holder.ivProfilePic.setBackgroundColor(0xFF38BDF8);
+                holder.onlineStatus.setVisibility(chat.isOnline() ? View.VISIBLE : View.GONE);
             }
-            holder.onlineStatus.setVisibility(chat.isOnline() ? View.VISIBLE : View.GONE);
             
             // User info
             holder.tvUserName.setText(chat.getUserName());
             holder.ivVerified.setVisibility(chat.isVerified() ? View.VISIBLE : View.GONE);
+            
+            // Make AI assistant more prominent
+            if (isAI) {
+                holder.tvUserName.setTextColor(0xFF38BDF8); // Blue color for AI
+                holder.ivVerified.setVisibility(View.VISIBLE); // Always show verified for AI
+            } else {
+                holder.tvUserName.setTextColor(0xFFFFFFFF); // White for regular users
+            }
             
             // Message and status
             holder.tvLastMessage.setText(chat.getLastMessage());

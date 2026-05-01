@@ -40,13 +40,16 @@
             android:name=".AddDormActivity"
             android:exported="false" />
         <activity
-            android:name=".Chats"
+            android:name=".ChatsFinal"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ForgottenPassword"
+            android:exported="false" />
+        <activity
+            android:name=".AIChatActivity"
             android:exported="false" />
         <activity
             android:name=".SignUp"

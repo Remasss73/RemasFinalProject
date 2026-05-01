@@ -182,8 +182,8 @@ public class MyListings extends AppCompatActivity {
     }
     
     public static class ListingItem {
-        private String listingId, title, price, location, description, imageUrl, userId, status;
-        private int bedrooms, bathrooms, area;
+        private String listingId, title, price, location, city, area, address, description, imageUrl, userId, status;
+        private int bedrooms, bathrooms, size;
         private long timestamp;
         private List<String> amenities;
         
@@ -198,6 +198,12 @@ public class MyListings extends AppCompatActivity {
         public void setPrice(String price) { this.price = price; }
         public String getLocation() { return location; }
         public void setLocation(String location) { this.location = location; }
+        public String getCity() { return city; }
+        public void setCity(String city) { this.city = city; }
+        public String getArea() { return area; }
+        public void setArea(String area) { this.area = area; }
+        public String getAddress() { return address; }
+        public void setAddress(String address) { this.address = address; }
         public String getDescription() { return description; }
         public void setDescription(String description) { this.description = description; }
         public String getImageUrl() { return imageUrl; }
@@ -210,8 +216,10 @@ public class MyListings extends AppCompatActivity {
         public void setBedrooms(int bedrooms) { this.bedrooms = bedrooms; }
         public int getBathrooms() { return bathrooms; }
         public void setBathrooms(int bathrooms) { this.bathrooms = bathrooms; }
-        public int getArea() { return area; }
-        public void setArea(int area) { this.area = area; }
+        public int getSize() { return size; }
+        public void setSize(int size) { this.size = size; }
+        public int getArea() { return size; }
+        public void setArea(int area) { this.size = area; }
         public long getTimestamp() { return timestamp; }
         public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
         public List<String> getAmenities() { return amenities; }

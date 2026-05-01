@@ -26,6 +26,12 @@
             android:name=".MyListings"
             android:exported="false" />
         <activity
+            android:name=".AddDormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListingDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".seeker_item"
             android:exported="false" />
         <activity

@@ -4,13 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,16 +24,11 @@ import remas.example.remasfinalproject.data.AppDatabase;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
 
 public class SignIn extends AppCompatActivity {
-    private TextView tv_welcome;
-    private TextView tv_Intro;
-    private TextView tv_Email;
-    private EditText et_Email;
-    private TextView tv_Password;
-    private  EditText et_Password;
-    private  TextView tv_ForgotPassword;
-    private Button btn_SignIn;
-    private TextView tv_NoAccount;
+    private TextView tv_ForgotPassword;
     private TextView tv_CreateAccount;
+    private TextInputLayout tilEmail, tilPassword;
+    private TextInputEditText etEmail, etPassword;
+    private MaterialButton btnSignIn;
 
 
     @Override
@@ -46,13 +43,16 @@ public class SignIn extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-        tv_welcome = findViewById(R.id.tvWelcome);
-        tv_Intro = findViewById(R.id.tvIntro);
-        tv_Email = findViewById(R.id.tvEmail1);
-        et_Email = findViewById(R.id.etEmail);
-        tv_Password = findViewById(R.id.tvPassword1);
-        et_Password = findViewById(R.id.etPassword);
+        // Initialize Material Design components
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPassword = findViewById(R.id.tilPassword);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnSignIn = findViewById(R.id.btnSignIn);
         tv_ForgotPassword = findViewById(R.id.tvForgotPassword);
+        tv_CreateAccount = findViewById(R.id.tvCreateAccount);
+        
+        // Set click listeners
         tv_ForgotPassword.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -61,17 +61,15 @@ public class SignIn extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        btn_SignIn = findViewById(R.id.btnSignIn);
-        btn_SignIn .setOnClickListener(new View.OnClickListener()
+        
+        btnSignIn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 validateFields();
             }
         });
-        tv_NoAccount = findViewById(R.id.tvNoAccount);
-        tv_CreateAccount = findViewById(R.id.tvCreateAccount);
-        //
+        
         tv_CreateAccount.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -80,6 +78,9 @@ public class SignIn extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        
+        // Set up auto-capitalization for input fields
+        setupAutoCapitalization();
     }
     /**
      * Validates the user input fields
@@ -88,37 +89,37 @@ public class SignIn extends AppCompatActivity {
     private boolean validateFields()
     {
         boolean isValid = true;
-        String email = et_Email.getText().toString().trim();
-        String password = et_Password.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
         if (email.isEmpty())
         {
-            et_Email.setError("Email is required");
+            tilEmail.setError("Email is required");
             isValid = false;
         }
         else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
-            et_Email.setError("Please enter a valid email address");
+            tilEmail.setError("Please enter a valid email address");
             isValid = false;
         }
         else
         {
-            et_Email.setError(null);
+            tilEmail.setError(null);
         }
 
         if (password.isEmpty())
         {
-            et_Password.setError("Password is required");
+            tilPassword.setError("Password is required");
             isValid = false;
         }
         else if (password.length() < 8)
         {
-            et_Password.setError("Password must be at least 8 characters long");
+            tilPassword.setError("Password must be at least 8 characters long");
             isValid = false;
         }
         else
         {
-            et_Password.setError(null);
+            tilPassword.setError(null);
         }
         if (isValid)
         {
@@ -151,11 +152,35 @@ public class SignIn extends AppCompatActivity {
                     }
                     else{
                         Toast.makeText(SignIn.this, "Signing In Failed", Toast.LENGTH_SHORT).show();
-                        et_Email.setError(task.getException().getMessage());
+                        tilEmail.setError(task.getException().getMessage());
                     }
                 }
 
             });
-    }
+        }
         return isValid;
-}}
+    }
+
+    private void setupAutoCapitalization() {
+        // Email field - lowercase all letters (standard email format)
+        etEmail.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Convert to lowercase as user types
+                String lowerCase = s.toString().toLowerCase();
+                if (!s.toString().equals(lowerCase)) {
+                    etEmail.removeTextChangedListener(this);
+                    etEmail.setText(lowerCase);
+                    etEmail.setSelection(lowerCase.length());
+                    etEmail.addTextChangedListener(this);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+    }
+}

@@ -196,6 +196,8 @@ public class MyListings extends AppCompatActivity {
         private int bedrooms, bathrooms, size;
         private long timestamp;
         private List<String> amenities;
+        private double latitude, longitude;
+        private List<String> photoUrls;
         
         public ListingItem() {}
         
@@ -210,7 +212,7 @@ public class MyListings extends AppCompatActivity {
         public void setLocation(String location) { this.location = location; }
         public String getCity() { return city; }
         public void setCity(String city) { this.city = city; }
-
+        public String getArea() { return area; }
         public void setArea(String area) { this.area = area; }
         public String getAddress() { return address; }
         public void setAddress(String address) { this.address = address; }
@@ -228,12 +230,18 @@ public class MyListings extends AppCompatActivity {
         public void setBathrooms(int bathrooms) { this.bathrooms = bathrooms; }
         public int getSize() { return size; }
         public void setSize(int size) { this.size = size; }
-        public int getArea() { return size; }
-        public void setArea(int area) { this.size = area; }
+        public int getArea2() { return size; }
+        public void setArea2(int area) { this.size = area; }
         public long getTimestamp() { return timestamp; }
         public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
         public List<String> getAmenities() { return amenities; }
         public void setAmenities(List<String> amenities) { this.amenities = amenities; }
+        public double getLatitude() { return latitude; }
+        public void setLatitude(double latitude) { this.latitude = latitude; }
+        public double getLongitude() { return longitude; }
+        public void setLongitude(double longitude) { this.longitude = longitude; }
+        public List<String> getPhotoUrls() { return photoUrls; }
+        public void setPhotoUrls(List<String> photoUrls) { this.photoUrls = photoUrls; }
     }
     
     private static class MyListingAdapter extends RecyclerView.Adapter<MyListingAdapter.ListingViewHolder> {

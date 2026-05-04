@@ -8,12 +8,14 @@ package remas.example.remasfinalproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -35,9 +37,10 @@ public class SignUp extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
 
     // UI Components
-    private EditText et_Name, et_Age, et_City, et_Email1, et_Password1;
-    private Button btn_SignUp;
-    private TextView tv_SignIn;
+    private TextInputLayout tilName, tilCity, tilEmail, tilPassword, tilPhone;
+    private TextInputEditText etName, etCity, etEmail1, etPassword1, etPhone;
+    private MaterialButton btnSignUp;
+    private TextView tvSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +48,42 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         // 1. Initialize all UI views from the layout
-        et_Name = findViewById(R.id.etName); // Name input field
-        et_Age = findViewById(R.id.etAge); // Age input field
-        et_City = findViewById(R.id.etCity); // City input field
-        et_Email1 = findViewById(R.id.etEmail1); // Email input field
-        et_Password1 = findViewById(R.id.etPassword1); // Password input field
-        btn_SignUp = findViewById(R.id.btnSignUp); // Sign up button
-        tv_SignIn = findViewById(R.id.tvSignIn); // Sign in link
+        tilName = findViewById(R.id.tilName);
+        tilCity = findViewById(R.id.tilCity);
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPassword = findViewById(R.id.tilPassword);
+        tilPhone = findViewById(R.id.tilPhone);
+        etName = findViewById(R.id.etName); // Name input field
+        etCity = findViewById(R.id.etCity); // City input field
+        etEmail1 = findViewById(R.id.etEmail1); // Email input field
+        etPassword1 = findViewById(R.id.etPassword1); // Password input field
+        etPhone = findViewById(R.id.etPhone); // Phone input field
+        btnSignUp = findViewById(R.id.btnSignUp); // Sign up button
+        tvSignIn = findViewById(R.id.tvSignIn); // Sign in link
 
         // Set click listener for the sign-up button
-        btn_SignUp.setOnClickListener(view -> {
-            validateFields(); // Validate input and attempt registration
+        btnSignUp.setOnClickListener(view -> {
+            Log.d(TAG, "Sign up button clicked");
+            if (validateFields()) {
+                Log.d(TAG, "Validation passed, performing registration");
+                performRegistration(); // Validate input and attempt registration
+            } else {
+                Log.d(TAG, "Validation failed");
+            }
         });
+
+        // Set click listener for sign-in link
+        tvSignIn.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp.this, SignIn.class);
+            startActivity(intent);
+            finish();
+        });
+
+        // Set up field navigation with Enter key
+        setupFieldNavigation();
+        
+        // Set up auto-capitalization for input fields
+        setupAutoCapitalization();
     }
 
     /**
@@ -64,91 +91,244 @@ public class SignUp extends AppCompatActivity {
      * Checks for empty fields and minimum password length.
      */
     private boolean validateFields() {
-        String name = et_Name.getText().toString().trim();
-        String ageStr = et_Age.getText().toString().trim();
-        String city = et_City.getText().toString().trim();
-        String email = et_Email1.getText().toString().trim();
-        String password = et_Password1.getText().toString().trim();
+        Log.d(TAG, "Starting field validation");
+        String name = etName.getText().toString().trim();
+        String city = etCity.getText().toString().trim();
+        String email = etEmail1.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+        String password = etPassword1.getText().toString().trim();
+        
+        Log.d(TAG, "Fields - Name: " + name + ", City: " + city + ", Email: " + email + ", Phone: " + phone + ", Password: " + (password.isEmpty() ? "empty" : "filled"));
 
-        if (name.isEmpty() || ageStr.isEmpty() || city.isEmpty() || email.isEmpty() || password.length() < 8) {
-            Toast.makeText(this, "Please fill all fields (Password min 8 chars)", Toast.LENGTH_SHORT).show();
+        // Validate required fields
+        if (name.isEmpty()) {
+            tilName.setError("Name is required");
             return false;
-
         }
-    /**
-     * Validates the user input fields and performs the registration process.
-     * Attempts to register the user with Firebase Authentication.
-     *
-     * @return true if the registration process was successful, false otherwise
-     */
-        // Create the data model object
-        Seekers seeker = new Seekers();
-        seeker.setFullName(name);
-        seeker.setAge(Integer.parseInt(ageStr));
-        seeker.setCity(city);
-        seeker.setEmail(email);
-        seeker.setPassword(password);
+        tilName.setError(null);
 
-        performRegistration(seeker);
+        if (city.isEmpty()) {
+            tilCity.setError("City is required");
+            return false;
+        }
+        tilCity.setError(null);
+
+        if (email.isEmpty()) {
+            tilEmail.setError("Email is required");
+            return false;
+        }
+        tilEmail.setError(null);
+
+        if (phone.isEmpty()) {
+            tilPhone.setError("Phone number is required");
+            return false;
+        }
+        tilPhone.setError(null);
+
+        // Validate email format
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            tilEmail.setError("Please enter a valid email address");
+            return false;
+        }
+
+        // Validate phone format (basic)
+        if (phone.length() < 10) {
+            tilPhone.setError("Please enter a valid phone number");
+            return false;
+        }
+
+        // Validate password
+        if (password.length() < 8) {
+            tilPassword.setError("Password must be at least 8 characters");
+            return false;
+        }
+        tilPassword.setError(null);
 
         return true;
     }
 
-    /**
-     * Registers the user with Firebase Authentication.
-     * On success, saves to local Room DB and then triggers Cloud Save.
-     *
-     * @param seeker The user data object.
-     */
-    private void performRegistration(Seekers seeker) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+    private void setupFieldNavigation() {
+        // Name -> Email on Enter
+        etName.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_NEXT || 
+                (event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER && event.getAction() == android.view.KeyEvent.ACTION_DOWN)) {
+                etEmail1.requestFocus();
+                return true;
+            }
+            return false;
+        });
 
-        auth.createUserWithEmailAndPassword(seeker.getEmail(), seeker.getPassword())
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // Success: Save locally first on background thread
-                        new Thread(() -> {
-                            AppDatabase.getDB(SignUp.this).getSeekersQuery().insert(seeker);
-                        }).start();
+        // Email -> Password on Enter
+        etEmail1.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_NEXT || 
+                (event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER && event.getAction() == android.view.KeyEvent.ACTION_DOWN)) {
+                etPassword1.requestFocus();
+                return true;
+            }
+            return false;
+        });
 
-                        // Proceed to Cloud Sync
-                        saveUserToFirebase(seeker);
-                    } else {
-                        String msg = task.getException() != null ? task.getException().getMessage() : "Auth Failed";
-                        Toast.makeText(SignUp.this, msg, Toast.LENGTH_LONG).show();
-                    }
-                });
+        // Password -> City on Enter
+        etPassword1.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_NEXT || 
+                (event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER && event.getAction() == android.view.KeyEvent.ACTION_DOWN)) {
+                etCity.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        // City -> Phone on Enter
+        etCity.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_NEXT || 
+                (event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER && event.getAction() == android.view.KeyEvent.ACTION_DOWN)) {
+                etPhone.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        // Phone -> Submit on Enter
+        etPhone.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE || 
+                (event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER && event.getAction() == android.view.KeyEvent.ACTION_DOWN)) {
+                // Clear focus and hide keyboard
+                etPhone.clearFocus();
+                android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                
+                // Trigger sign up
+                if (validateFields()) {
+                    performRegistration();
+                }
+                return true;
+            }
+            return false;
+        });
     }
 
-    /**
-     * Uploads the user profile to Firebase Realtime Database.
-     *
-     * IMPORTANT: This method handles the navigation to HomeScreen.
-     * It only navigates if the database write is successful.
-     *
-     * @param user The Seeker object to be saved.
-     */
-    private void saveUserToFirebase(Seekers user) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("seekers");
-        String key = usersRef.push().getKey();
-        user.setUserId(key);
+    private void setupAutoCapitalization() {
+        // Name field - simple capitalization without interfering with spaces
+        etName.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        if (key != null) {
-            usersRef.child(key).setValue(user)
-                    .addOnSuccessListener(aVoid -> {
-                        // DATA IS SAVED - NOW NAVIGATE
-                        Toast.makeText(SignUp.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Only capitalize first letter, don't interfere with spaces
+                if (s.length() == 1 && start == 0) {
+                    String firstChar = s.toString().toUpperCase();
+                    if (!s.toString().equals(firstChar)) {
+                        etName.removeTextChangedListener(this);
+                        etName.setText(firstChar);
+                        etName.setSelection(1);
+                        etName.addTextChangedListener(this);
+                    }
+                }
+            }
 
-                        Intent intent = new Intent(SignUp.this, HomeScreen.class);
-                        // Clear the activity stack so the user cannot press "back" to the sign up page
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                // Don't interfere with space input - let user type freely
+            }
+        });
+
+        // City field - capitalize first letter
+        etCity.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 1 && start == 0) {
+                    String firstChar = s.toString().toUpperCase();
+                    if (!s.toString().equals(firstChar)) {
+                        etCity.setText(firstChar);
+                        etCity.setSelection(1);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                // Capitalize after spaces for multi-word city names
+                String text = s.toString();
+                String[] words = text.split(" ");
+                StringBuilder capitalized = new StringBuilder();
+                for (int i = 0; i < words.length; i++) {
+                    if (!words[i].isEmpty()) {
+                        capitalized.append(Character.toUpperCase(words[i].charAt(0)))
+                                .append(words[i].substring(1).toLowerCase());
+                        if (i < words.length - 1) {
+                            capitalized.append(" ");
+                        }
+                    }
+                }
+                if (!text.equals(capitalized.toString())) {
+                    etCity.removeTextChangedListener(this);
+                    etCity.setText(capitalized.toString());
+                    etCity.setSelection(capitalized.length());
+                    etCity.addTextChangedListener(this);
+                }
+            }
+        });
+
+        // Email field - lowercase all letters (standard email format)
+        etEmail1.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Convert to lowercase as user types
+                String lowerCase = s.toString().toLowerCase();
+                if (!s.toString().equals(lowerCase)) {
+                    etEmail1.removeTextChangedListener(this);
+                    etEmail1.setText(lowerCase);
+                    etEmail1.setSelection(lowerCase.length());
+                    etEmail1.addTextChangedListener(this);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+    }
+
+    private void performRegistration() {
+        Log.d(TAG, "Starting registration process");
+        String name = etName.getText().toString().trim();
+        String city = etCity.getText().toString().trim();
+        String email = etEmail1.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+        String password = etPassword1.getText().toString().trim();
+
+        Log.d(TAG, "Creating Seekers object with data");
+        // Create the data model object
+        Seekers seeker = new Seekers();
+        seeker.setFullName(name);
+        seeker.setCity(city);
+        seeker.setEmail(email);
+        seeker.setPassword(password);
+        seeker.setPhone(phone);
+
+        // Register with Firebase
+        Log.d(TAG, "Attempting Firebase registration with email: " + email);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    Log.d(TAG, "Firebase registration task completed");
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "Registration successful!");
+                        Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUp.this, SignIn.class);
                         startActivity(intent);
                         finish();
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "Firebase DB Error: " + e.getMessage());
-                        Toast.makeText(SignUp.this, "Cloud Sync Failed", Toast.LENGTH_SHORT).show();
-                    });
-        }
+                    } else {
+                        Log.e(TAG, "Registration failed", task.getException());
+                        String errorMsg = task.getException() != null ? task.getException().getMessage() : "Unknown error";
+                        Toast.makeText(this, "Registration failed: " + errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

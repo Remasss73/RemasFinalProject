@@ -1,138 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#f8f6f6"
+    android:background="#0F172A"
     tools:context=".SignIn">
 
-    <!-- Header Text: Welcome back -->
-    <TextView
-        android:id="@+id/tvWelcome"
+    <!-- Main Content with Scroll -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Welcome back"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#181311"
-        android:layout_marginTop="32dp" />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="24dp">
 
-    <!-- Subtitle: Let's find your space. -->
-    <TextView
-        android:id="@+id/tvIntro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Let's find your space."
-        android:textSize="16sp"
-        android:textColor="#6b7280"
-        android:layout_marginTop="8dp"
-        android:paddingBottom="40dp"/>
-
-    <!-- Email Label -->
-    <TextView
-        android:id="@+id/tvEmail1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="#181311"
-        android:layout_marginTop="8dp" />
-
-    <!-- Email Input Field -->
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
-        android:hint="Enter your email address"
-        android:inputType="textEmailAddress"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp" />
-
-    <!-- Password Label -->
-    <TextView
-        android:id="@+id/tvPassword1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="#181311"
-        android:layout_marginTop="8dp" />
-
-    <!-- Password Input Field -->
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:hint="Enter your password"
-        android:inputType="textPassword"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:layout_marginTop="8dp"/>
-
-    <!-- Note: The ImageButton for visibility toggle is removed to keep it simple -->
-
-    <!-- Forgot Password Link -->
-    <TextView
-        android:id="@+id/tvForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginBottom="40dp"
-        android:fontFamily="serif"
-        android:padding="8dp"
-        android:text="Forgot password?"
-        android:textColor="#3F51B5"
-        android:textColorLink="#009688"
-        android:textSize="16sp" />
-
-    <!-- Spacer View (Pushes remaining content to the bottom using layout_weight) -->
-
-    <!-- Sign In Button -->
-    <Button
-        android:id="@+id/btnSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="#673AB7"
-        android:minHeight="56dp"
-        android:text="Sign In"
-        android:textColor="@android:color/white"
-        android:textColorLink="#7E5757"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <!-- Don't have an account? Create one (Uses a nested horizontal LinearLayout for center alignment) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingBottom="24dp">
-
-        <TextView
-            android:id="@+id/tvNoAccount"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? "
-            android:textSize="16sp"
-            android:textColor="#6b7280" />
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/tvCreateAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="Create one"
-            android:textColor="#3F51B5"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <!-- Logo/Icon Area -->
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="24dp"
+                android:src="@android:drawable/ic_menu_mylocation"
+                android:background="#1E293B"
+                android:padding="20dp"
+                app:tint="#38BDF8" />
 
-</LinearLayout>
+            <!-- Welcome Text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome Back"
+                android:textColor="#FFFFFF"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Subtitle -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Find your perfect space"
+                android:textColor="#94A3B8"
+                android:textSize="16sp"
+                android:layout_marginBottom="48dp"/>
+
+            <!-- Sign In Form Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <!-- Email Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundColor="#334155"
+                        app:boxStrokeColor="#38BDF8"
+                        app:hintTextColor="#FFFFFF"
+                        android:hint="Email Address">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:textColor="#FFFFFF"
+                            android:textColorHint="#FFFFFF"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Password Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundColor="#334155"
+                        app:boxStrokeColor="#38BDF8"
+                        app:hintTextColor="#FFFFFF"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="#94A3B8"
+                        android:hint="Password">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="#FFFFFF"
+                            android:textColorHint="#FFFFFF"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Forgot Password -->
+                    <TextView
+                        android:id="@+id/tvForgotPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="Forgot password?"
+                        android:textColor="#38BDF8"
+                        android:textSize="14sp"
+                        android:padding="8dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Sign In Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:text="Sign In"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:backgroundTint="#38BDF8"/>
+
+            <!-- Sign Up Link -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Don't have an account? "
+                    android:textColor="#94A3B8"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvCreateAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign Up"
+                    android:textColor="#38BDF8"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

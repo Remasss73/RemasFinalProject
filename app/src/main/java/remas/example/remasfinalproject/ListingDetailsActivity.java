@@ -1,6 +1,7 @@
 package remas.example.remasfinalproject;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,10 @@ import java.util.List;
 public class ListingDetailsActivity extends AppCompatActivity {
     
     // UI Components
-    private ImageView ivBack, ivShare, ivMore, ivMainImage;
+    private ImageView ivBack, ivShare, ivMore, ivMainImage, ivMap;
     private TextView tvTitle, tvPrice, tvLocation, tvBedrooms, tvBathrooms, tvArea, tvDescription, tvImageCount;
     private RecyclerView rvAmenities;
-    private MaterialButton btnEdit, btnDelete;
+    private MaterialButton btnEdit, btnDelete, btnGetDirections;
     
     // Data
     private String listingId;
@@ -89,6 +90,10 @@ public class ListingDetailsActivity extends AppCompatActivity {
         btnEdit = findViewById(R.id.btnEdit);
         btnDelete = findViewById(R.id.btnDelete);
         
+        // Map buttons
+        ivMap = findViewById(R.id.ivMap);
+        btnGetDirections = findViewById(R.id.btnGetDirections);
+        
         // Setup amenities RecyclerView
         setupAmenitiesRecyclerView();
     }
@@ -112,6 +117,10 @@ public class ListingDetailsActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(v -> editListing());
         
         btnDelete.setOnClickListener(v -> showDeleteConfirmation());
+        
+        // Map click listeners
+        ivMap.setOnClickListener(v -> showNavigationOptions());
+        btnGetDirections.setOnClickListener(v -> showNavigationOptions());
     }
     
     private void loadListingDetails() {
@@ -147,8 +156,8 @@ public class ListingDetailsActivity extends AppCompatActivity {
         tvBathrooms.setText(String.valueOf(currentListing.getBathrooms()));
         tvArea.setText(String.valueOf(currentListing.getArea()));
         
-        // Set image count (for now, just show 1/1)
-        tvImageCount.setText("1/1");
+        // Load and display images
+        loadListingImages();
         
         // Update amenities (for now, add some default ones)
         List<String> amenities = currentListing.getAmenities();
@@ -266,6 +275,104 @@ public class ListingDetailsActivity extends AppCompatActivity {
                 super(itemView);
                 tvAmenity = itemView.findViewById(R.id.tvAmenity);
             }
+        }
+    }
+    
+    private void showNavigationOptions() {
+        if (currentListing == null) {
+            Toast.makeText(this, "Location not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
+        String location = currentListing.getAddress();
+        if (location == null || location.isEmpty()) {
+            location = currentListing.getCity() + ", " + currentListing.getArea();
+        }
+        
+        final String finalLocation = location;
+        
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("🗺️ Get Directions")
+                .setMessage("Choose navigation app:")
+                .setPositiveButton("🗺️ Google Maps", (dialog, which) -> {
+                    openGoogleMaps(finalLocation);
+                })
+                .setNegativeButton("🚗 Waze", (dialog, which) -> {
+                    openWaze(finalLocation);
+                })
+                .setNeutralButton("📍 Show on Map", (dialog, which) -> {
+                    showOnMap(finalLocation);
+                })
+                .show();
+    }
+    
+    private void openGoogleMaps(String location) {
+        try {
+            Uri uri = Uri.parse("google.navigation:q=" + Uri.encode(location));
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.apps.maps");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                // Fallback to web Google Maps
+                uri = Uri.parse("https://www.google.com/maps/search/?api=1&query=" + Uri.encode(location));
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error opening Google Maps", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private void openWaze(String location) {
+        try {
+            Uri uri = Uri.parse("waze://?q=" + Uri.encode(location));
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.waze");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                // Fallback to web Waze
+                uri = Uri.parse("https://waze.com/ul?q=" + Uri.encode(location));
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error opening Waze", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private void loadListingImages() {
+        if (currentListing == null || currentListing.getImageUrl() == null) {
+            // Set default placeholder or empty state
+            ivMainImage.setImageResource(android.R.drawable.ic_menu_gallery);
+            tvImageCount.setText("No Images");
+            return;
+        }
+        
+        String imageUrl = currentListing.getImageUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            // Load image into main ImageView
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                // For now, just show the image
+                // In a real implementation, you would use an image loading library like Glide or Picasso
+                ivMainImage.setImageResource(android.R.drawable.ic_menu_gallery);
+                tvImageCount.setText("Image Available");
+            }
+        } else {
+            // No images available
+            ivMainImage.setImageResource(android.R.drawable.ic_menu_gallery);
+            tvImageCount.setText("No Images");
+        }
+    }
+
+    private void showOnMap(String location) {
+        try {
+            Uri uri = Uri.parse("geo:0,0?q=" + Uri.encode(location));
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Error opening map", Toast.LENGTH_SHORT).show();
         }
     }
 }

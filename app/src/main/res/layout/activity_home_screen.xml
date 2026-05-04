@@ -34,7 +34,7 @@
                 android:id="@+id/ivLogo"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_lock_idle_lock"
+                android:src="@drawable/ic_home_premium"
                 android:background="@drawable/circle_background"
                 android:padding="8dp"
                 app:tint="#38BDF8"/>
@@ -57,7 +57,7 @@
             android:id="@+id/ibMenu"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@android:drawable/ic_menu_more"
+            android:src="@drawable/ic_menu_burger"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Menu"
             app:tint="#38BDF8"/>
@@ -174,7 +174,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_camera"
+                android:src="@drawable/ic_home_premium"
                 app:tint="#38BDF8"/>
 
             <TextView
@@ -199,7 +199,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_send"
+                android:src="@drawable/ic_chat_bubble"
                 app:tint="#64748B"/>
 
             <TextView
@@ -224,7 +224,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_preferences"
+                android:src="@drawable/ic_listings"
                 app:tint="#64748B"/>
 
             <TextView
@@ -249,7 +249,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_info_details"
+                android:src="@drawable/ic_profile_person"
                 app:tint="#64748B"/>
 
             <TextView

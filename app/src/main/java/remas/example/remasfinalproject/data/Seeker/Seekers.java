@@ -33,6 +33,7 @@ public class Seekers {
 
     private String email;
     private String password;
+    private String phone;
     private String userId;
 
     /**
@@ -98,6 +99,14 @@ public class Seekers {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getUserId() {

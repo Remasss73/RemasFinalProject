@@ -3,8 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- ALL PERMISSIONS GO HERE (outside application) -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" 
+                     android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
+                     android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -34,17 +44,10 @@
         <activity
             android:name=".seeker_item"
             android:exported="false" />
-        <activity
-            android:name=".data.Dorm.DormAdapter"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
-        <activity
+                <activity
             android:name=".DormsListActivity"
             android:exported="false" />
-        <activity
-            android:name=".AddListing"
-            android:exported="false" />
-        <activity
+                <activity
             android:name=".ChatsFinal"
             android:exported="false" />
         <activity
@@ -57,7 +60,7 @@
             android:name=".ForgottenPassword"
             android:exported="false" />
         <activity
-            android:name=".AIChatActivity"
+            android:name="remasexample.remasfinalproject.AIChatActivity"
             android:exported="false" />
         <activity
             android:name=".SignUp"
@@ -73,6 +76,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 </manifest>

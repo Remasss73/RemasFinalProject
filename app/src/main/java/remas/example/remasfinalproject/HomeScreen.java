@@ -99,9 +99,9 @@ public class HomeScreen extends AppCompatActivity {
         llProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // For now, show user info - you can create a ProfileActivity later
-                String userEmail = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : "Unknown";
-                Toast.makeText(HomeScreen.this, "Profile: " + userEmail, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomeScreen.this, Profile.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
     }

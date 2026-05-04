@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RemasFinalProject</string>
+    
+    <!-- Sign In -->
+    <string name="welcome_back">مرحباً بعودتك</string>
+    <string name="find_your_perfect_space">ابحث عن مساحتك المثالية</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="dont_have_account">ليس لديك حساب؟ </string>
+    <string name="sign_up">إنشاء حساب</string>
+    
+    <!-- Sign Up -->
+    <string name="create_account">إنشاء حساب</string>
+    <string name="start_your_journey">ابدأ رحلتك إلى المنزل المثالي</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="phone_number">رقم الهاتف</string>
+    <string name="already_have_account">لديك حساب بالفعل؟ </string>
+    
+    <!-- Forgot Password -->
+    <string name="reset_password">إعادة تعيين كلمة المرور</string>
+    <string name="reset_password_description">سنرسل لك رابطاً لإعادة تعيين كلمة المرور</string>
+    <string name="send_reset_link">إرسال رابط إعادة التعيين</string>
+    <string name="reset_link_sent">✅ تم إرسال رابط إعادة التعيين! تحقق من بريدك الإلكتروني.</string>
+    <string name="remember_password">تتذكر كلمة المرور؟ </string>
+    
+    <!-- Home Screen -->
+    <string name="home">الرئيسية</string>
+    <string name="chats">المحادثات</string>
+    <string name="my_listings">قوائمي</string>
+    <string name="profile">الملف الشخصي</string>
+    
+    <!-- Settings -->
+    <string name="settings">الإعدادات</string>
+    <string name="profile_settings">إعدادات الملف الشخصي</string>
+    <string name="account_management">إدارة الحساب</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="change_password">تغيير كلمة المرور</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="application_settings">إعدادات التطبيق</string>
+    <string name="preferences">التفضيلات</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="terms_of_service">شروط الخدمة</string>
+    <string name="language">اللغة</string>
+    <string name="support">الدعم</string>
+    <string name="get_help">الحصول على المساعدة</string>
+    <string name="help_center">مركز المساعدة</string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="send_feedback">إرسال ملاحظات</string>
+    <string name="report_bug">الإبلاغ عن خطأ</string>
+    <string name="about">حول</string>
+    <string name="app_information">معلومات التطبيق</string>
+    <string name="about_luxe_stay">حول LUXE STAY</string>
+    <string name="rate_app">تقييم التطبيق</string>
+    <string name="share_app">مشاركة التطبيق</string>
+    <string name="version">الإصدار 1.0.0</string>
+    
+    <!-- Help -->
+    <string name="help_support">الدعم والمساعدة</string>
+    <string name="contact_support">اتصل بالدعم</string>
+    <string name="get_in_touch">تواصل معنا</string>
+    <string name="frequently_asked_questions">الأسئلة الشائعة</string>
+    <string name="user_guide">دليل المستخدم</string>
+    <string name="video_tutorials">دروس الفيديو</string>
+    <string name="quick_help">مساعدة سريعة</string>
+    <string name="need_immediate_assistance">هل تحتاج مساعدة عاجلة؟</string>
+    <string name="emergency_contact">اتصال طارئ</string>
+    <string name="live_chat_support">دعم المحادثة المباشرة</string>
+    <string name="report_an_issue">الإبلاغ عن مشكلة</string>
+    
+    <!-- Chat -->
+    <string name="messages">الرسائل</string>
+    <string name="ai_assistant">🤖 مساعد الذكاء الاصطناعي</string>
+    <string name="ai_assistant_description">مساعدك للعقارات الذكي</string>
+    <string name="no_chats_yet">لا توجد محادثات بعد</string>
+    <string name="start_chatting_description">ابدأ المحادثة مع مساعد الذكاء الاصطناعي أو المستخدمين الآخرين</string>
+    <string name="browse_properties">تصفح العقارات</string>
+    
+    <!-- Listings -->
+    <string name="active">نشط</string>
+    <string name="view_details">عرض التفاصيل</string>
+    <string name="edit">تعديل</string>
+    <string name="delete">حذف</string>
+    <string name="listed_days_ago">مدرج قبل %d أيام</string>
+    
+    <!-- Common -->
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="error">خطأ</string>
+    <string name="success">نجح</string>
+    
+</resources>

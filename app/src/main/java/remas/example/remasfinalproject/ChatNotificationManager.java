@@ -95,11 +95,9 @@ public class ChatNotificationManager {
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
         
         // Create intent to open chat
-        Intent chatIntent;
-        if (message.getChatId().equals("ai_assistant")) {
-            chatIntent = new Intent(context, AIChatActivity.class);
-        } else {
-            chatIntent = new Intent(context, ChatsFinal.class);
+        Intent chatIntent = new Intent(context, HomeScreen.class);
+        chatIntent.putExtra("openChats", true);
+        if (!message.getChatId().equals("ai_assistant")) {
             chatIntent.putExtra("chatId", message.getChatId());
             chatIntent.putExtra("userName", message.getSenderName());
         }
@@ -147,7 +145,8 @@ public class ChatNotificationManager {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
         
-        Intent aiIntent = new Intent(context, AIChatActivity.class);
+        Intent aiIntent = new Intent(context, HomeScreen.class);
+        aiIntent.putExtra("openAI", true);
         aiIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         
         PendingIntent aiPendingIntent = PendingIntent.getActivity(

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RemasFinalProject</string>
+    
+    <!-- Sign In -->
+    <string name="welcome_back">ברוך שובך</string>
+    <string name="find_your_perfect_space">מצא את המרחב המושלם שלך</string>
+    <string name="sign_in">התחברות</string>
+    <string name="email">דואר אלקטרוני</string>
+    <string name="password">סיסמה</string>
+    <string name="forgot_password">שכחת סיסמה?</string>
+    <string name="dont_have_account">אין לך חשבון? </string>
+    <string name="sign_up">הרשמה</string>
+    
+    <!-- Sign Up -->
+    <string name="create_account">צור חשבון</string>
+    <string name="start_your_journey">התחל את המסע שלך לבית המושלם</string>
+    <string name="full_name">שם מלא</string>
+    <string name="phone_number">מספר טלפון</string>
+    <string name="already_have_account">כבר יש לך חשבון? </string>
+    
+    <!-- Forgot Password -->
+    <string name="reset_password">איפוס סיסמה</string>
+    <string name="reset_password_description">נשלח לך קישור לאיפוס הסיסמה</string>
+    <string name="send_reset_link">שלח קישור איפוס</string>
+    <string name="reset_link_sent">✅ קישור איפוס נשלח! בדוק את הדואר האלקטרוני שלך.</string>
+    <string name="remember_password">זוכר את הסיסמה? </string>
+    
+    <!-- Home Screen -->
+    <string name="home">בית</string>
+    <string name="chats">צ\'אטים</string>
+    <string name="my_listings">הרשימות שלי</string>
+    <string name="profile">פרופיל</string>
+    
+    <!-- Settings -->
+    <string name="settings">הגדרות</string>
+    <string name="profile_settings">הגדרות פרופיל</string>
+    <string name="account_management">ניהול חשבון</string>
+    <string name="edit_profile">ערוך פרופיל</string>
+    <string name="change_password">שנה סיסמה</string>
+    <string name="delete_account">מחק חשבון</string>
+    <string name="application_settings">הגדרות יישום</string>
+    <string name="preferences">העדפות</string>
+    <string name="notifications">התראות</string>
+    <string name="privacy_policy">מדיניות פרטיות</string>
+    <string name="terms_of_service">תנאי שימוש</string>
+    <string name="language">שפה</string>
+    <string name="support">תמיכה</string>
+    <string name="get_help">קבל עזרה</string>
+    <string name="help_center">מרכז עזרה</string>
+    <string name="contact_us">צור קשר</string>
+    <string name="send_feedback">שלח משוב</string>
+    <string name="report_bug">דווח על באג</string>
+    <string name="about">אודות</string>
+    <string name="app_information">מידע על היישום</string>
+    <string name="about_luxe_stay">אודות LUXE STAY</string>
+    <string name="rate_app">דרג יישום</string>
+    <string name="share_app">שתף יישום</string>
+    <string name="version">גרסה 1.0.0</string>
+    
+    <!-- Help -->
+    <string name="help_support">תמיכה ועזרה</string>
+    <string name="contact_support">צור קשר עם תמיכה</string>
+    <string name="get_in_touch">צור קשר</string>
+    <string name="frequently_asked_questions">שאלות נפוצות</string>
+    <string name="user_guide">מדריך למשתמש</string>
+    <string name="video_tutorials">מדריכי וידאו</string>
+    <string name="quick_help">עזרה מהירה</string>
+    <string name="need_immediate_assistance">צריך עזרה מיידית?</string>
+    <string name="emergency_contact">איש קשר חירום</string>
+    <string name="live_chat_support">תמיכת צ\'אט חי</string>
+    <string name="report_an_issue">דווח על בעיה</string>
+    
+    <!-- Chat -->
+    <string name="messages">הודעות</string>
+    <string name="ai_assistant">🤖 עוזר AI</string>
+    <string name="ai_assistant_description">עוזר הנכסים החכם שלך</string>
+    <string name="no_chats_yet">אין צ\'אטים עדיין</string>
+    <string name="start_chatting_description">התחל לדבר עם עוזר ה-AI או עם משתמשים אחרים</string>
+    <string name="browse_properties">עיין נכסים</string>
+    
+    <!-- Listings -->
+    <string name="active">פעיל</string>
+    <string name="view_details">הצג פרטים</string>
+    <string name="edit">ערוך</string>
+    <string name="delete">מחק</string>
+    <string name="listed_days_ago">פורסם לפני %d ימים</string>
+    
+    <!-- Common -->
+    <string name="ok">אישור</string>
+    <string name="cancel">ביטול</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+    <string name="loading">טוען...</string>
+    <string name="error">שגיאה</string>
+    <string name="success">הצלחה</string>
+    
+</resources>

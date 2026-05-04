@@ -30,20 +30,24 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
+            <!-- Profile Picture -->
             <ImageView
-                android:id="@+id/ivLogo"
+                android:id="@+id/ivUserProfile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_home_premium"
-                android:background="@drawable/circle_background"
+                android:src="@android:drawable/ic_menu_mylocation"
+                android:background="@drawable/profile_image_background"
                 android:padding="8dp"
-                app:tint="#38BDF8"/>
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:backgroundTint="#38BDF8"/>
 
             <TextView
                 android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:text="LUXE STAY"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
@@ -57,7 +61,7 @@
             android:id="@+id/ibMenu"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_menu_burger"
+            android:src="@android:drawable/ic_menu_more"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Menu"
             app:tint="#38BDF8"/>
@@ -174,7 +178,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_home_premium"
+                android:src="@android:drawable/ic_menu_camera"
                 app:tint="#38BDF8"/>
 
             <TextView
@@ -199,8 +203,8 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_chat_bubble"
-                app:tint="#64748B"/>
+                android:src="@android:drawable/ic_menu_send"
+                app:tint="#38BDF8"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -224,8 +228,8 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_listings"
-                app:tint="#64748B"/>
+                android:src="@android:drawable/ic_menu_preferences"
+                app:tint="#38BDF8"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -249,8 +253,8 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_profile_person"
-                app:tint="#64748B"/>
+                android:src="@android:drawable/ic_menu_info_details"
+                app:tint="#38BDF8"/>
 
             <TextView
                 android:layout_width="wrap_content"

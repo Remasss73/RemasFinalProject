@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +38,7 @@ public class MyListings extends AppCompatActivity {
     private RecyclerView rvMyListings;
     private LinearLayout emptyStateLayout;
     private MaterialButton btnAddFirstListing;
+    private FloatingActionButton fabAddListing;
     private MyListingAdapter listingAdapter;
     private List<ListingItem> listingList;
     private FirebaseAuth mAuth;
@@ -67,6 +70,7 @@ public class MyListings extends AppCompatActivity {
             rvMyListings = findViewById(R.id.rvMyListings);
             emptyStateLayout = findViewById(R.id.emptyStateLayout);
             btnAddFirstListing = findViewById(R.id.btnAddFirstListing);
+            fabAddListing = findViewById(R.id.fabAddListing);
         } catch (Exception e) {
             Toast.makeText(this, "Error initializing views: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -93,6 +97,12 @@ public class MyListings extends AppCompatActivity {
             }
             if (btnAddFirstListing != null) {
                 btnAddFirstListing.setOnClickListener(v -> {
+                    Intent intent = new Intent(MyListings.this, AddDormActivity.class);
+                    startActivity(intent);
+                });
+            }
+            if (fabAddListing != null) {
+                fabAddListing.setOnClickListener(v -> {
                     Intent intent = new Intent(MyListings.this, AddDormActivity.class);
                     startActivity(intent);
                 });
@@ -200,7 +210,7 @@ public class MyListings extends AppCompatActivity {
         public void setLocation(String location) { this.location = location; }
         public String getCity() { return city; }
         public void setCity(String city) { this.city = city; }
-        public String getArea() { return area; }
+
         public void setArea(String area) { this.area = area; }
         public String getAddress() { return address; }
         public void setAddress(String address) { this.address = address; }

@@ -1,6 +1,7 @@
 package remas.example.remasfinalproject;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -12,11 +13,13 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat_final);
 
         // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.messages));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -32,8 +35,15 @@ public class ChatActivity extends BaseActivity {
         MaterialCardView aiChatContainer = findViewById(R.id.aiChatContainer);
         if (aiChatContainer != null) {
             aiChatContainer.setOnClickListener(v -> {
-                Toast.makeText(ChatActivity.this, "AI Assistant - Coming Soon!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChatActivity.this, ai.class);
+                startActivity(intent);
             });
+        }
+        
+        // Back button in the custom layout
+        android.view.View ivBack = findViewById(R.id.ivBack);
+        if (ivBack != null) {
+            ivBack.setOnClickListener(v -> finish());
         }
     }
 

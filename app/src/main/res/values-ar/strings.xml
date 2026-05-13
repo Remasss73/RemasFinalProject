@@ -164,4 +164,7 @@
     <string name="image_available">الصورة متاحة</string>
     <string name="no_images">لا توجد صور</string>
     <string name="photo">صورة</string>
+    <string name="smart_task_assistant">مساعد المهام الذكي</string>
+    <string name="enter_task_hint">أدخل عنوان المهمة (مثلاً: إصلاح السيارة)</string>
+    <string name="suggest_steps_with_ai">اقتراح الخطوات بالذكاء الاصطناعي</string>
 </resources>

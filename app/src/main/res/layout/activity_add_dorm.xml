@@ -42,7 +42,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Add New Listing"
+                    android:text="@string/add_new_listing"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="Basic Information"
+                    android:text="@string/basic_information"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -129,7 +129,7 @@
                         android:id="@+id/etTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Property Title"
+                        android:hint="@string/property_title"
                         android:textColor="#FFFFFF"
                         android:textColorHint="#FFFFFF" />
 
@@ -150,7 +150,7 @@
                         android:id="@+id/etCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="City"
+                        android:hint="@string/city"
                         android:textColor="#FFFFFF"
                         android:textColorHint="#FFFFFF" />
 
@@ -171,7 +171,7 @@
                         android:id="@+id/etAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Street Address"
+                        android:hint="@string/street_address"
                         android:textColor="#FFFFFF"
                         android:textColorHint="#FFFFFF" />
 
@@ -183,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:text="📍 Set Location on Map (Auto-fills Address)"
+                    android:text="@string/set_location_on_map"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
@@ -213,7 +213,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amenities"
+                    android:text="@string/amenities"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -223,7 +223,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Furnished Status"
+                    android:text="@string/furnished_status"
                     android:textColor="#94A3B8"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -241,7 +241,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Unfurnished"
+                        android:text="@string/unfurnished"
                         android:textColor="#FFFFFF"
                         android:buttonTint="#38BDF8"/>
 
@@ -250,7 +250,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Partially"
+                        android:text="@string/partially_furnished"
                         android:textColor="#FFFFFF"
                         android:buttonTint="#38BDF8"/>
 
@@ -259,7 +259,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Fully"
+                        android:text="@string/fully_furnished"
                         android:textColor="#FFFFFF"
                         android:buttonTint="#38BDF8"/>
 
@@ -269,7 +269,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Available Amenities"
+                    android:text="@string/available_amenities"
                     android:textColor="#94A3B8"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -292,7 +292,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="WiFi"
+                            android:text="@string/wifi"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -301,7 +301,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Parking"
+                            android:text="@string/parking"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -319,7 +319,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Laundry"
+                            android:text="@string/laundry"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -328,7 +328,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Gym"
+                            android:text="@string/gym"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -346,7 +346,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Kitchen"
+                            android:text="@string/kitchen"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -355,7 +355,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="AC"
+                            android:text="@string/ac"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -373,7 +373,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Balcony"
+                            android:text="@string/balcony"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -382,7 +382,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Elevator"
+                            android:text="@string/elevator"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -399,7 +399,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Security"
+                            android:text="@string/security"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -408,7 +408,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Storage"
+                            android:text="@string/storage"
                             android:textColor="#FFFFFF"
                             android:buttonTint="#38BDF8"/>
 
@@ -438,7 +438,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Property Details"
+                    android:text="@string/property_details"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -458,7 +458,7 @@
                         android:id="@+id/etSize"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Property Size (m²)"
+                        android:hint="@string/property_size"
                         android:inputType="number"
                         android:textColor="#FFFFFF"
                         android:textColorHint="#94A3B8"/>
@@ -479,7 +479,7 @@
                         android:id="@+id/etPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Monthly Rent (₪)"
+                        android:hint="@string/monthly_rent"
                         android:inputType="number"
                         android:textColor="#FFFFFF"
                         android:textColorHint="#94A3B8"/>
@@ -498,7 +498,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Bedrooms"
+                        android:text="@string/bedrooms"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"/>
 
@@ -554,7 +554,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Bathrooms"
+                        android:text="@string/bathrooms"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"/>
 
@@ -620,7 +620,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Description"
+                    android:text="@string/description"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -638,7 +638,7 @@
                         android:id="@+id/etDescription"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:hint="Describe your property..."
+                        android:hint="@string/property_description_hint"
                         android:gravity="top"
                         android:textColor="#FFFFFF"
                         android:textColorHint="#94A3B8"/>
@@ -667,7 +667,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Photos"
+                    android:text="@string/photos"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -704,7 +704,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Add"
+                                android:text="@string/add"
                                 android:textColor="#94A3B8"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"/>
@@ -718,7 +718,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tap + to add photos, tap X to delete"
+                    android:text="@string/photos_instruction"
                     android:textColor="#64748B"
                     android:textSize="12sp"
                     android:layout_marginTop="8dp"/>
@@ -742,7 +742,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Save Draft"
+                android:text="@string/save_draft"
                 android:layout_marginEnd="8dp"
                 android:textSize="16sp"
                 app:cornerRadius="12dp"
@@ -755,7 +755,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Publish Listing"
+                android:text="@string/publish_listing"
                 android:textSize="16sp"
                 app:cornerRadius="12dp"
                 app:backgroundTint="#38BDF8"/>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0F172A"
-    tools:context=".ChatsFinal">
+    tools:context=".ai">
 
     <!-- Header -->
     <com.google.android.material.card.MaterialCardView

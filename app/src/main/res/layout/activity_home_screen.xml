@@ -48,7 +48,7 @@
                 android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LUXE STAY"
+                android:text="@string/app_display_name"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -63,7 +63,7 @@
             android:layout_height="48dp"
             android:src="@android:drawable/ic_menu_more"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Menu"
+            android:contentDescription="@string/settings"
             app:tint="#38BDF8"/>
     </LinearLayout>
 
@@ -88,7 +88,7 @@
                 android:id="@+id/tvRecommendedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recommended for you"
+                android:text="@string/recommended_for_you"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -114,7 +114,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No listings available"
+                    android:text="@string/no_listings_available"
                     android:textColor="#64748B"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -123,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Listings from other users will appear here"
+                    android:text="@string/no_listings_description"
                     android:textColor="#475569"
                     android:textSize="14sp"
                     android:layout_marginTop="8dp"
@@ -133,7 +133,7 @@
                     android:id="@+id/btnRefreshListings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Refresh"
+                    android:text="@string/refresh"
                     android:backgroundTint="#38BDF8"
                     android:textColor="#0F172A"
                     android:layout_marginTop="24dp"
@@ -184,7 +184,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="@string/home"
                 android:textColor="#38BDF8"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>
@@ -209,7 +209,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chats"
+                android:text="@string/chats"
                 android:textColor="#64748B"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>
@@ -234,7 +234,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My Listings"
+                android:text="@string/my_listings"
                 android:textColor="#64748B"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>
@@ -259,7 +259,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:textColor="#64748B"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>

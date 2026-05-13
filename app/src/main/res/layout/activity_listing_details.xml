@@ -37,7 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Listing Details"
+                android:text="@string/view_details"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -145,7 +145,7 @@
                         android:id="@+id/tvTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Luxury Apartment in Tel Aviv Center"
+                        android:text="Luxury Apartment"
                         android:textColor="#FFFFFF"
                         android:textSize="22sp"
                         android:textStyle="bold"
@@ -156,7 +156,7 @@
                         android:id="@+id/tvPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="₪4,500 / month"
+                        android:text="₪0 / month"
                         android:textColor="#38BDF8"
                         android:textSize="24sp"
                         android:textStyle="bold"
@@ -184,7 +184,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Location"
+                        android:text="@string/location"
                         android:textColor="#94A3B8"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -208,7 +208,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Tel Aviv, Dizengoff Street"
+                            android:text="@string/location"
                             android:textColor="#FFFFFF"
                             android:textSize="16sp"
                             tools:text="Tel Aviv, Dizengoff Street"/>
@@ -230,7 +230,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="📍 Get Directions"
+                        android:text="@string/get_directions"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         app:cornerRadius="12dp"
@@ -258,7 +258,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Property Details"
+                        android:text="@string/property_details"
                         android:textColor="#94A3B8"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -283,7 +283,7 @@
                                 android:id="@+id/tvBedrooms"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2"
+                                android:text="0"
                                 android:textColor="#FFFFFF"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
@@ -292,7 +292,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bedrooms"
+                                android:text="@string/bedrooms"
                                 android:textColor="#94A3B8"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"/>
@@ -313,7 +313,7 @@
                                 android:id="@+id/tvBathrooms"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1"
+                                android:text="0"
                                 android:textColor="#FFFFFF"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
@@ -322,7 +322,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bathrooms"
+                                android:text="@string/bathrooms"
                                 android:textColor="#94A3B8"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"/>
@@ -342,7 +342,7 @@
                                 android:id="@+id/tvArea"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="85"
+                                android:text="0"
                                 android:textColor="#FFFFFF"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
@@ -382,7 +382,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Description"
+                        android:text="@string/description"
                         android:textColor="#94A3B8"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -392,11 +392,11 @@
                         android:id="@+id/tvDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="This luxury apartment is located in the heart of Tel Aviv with stunning Mediterranean views. Features include modern kitchen, marble floors, and plenty of natural light. Walking distance to Dizengoff Center, beaches, and Tel Aviv Port."
+                        android:text="@string/description"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         android:lineSpacingExtra="4dp"
-                        tools:text="This luxury apartment is located in the heart of Tel Aviv with stunning Mediterranean views. Features include modern kitchen, marble floors, and plenty of natural light. Walking distance to Dizengoff Center, beaches, and Tel Aviv Port."/>
+                        tools:text="Property Description text here..."/>
 
                 </LinearLayout>
 
@@ -420,7 +420,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Amenities"
+                        android:text="@string/amenities"
                         android:textColor="#94A3B8"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -456,7 +456,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Edit Listing"
+            android:text="@string/edit"
             android:layout_marginEnd="8dp"
             android:textSize="16sp"
             app:cornerRadius="12dp"
@@ -467,7 +467,7 @@
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:text="@string/delete"
             android:textColor="#EF4444"
             android:textSize="16sp"
             app:cornerRadius="12dp"

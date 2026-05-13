@@ -7,14 +7,12 @@ import android.util.Patterns;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ForgottenPassword extends AppCompatActivity {
+public class ForgottenPassword extends BaseActivity {
 
     // UI Components
     private TextInputLayout tilEmail;

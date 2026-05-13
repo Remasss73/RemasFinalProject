@@ -1,5 +1,6 @@
 package remas.example.remasfinalproject;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
     
     // UI Components
     private Toolbar toolbar;
@@ -35,9 +35,6 @@ public class SettingsActivity extends AppCompatActivity {
     
     // Firebase & Preferences
     private FirebaseAuth mAuth;
-    private SharedPreferences sharedPreferences;
-    private static final String PREFS_NAME = "LuxeStayPrefs";
-    private static final String LANGUAGE_KEY = "selected_language";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +43,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
         // Initialize UI components
         initializeViews();
@@ -197,7 +193,7 @@ public class SettingsActivity extends AppCompatActivity {
         String[] languages = {"English", "العربية", "עברית"};
         String[] languageCodes = {"en", "ar", "he"};
         
-        String currentLanguage = getCurrentLanguage();
+        String currentLanguage = LocaleHelper.getLanguage(this);
         int currentSelection = 0;
         for (int i = 0; i < languageCodes.length; i++) {
             if (languageCodes[i].equals(currentLanguage)) {
@@ -210,32 +206,18 @@ public class SettingsActivity extends AppCompatActivity {
                 .setTitle("Select Language")
                 .setSingleChoiceItems(languages, currentSelection, (dialog, which) -> {
                     String selectedLanguage = languageCodes[which];
-                    setLanguage(selectedLanguage);
+                    LocaleHelper.setLocale(this, selectedLanguage);
                     dialog.dismiss();
+                    
+                    // Restart app to apply changes globally
+                    Intent intent = new Intent(this, SplashScreen.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 })
                 .setPositiveButton("OK", null)
                 .setNegativeButton("Cancel", null)
                 .show();
-    }
-
-    private String getCurrentLanguage() {
-        return sharedPreferences.getString(LANGUAGE_KEY, "en");
-    }
-
-    private void setLanguage(String languageCode) {
-        sharedPreferences.edit()
-                .putString(LANGUAGE_KEY, languageCode)
-                .apply();
-
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
-        recreate();
     }
 
     private void openNotificationSettings() {

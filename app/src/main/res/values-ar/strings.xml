@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RemasFinalProject</string>
     
@@ -11,6 +10,7 @@
     <string name="forgot_password">نسيت كلمة المرور؟</string>
     <string name="dont_have_account">ليس لديك حساب؟ </string>
     <string name="sign_up">إنشاء حساب</string>
+    <string name="email_address">عنوان البريد الإلكتروني</string>
     
     <!-- Sign Up -->
     <string name="create_account">إنشاء حساب</string>
@@ -25,12 +25,18 @@
     <string name="send_reset_link">إرسال رابط إعادة التعيين</string>
     <string name="reset_link_sent">✅ تم إرسال رابط إعادة التعيين! تحقق من بريدك الإلكتروني.</string>
     <string name="remember_password">تتذكر كلمة المرور؟ </string>
+    <string name="back_to_login">العودة لتسجيل الدخول</string>
     
     <!-- Home Screen -->
     <string name="home">الرئيسية</string>
     <string name="chats">المحادثات</string>
     <string name="my_listings">قوائمي</string>
     <string name="profile">الملف الشخصي</string>
+    <string name="recommended_for_you">موصى به لك</string>
+    <string name="no_listings_available">لا توجد قوائم متاحة</string>
+    <string name="no_listings_description">ستظهر القوائم من المستخدمين الآخرين هنا</string>
+    <string name="refresh">تحديث</string>
+    <string name="app_display_name">LUXE STAY</string>
     
     <!-- Settings -->
     <string name="settings">الإعدادات</string>
@@ -78,13 +84,73 @@
     <string name="no_chats_yet">لا توجد محادثات بعد</string>
     <string name="start_chatting_description">ابدأ المحادثة مع مساعد الذكاء الاصطناعي أو المستخدمين الآخرين</string>
     <string name="browse_properties">تصفح العقارات</string>
+    <string name="ai_banner_title">LUXE STAY AI</string>
+    <string name="ai_banner_description">احصل على مساعدة فورية بشأن استفسارات العقارات</string>
+    <string name="archived_chats">المحادثات المؤرشفة (%d)</string>
+    
+    <!-- Add Dorm / Listing Details -->
+    <string name="add_new_listing">إضافة قائمة جديدة</string>
+    <string name="basic_information">المعلومات الأساسية</string>
+    <string name="property_title">عنوان العقار</string>
+    <string name="city">المدينة</string>
+    <string name="street_address">عنوان الشارع</string>
+    <string name="set_location_on_map">📍 تحديد الموقع على الخريطة</string>
+    <string name="amenities">المرافق</string>
+    <string name="furnished_status">حالة التأثيث</string>
+    <string name="unfurnished">غير مفروش</string>
+    <string name="partially_furnished">مفروش جزئياً</string>
+    <string name="fully_furnished">مفروش بالكامل</string>
+    <string name="available_amenities">المرافق المتاحة</string>
+    <string name="wifi">واي فاي</string>
+    <string name="parking">موقف سيارات</string>
+    <string name="laundry">غسيل ملابس</string>
+    <string name="gym">نادي رياضي</string>
+    <string name="kitchen">مطبخ</string>
+    <string name="ac">تكييف</string>
+    <string name="balcony">شرفة</string>
+    <string name="elevator">مصعد</string>
+    <string name="security">أمن</string>
+    <string name="storage">مخزن</string>
+    <string name="property_details">تفاصيل العقار</string>
+    <string name="property_size">مساحة العقار (م²)</string>
+    <string name="monthly_rent">الإيجار الشهري (₪)</string>
+    <string name="bedrooms">غرف النوم</string>
+    <string name="bathrooms">الحمامات</string>
+    <string name="description">الوصف</string>
+    <string name="property_description_hint">صف عقارك...</string>
+    <string name="photos">الصور</string>
+    <string name="add">إضافة</string>
+    <string name="photos_instruction">انقر فوق + لإضافة صور، وانقر فوق X للحذف</string>
+    <string name="save_draft">حفظ كمسودة</string>
+    <string name="publish_listing">نشر القائمة</string>
     
     <!-- Listings -->
     <string name="active">نشط</string>
+    <string name="draft">مسودة</string>
     <string name="view_details">عرض التفاصيل</string>
     <string name="edit">تعديل</string>
     <string name="delete">حذف</string>
     <string name="listed_days_ago">مدرج قبل %d أيام</string>
+    <string name="my_listings_title">قوائمي</string>
+    <string name="no_listings_found">لم تقم بإضافة أي قوائم بعد</string>
+    <string name="add_first_listing">أضف قائمتك الأولى</string>
+    <string name="beds_format">%d غرف نوم</string>
+    <string name="baths_format">%d حمام</string>
+    <string name="area_format">%d م²</string>
+    <string name="price_format">₪%s/شهر</string>
+    <string name="price_format_simple">₪%s</string>
+    
+    <!-- Profile -->
+    <string name="member_since">عضو منذ</string>
+    <string name="listings">القوائم</string>
+    <string name="save_changes">حفظ التغييرات</string>
+    <string name="view_my_listings">عرض قوائمي</string>
+    <string name="location">الموقع</string>
+    <string name="bio">السيرة الذاتية</string>
+    <string name="account_actions">إجراءات الحساب</string>
+    <string name="user_name_placeholder">اسم المستخدم</string>
+    <string name="profile_information">معلومات الملف الشخصي</string>
+    <string name="bio_placeholder">أخبرنا عن نفسك...</string>
     
     <!-- Common -->
     <string name="ok">موافق</string>
@@ -93,6 +159,9 @@
     <string name="no">لا</string>
     <string name="loading">جاري التحميل...</string>
     <string name="error">خطأ</string>
-    <string name="success">نجح</string>
-    
+    <string name="success">نجاح</string>
+    <string name="get_directions">📍 الحصول على الاتجاهات</string>
+    <string name="image_available">الصورة متاحة</string>
+    <string name="no_images">لا توجد صور</string>
+    <string name="photo">صورة</string>
 </resources>

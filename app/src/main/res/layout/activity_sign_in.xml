@@ -76,7 +76,7 @@
                         app:boxBackgroundColor="#334155"
                         app:boxStrokeColor="#38BDF8"
                         app:hintTextColor="#FFFFFF"
-                        android:hint="Email Address">
+                        android:hint="@string/email_address">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEmail"
@@ -100,7 +100,7 @@
                         app:hintTextColor="#FFFFFF"
                         app:passwordToggleEnabled="true"
                         app:passwordToggleTint="#94A3B8"
-                        android:hint="Password">
+                        android:hint="@string/password">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPassword"
@@ -118,7 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="Forgot password?"
+                        android:text="@string/forgot_password"
                         android:textColor="#38BDF8"
                         android:textSize="14sp"
                         android:padding="8dp"/>
@@ -133,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="16dp"
-                android:text="Sign In"
+                android:text="@string/sign_in"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -151,7 +151,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Don't have an account? "
+                    android:text="@string/dont_have_account"
                     android:textColor="#94A3B8"
                     android:textSize="14sp"/>
 
@@ -159,7 +159,7 @@
                     android:id="@+id/tvCreateAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sign Up"
+                    android:text="@string/sign_up"
                     android:textColor="#38BDF8"
                     android:textSize="14sp"
                     android:textStyle="bold"

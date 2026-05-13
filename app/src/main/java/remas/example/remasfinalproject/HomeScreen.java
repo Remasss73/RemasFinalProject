@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -27,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class HomeScreen extends AppCompatActivity {
+public class HomeScreen extends BaseActivity {
     
     // UI Components
     private ImageButton ibMenu;
@@ -293,5 +291,3 @@ public class HomeScreen extends AppCompatActivity {
         }
     }
 }
-
-

@@ -35,14 +35,15 @@
                 android:id="@+id/ivUserProfile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_mylocation"
-                android:background="@drawable/profile_image_background"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
                 android:layout_marginEnd="12dp"
+                android:background="@drawable/profile_image_background"
+                android:backgroundTint="#38BDF8"
                 android:clickable="true"
                 android:focusable="true"
-                android:backgroundTint="#38BDF8"/>
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_mylocation"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/tvAppName"

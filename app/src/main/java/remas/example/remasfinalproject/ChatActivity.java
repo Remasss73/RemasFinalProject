@@ -24,9 +24,7 @@ package remas.example.remasfinalproject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.card.MaterialCardView;
 
 public class ChatActivity extends BaseActivity {
@@ -47,17 +45,6 @@ public class ChatActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_final);
-
-        // Setup toolbar
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.messages));
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
         // Setup click listeners
         setupClickListeners();
@@ -89,28 +76,6 @@ public class ChatActivity extends BaseActivity {
         if (ivBack != null) {
             ivBack.setOnClickListener(v -> finish());
         }
-    }
-
-    /**
-     * Handles toolbar menu item selections
-     * يتعامل مع اختيارات عناصر قائمة شريط الأدوات
-     * 
-     * Specifically handles the back/home button press
-     * يتعامل بشكل خاص مع ضغط زر الرجوع/الرئيسي
-     * 
-     * @param item The menu item that was selected
-     * عنصر القائمة الذي تم تحديده
-     * @return true if the event was handled, false otherwise
-     * صحيح إذا تم التعامل مع الحدث، خطأ خلاف ذلك
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**

@@ -48,12 +48,9 @@ dependencies {
     implementation libs.googleid
     implementation libs.firebase.firestore
     
-    // AI and Async dependencies
-//    implementation libs.generativeai
-//    implementation libs.generativeai.java
-    implementation libs.guava
-    implementation libs.firebase.ai
-
+    // Glide for image loading
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -72,9 +69,5 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
     // optional - Paging 3 Integration
     implementation "androidx.room:room-paging:$room_version"
-
-    // Glide for image loading
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
 }

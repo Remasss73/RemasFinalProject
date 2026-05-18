@@ -13,13 +13,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.tasks.Task;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import remas.example.remasfinalproject.data.AppDatabase;
 import remas.example.remasfinalproject.data.Seeker.Seekers;
 
+/**
+ * نشاط تسجيل الدخول للمستخدمين المسجلين مسبقاً في التطبيق.
+ */
 public class SignIn extends BaseActivity {
     private TextView tv_ForgotPassword;
     private TextView tv_CreateAccount;
@@ -27,20 +30,22 @@ public class SignIn extends BaseActivity {
     private TextInputEditText etEmail, etPassword;
     private MaterialButton btnSignIn;
 
-
+    /**
+     * يتم استدعاؤها عند إنشاء النشاط؛ تقوم بتهيئة الواجهة، والتحقق مما إذا كان المستخدم مسجلاً بالفعل للدخول التلقائي.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
-        {
+        // التحقق من وجود مستخدم مسجل دخول مسبقاً للانتقال للشاشة الرئيسية مباشرة
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
            Intent i = new Intent(SignIn.this, HomeScreen.class);
             startActivity(i);
             finish();
         }
-        // Initialize Material Design components
+
+        // تهيئة مكونات واجهة المستخدم (Material Design)
         tilEmail = findViewById(R.id.tilEmail);
         tilPassword = findViewById(R.id.tilPassword);
         etEmail = findViewById(R.id.etEmail);
@@ -49,9 +54,8 @@ public class SignIn extends BaseActivity {
         tv_ForgotPassword = findViewById(R.id.tvForgotPassword);
         tv_CreateAccount = findViewById(R.id.tvCreateAccount);
         
-        // Set click listeners
-        tv_ForgotPassword.setOnClickListener(new View.OnClickListener()
-        {
+        // إعداد مستمعي النقرات للأزرار والنصوص
+        tv_ForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(SignIn.this, ForgottenPassword.class);
@@ -59,16 +63,14 @@ public class SignIn extends BaseActivity {
             }
         });
         
-        btnSignIn.setOnClickListener(new View.OnClickListener()
-        {
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 validateFields();
             }
         });
         
-        tv_CreateAccount.setOnClickListener(new View.OnClickListener()
-        {
+        tv_CreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(SignIn.this, SignUp.class);
@@ -76,68 +78,65 @@ public class SignIn extends BaseActivity {
             }
         });
         
-        // Set up auto-capitalization for input fields
+        // إعداد التنسيق التلقائي لنصوص الإدخال
         setupAutoCapitalization();
     }
 
-    private boolean validateFields()
-    {
+    /**
+     * التحقق من صحة المدخلات (البريد وكلمة المرور) وتنفيذ عملية تسجيل الدخول عبر Firebase.
+     * @return true إذا كانت الحقول صحيحة، false خلاف ذلك.
+     */
+    private boolean validateFields() {
         boolean isValid = true;
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if (email.isEmpty())
-        {
-            tilEmail.setError("Email is required");
+        // التحقق من البريد الإلكتروني
+        if (email.isEmpty()) {
+            tilEmail.setError("البريد الإلكتروني مطلوب");
             isValid = false;
-        }
-        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        {
-            tilEmail.setError("Please enter a valid email address");
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            tilEmail.setError("يرجى إدخال بريد إلكتروني صحيح");
             isValid = false;
-        }
-        else
-        {
+        } else {
             tilEmail.setError(null);
         }
 
-        if (password.isEmpty())
-        {
-            tilPassword.setError("Password is required");
+        // التحقق من كلمة المرور
+        if (password.isEmpty()) {
+            tilPassword.setError("كلمة المرور مطلوبة");
             isValid = false;
-        }
-        else if (password.length() < 8)
-        {
-            tilPassword.setError("Password must be at least 8 characters long");
+        } else if (password.length() < 8) {
+            tilPassword.setError("يجب أن تكون كلمة المرور 8 أحرف على الأقل");
             isValid = false;
-        }
-        else
-        {
+        } else {
             tilPassword.setError(null);
         }
-        if (isValid)
-        {
+
+        // تنفيذ تسجيل الدخول إذا كانت البيانات صحيحة
+        if (isValid) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
-            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
-                        Toast.makeText(SignIn.this, "Signing In Succeeded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignIn.this, "تم تسجيل الدخول بنجاح", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(SignIn.this, HomeScreen.class);
                         startActivity(i);
                         finish();
-                    }
-                    else{
-                        Toast.makeText(SignIn.this, "Signing In Failed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignIn.this, "فشل تسجيل الدخول", Toast.LENGTH_SHORT).show();
                         tilEmail.setError(task.getException().getMessage());
                     }
                 }
-
             });
         }
         return isValid;
     }
 
+    /**
+     * إعداد مستمع للنص لضمان تحويل البريد الإلكتروني إلى حروف صغيرة (lowercase) تلقائياً أثناء الكتابة.
+     */
     private void setupAutoCapitalization() {
         etEmail.addTextChangedListener(new android.text.TextWatcher() {
             @Override

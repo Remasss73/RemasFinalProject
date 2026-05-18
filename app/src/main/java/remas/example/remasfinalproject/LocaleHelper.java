@@ -6,25 +6,42 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import android.preference.PreferenceManager;
 
 import java.util.Locale;
 
+/**
+ * فئة مساعدة لإدارة لغة التطبيق: تقوم بحفظ واسترجاع لغة المستخدم وتحديث إعدادات النظام داخل التطبيق.
+ */
 public class LocaleHelper {
 
-    private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
     private static final String PREFS_NAME = "LuxeStayPrefs";
     private static final String LANGUAGE_KEY = "selected_language";
 
+    /**
+     * يتم استدعاؤها عند بدء كل نشاط لاسترجاع اللغة المحفوظة وتطبيقها.
+     * @param context سياق النشاط الحالي.
+     * @return السياق المحدث باللغة الصحيحة.
+     */
     public static Context onAttach(Context context) {
         String lang = getPersistedData(context, Locale.getDefault().getLanguage());
         return setLocale(context, lang);
     }
 
+    /**
+     * الحصول على كود اللغة الحالي المحفوظ (مثلاً "ar" أو "en").
+     * @param context سياق التطبيق.
+     * @return كود اللغة.
+     */
     public static String getLanguage(Context context) {
         return getPersistedData(context, Locale.getDefault().getLanguage());
     }
 
+    /**
+     * تغيير لغة التطبيق وحفظها في الإعدادات.
+     * @param context سياق التطبيق.
+     * @param language كود اللغة الجديد.
+     * @return السياق المحدث.
+     */
     public static Context setLocale(Context context, String language) {
         persist(context, language);
 
@@ -35,11 +52,17 @@ public class LocaleHelper {
         return updateResourcesLegacy(context, language);
     }
 
+    /**
+     * استرجاع اللغة المحفوظة من SharedPreferences.
+     */
     private static String getPersistedData(Context context, String defaultLanguage) {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return preferences.getString(LANGUAGE_KEY, defaultLanguage);
     }
 
+    /**
+     * حفظ اللغة المختارة بشكل دائم في SharedPreferences.
+     */
     private static void persist(Context context, String language) {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -47,6 +70,9 @@ public class LocaleHelper {
         editor.apply();
     }
 
+    /**
+     * تحديث موارد التطبيق للنسخ الحديثة من أندرويد (Nougat وما فوق).
+     */
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context, String language) {
         Locale locale = new Locale(language);
@@ -59,6 +85,9 @@ public class LocaleHelper {
         return context.createConfigurationContext(configuration);
     }
 
+    /**
+     * تحديث موارد التطبيق للنسخ القديمة من أندرويد.
+     */
     @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
         Locale locale = new Locale(language);

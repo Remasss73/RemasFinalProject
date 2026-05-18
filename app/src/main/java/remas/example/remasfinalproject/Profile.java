@@ -43,6 +43,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * نشاط الملف الشخصي: يسمح للمستخدم بعرض وتعديل بياناته الشخصية وصورته.
+ */
 public class Profile extends BaseActivity {
     
     private static final String TAG = "ProfileActivity";
@@ -71,27 +74,29 @@ public class Profile extends BaseActivity {
     private boolean isEditMode = false;
     private boolean isUploading = false;
 
+    /**
+     * تهيئة النشاط، إعداد Firebase، وربط الواجهة بالبيانات.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
 
-        // Initialize UI components
         initializeViews();
         setupToolbar();
         setupClickListeners();
         setupAutoCapitalization();
         loadUserProfile();
-        
-        // Setup animations
         setupAnimations();
     }
 
+    /**
+     * تعريف العناصر المرئية وربطها بمتغيرات الكود.
+     */
     private void initializeViews() {
         toolbar = findViewById(R.id.toolbar);
         ivProfileImage = findViewById(R.id.ivProfileImage);
@@ -116,11 +121,13 @@ public class Profile extends BaseActivity {
         tvUserName = findViewById(R.id.tvUserName);
         progressIndicator = findViewById(R.id.progressIndicator);
 
-        // Set default Facebook-like profile picture
         ivProfileImage.setImageResource(android.R.drawable.ic_menu_myplaces);
         ivProfileImage.setBackgroundResource(R.drawable.profile_image_background);
     }
 
+    /**
+     * إعداد شريط العنوان العلوي (Toolbar) وتفعيل زر الرجوع.
+     */
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -130,17 +137,16 @@ public class Profile extends BaseActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 
+    /**
+     * إعداد وظائف الأزرار مثل تعديل الملف، حفظ التغييرات، وتغيير الصورة.
+     */
     private void setupClickListeners() {
         fabCamera.setOnClickListener(v -> {
-            if (!isUploading) {
-                showImageSourceDialog();
-            }
+            if (!isUploading) showImageSourceDialog();
         });
         
         fabGallery.setOnClickListener(v -> {
-            if (!isUploading) {
-                showImageSourceDialog();
-            }
+            if (!isUploading) showImageSourceDialog();
         });
         
         btnEditProfile.setOnClickListener(v -> toggleEditMode());
@@ -157,6 +163,9 @@ public class Profile extends BaseActivity {
         });
     }
 
+    /**
+     * إضافة تأثيرات حركية عند فتح شاشة الملف الشخصي.
+     */
     private void setupAnimations() {
         AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
         fadeIn.setDuration(1000);
@@ -166,55 +175,34 @@ public class Profile extends BaseActivity {
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleIn.setDuration(800);
         ivProfileImage.startAnimation(scaleIn);
-        
-        ViewCompat.animate(ivProfileImage)
-                .translationY(0)
-                .alpha(1.0f)
-                .setDuration(800)
-                .start();
     }
 
+    /**
+     * عرض خيار للمستخدم لاختيار مصدر الصورة (الكاميرا أو المعرض).
+     */
     private void showImageSourceDialog() {
-        String[] options = {getString(R.string.photo), "🖼️ Gallery", getString(R.string.cancel)};
-        
+        String[] options = {getString(R.string.photo), "🖼️ المعرض", getString(R.string.cancel)};
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.profile))
                 .setItems(options, (dialog, which) -> {
                     switch (which) {
-                        case 0:
-                            checkCameraPermission();
-                            break;
-                        case 1:
-                            checkStoragePermission();
-                            break;
-                        case 2:
-                            dialog.dismiss();
-                            break;
+                        case 0: checkCameraPermission(); break;
+                        case 1: checkStoragePermission(); break;
+                        case 2: dialog.dismiss(); break;
                     }
                 });
-        
-        androidx.appcompat.app.AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.create().show();
     }
 
+    /**
+     * تحويل الحرف الأول من كل كلمة إلى حرف كبير تلقائياً عند كتابة الاسم.
+     */
     private void setupAutoCapitalization() {
         etFullName.addTextChangedListener(new android.text.TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 1 && start == 0) {
-                    String firstChar = s.toString().toUpperCase();
-                    if (!s.toString().equals(firstChar)) {
-                        etFullName.removeTextChangedListener(this);
-                        etFullName.setText(firstChar);
-                        etFullName.setSelection(1);
-                        etFullName.addTextChangedListener(this);
-                    }
-                }
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(android.text.Editable s) {
                 String text = s.toString();
@@ -224,9 +212,7 @@ public class Profile extends BaseActivity {
                     if (!words[i].isEmpty()) {
                         capitalized.append(Character.toUpperCase(words[i].charAt(0)))
                                 .append(words[i].substring(1).toLowerCase());
-                        if (i < words.length - 1) {
-                            capitalized.append(" ");
-                        }
+                        if (i < words.length - 1) capitalized.append(" ");
                     }
                 }
                 if (!text.equals(capitalized.toString())) {
@@ -239,9 +225,11 @@ public class Profile extends BaseActivity {
         });
     }
 
+    /**
+     * التبديل بين وضع "العرض" ووضع "التعديل" لبيانات المستخدم.
+     */
     private void toggleEditMode() {
         isEditMode = !isEditMode;
-        
         if (isEditMode) {
             enableEditing();
             btnEditProfile.setText(getString(R.string.cancel));
@@ -256,6 +244,9 @@ public class Profile extends BaseActivity {
         }
     }
 
+    /**
+     * تفعيل حقول الإدخال للسماح للمستخدم بالكتابة وتغيير الصورة.
+     */
     private void enableEditing() {
         etFullName.setEnabled(true);
         etEmail.setEnabled(true);
@@ -267,6 +258,9 @@ public class Profile extends BaseActivity {
         animateEditMode(true);
     }
 
+    /**
+     * إغلاق حقول الإدخال لمنع التعديل غير المقصود.
+     */
     private void disableEditing() {
         etFullName.setEnabled(false);
         etEmail.setEnabled(false);
@@ -278,18 +272,19 @@ public class Profile extends BaseActivity {
         animateEditMode(false);
     }
 
+    /**
+     * إضافة تأثير حركي لأزرار تغيير الصورة عند الدخول في وضع التعديل.
+     */
     private void animateEditMode(boolean editing) {
         float alpha = editing ? 1.0f : 0.5f;
         float scale = editing ? 1.05f : 1.0f;
-        
-        if (fabCamera != null) {
-            fabCamera.animate().alpha(alpha).scaleX(scale).scaleY(scale).setDuration(300).start();
-        }
-        if (fabGallery != null) {
-            fabGallery.animate().alpha(alpha).scaleX(scale).scaleY(scale).setDuration(300).start();
-        }
+        if (fabCamera != null) fabCamera.animate().alpha(alpha).scaleX(scale).scaleY(scale).setDuration(300).start();
+        if (fabGallery != null) fabGallery.animate().alpha(alpha).scaleX(scale).scaleY(scale).setDuration(300).start();
     }
 
+    /**
+     * عرض رسالة حالة ملونة أسفل الشاشة لفترة قصيرة.
+     */
     private void showStatusMessage(String message, String color) {
         if (tvProfileStatus != null) {
             tvProfileStatus.setText(message);
@@ -299,21 +294,19 @@ public class Profile extends BaseActivity {
         }
     }
 
+    /**
+     * تحميل بيانات المستخدم من قاعدة بيانات Firebase وعرضها في الحقول المخصصة.
+     */
     private void loadUserProfile() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
-            finish();
-            return;
-        }
+        if (currentUser == null) { finish(); return; }
 
         showLoadingState(true);
-        
         mDatabase.child("users").child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         showLoadingState(false);
-                        
                         if (dataSnapshot.exists()) {
                             String fullName = dataSnapshot.child("fullName").getValue(String.class);
                             String email = dataSnapshot.child("email").getValue(String.class);
@@ -329,80 +322,82 @@ public class Profile extends BaseActivity {
                             etLocation.setText(location != null ? location : "");
                             etBio.setText(bio != null ? bio : "");
 
-                            if (tvUserName != null) {
-                                tvUserName.setText(fullName != null && !fullName.isEmpty() ? fullName : getString(R.string.user_name_placeholder));
-                            }
-
+                            if (tvUserName != null) tvUserName.setText(fullName != null && !fullName.isEmpty() ? fullName : "مستخدم");
                             if (tvMemberSince != null && memberSince != null) {
                                 SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
                                 tvMemberSince.setText(sdf.format(new Date(memberSince)));
                             }
-
                             loadUserListingsCount(currentUser.getUid());
                             disableEditing();
-                            btnSaveProfile.setVisibility(View.GONE);
-                            btnCancel.setVisibility(View.GONE);
                         }
                     }
-
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        showLoadingState(false);
-                    }
+                    public void onCancelled(@NonNull DatabaseError databaseError) { showLoadingState(false); }
                 });
     }
 
+    /**
+     * حساب عدد العقارات التي قام هذا المستخدم بنشرها وعرضها.
+     */
     private void loadUserListingsCount(String userId) {
         if (tvListingsCount != null) {
-            mDatabase.child("listings")
-                    .orderByChild("userId")
-                    .equalTo(userId)
+            mDatabase.child("listings").orderByChild("userId").equalTo(userId)
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            int count = (int) dataSnapshot.getChildrenCount();
-                            tvListingsCount.setText(String.valueOf(count));
+                            tvListingsCount.setText(String.valueOf(dataSnapshot.getChildrenCount()));
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {}
                     });
         }
     }
 
+    /**
+     * التحكم في إظهار أو إخفاء مؤشر التحميل أثناء العمليات الطويلة.
+     */
     private void showLoadingState(boolean show) {
         isUploading = show;
-        if (progressIndicator != null) {
-            progressIndicator.setVisibility(show ? View.VISIBLE : View.GONE);
-        }
+        if (progressIndicator != null) progressIndicator.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
+    /**
+     * التحقق من منح التطبيق صلاحية استخدام الكاميرا.
+     */
     private void checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
-        } else {
-            openCamera();
-        }
+        } else openCamera();
     }
 
+    /**
+     * التحقق من منح التطبيق صلاحية الوصول إلى ملفات الصور.
+     */
     private void checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-        } else {
-            openGallery();
-        }
+        } else openGallery();
     }
 
+    /**
+     * فتح تطبيق الكاميرا لالتقاط صورة شخصية جديدة.
+     */
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
     }
 
+    /**
+     * فتح معرض الصور لاختيار صورة موجودة مسبقاً.
+     */
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
     }
 
+    /**
+     * التعامل مع رد المستخدم على طلبات الصلاحيات (قبول أو رفض).
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -416,29 +411,27 @@ public class Profile extends BaseActivity {
         }
     }
 
+    /**
+     * يتم استدعاؤها بعد التقاط صورة أو اختيارها لمعالجتها وعرضها.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_REQUEST_CODE && data != null) {
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    selectedImageUri = getImageUri(imageBitmap);
-                    ivProfileImage.setImageBitmap(imageBitmap);
-                    ivProfileImage.setPadding(0, 0, 0, 0); // Remove padding for real image
-                }
-            } else if (requestCode == GALLERY_REQUEST_CODE && data != null) {
-                Uri imageUri = data.getData();
-                if (imageUri != null) {
-                    selectedImageUri = imageUri;
-                    ivProfileImage.setImageURI(imageUri);
-                    ivProfileImage.setPadding(0, 0, 0, 0);
-                }
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == CAMERA_REQUEST_CODE) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                selectedImageUri = getImageUri(imageBitmap);
+                ivProfileImage.setImageBitmap(imageBitmap);
+            } else if (requestCode == GALLERY_REQUEST_CODE) {
+                selectedImageUri = data.getData();
+                ivProfileImage.setImageURI(selectedImageUri);
             }
         }
     }
 
+    /**
+     * تحويل صورة من نوع Bitmap إلى مسار (Uri) ليتم التعامل معها لاحقاً.
+     */
     private Uri getImageUri(Bitmap bitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -446,81 +439,58 @@ public class Profile extends BaseActivity {
         return Uri.parse(path);
     }
 
+    /**
+     * التحقق من صحة البيانات الجديدة ثم البدء في عملية حفظها.
+     */
     private void saveProfile() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) return;
-
-        String fullName = etFullName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
-        String location = etLocation.getText().toString().trim();
-        String bio = etBio.getText().toString().trim();
-
-        if (fullName.isEmpty()) {
+        if (etFullName.getText().toString().trim().isEmpty()) {
             tilFullName.setError(getString(R.string.error));
             return;
         }
-
         showLoadingState(true);
-        btnSaveProfile.setEnabled(false);
-
-        if (selectedImageUri != null) {
-            uploadProfileImage(fullName, email, phone, location, bio);
-        } else {
-            saveProfileDataToFirebase(fullName, email, phone, location, bio, profileImageUrl);
-        }
+        if (selectedImageUri != null) uploadProfileImage();
+        else saveProfileDataToFirebase(profileImageUrl);
     }
 
-    private void uploadProfileImage(String fullName, String email, String phone, String location, String bio) {
-        StorageReference profileImagesRef = mStorage.child("profile_images/" + mAuth.getCurrentUser().getUid() + ".jpg");
-        profileImagesRef.putFile(selectedImageUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    profileImagesRef.getDownloadUrl().addOnSuccessListener(downloadUrl -> {
-                        profileImageUrl = downloadUrl.toString();
-                        saveProfileDataToFirebase(fullName, email, phone, location, bio, profileImageUrl);
-                    });
-                })
-                .addOnFailureListener(e -> {
-                    showLoadingState(false);
-                    btnSaveProfile.setEnabled(true);
-                });
+    /**
+     * رفع الصورة الشخصية الجديدة إلى Firebase Storage.
+     */
+    private void uploadProfileImage() {
+        StorageReference ref = mStorage.child("profile_images/" + mAuth.getCurrentUser().getUid() + ".jpg");
+        ref.putFile(selectedImageUri).addOnSuccessListener(t -> ref.getDownloadUrl().addOnSuccessListener(url -> saveProfileDataToFirebase(url.toString())))
+                .addOnFailureListener(e -> showLoadingState(false));
     }
 
-    private void saveProfileDataToFirebase(String fullName, String email, String phone, String location, String bio, String imageUrl) {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) return;
-
-        DatabaseReference userRef = mDatabase.child("users").child(currentUser.getUid());
-        userRef.child("fullName").setValue(fullName);
-        userRef.child("email").setValue(email);
-        userRef.child("phone").setValue(phone);
-        userRef.child("location").setValue(location);
-        userRef.child("bio").setValue(bio);
-        if (imageUrl != null) userRef.child("profileImageUrl").setValue(imageUrl);
-        userRef.child("timestamp").setValue(System.currentTimeMillis());
-
+    /**
+     * حفظ جميع بيانات الملف الشخصي النصية والروابط في قاعدة البيانات.
+     */
+    private void saveProfileDataToFirebase(String imageUrl) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) return;
+        DatabaseReference ref = mDatabase.child("users").child(user.getUid());
+        ref.child("fullName").setValue(etFullName.getText().toString().trim());
+        ref.child("email").setValue(etEmail.getText().toString().trim());
+        ref.child("phone").setValue(etPhone.getText().toString().trim());
+        ref.child("location").setValue(etLocation.getText().toString().trim());
+        ref.child("bio").setValue(etBio.getText().toString().trim());
+        if (imageUrl != null) ref.child("profileImageUrl").setValue(imageUrl);
+        
         showLoadingState(false);
-        btnSaveProfile.setEnabled(true);
         toggleEditMode();
         Toast.makeText(this, getString(R.string.success), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * عرض مربع حوار لإرسال رابط إعادة تعيين كلمة المرور إلى بريد المستخدم.
+     */
     private void showChangePasswordDialog() {
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.change_password))
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle(getString(R.string.change_password))
                 .setMessage(getString(R.string.reset_password_description))
                 .setPositiveButton(getString(R.string.send_reset_link), (dialog, which) -> {
                     FirebaseUser user = mAuth.getCurrentUser();
-                    if (user != null) {
-                        mAuth.sendPasswordResetEmail(user.getEmail())
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(Profile.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
+                    if (user != null) mAuth.sendPasswordResetEmail(user.getEmail()).addOnCompleteListener(t -> Toast.makeText(this, "تم إرسال الرابط", Toast.LENGTH_SHORT).show());
                 })
-                .setNegativeButton(getString(R.string.cancel), null)
-                .show();
+                .setNegativeButton(getString(R.string.cancel), null).show();
     }
 }

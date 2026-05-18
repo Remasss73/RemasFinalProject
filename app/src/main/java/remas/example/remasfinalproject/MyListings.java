@@ -32,6 +32,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * نشاط "عقاراتي": يعرض قائمة بجميع العقارات التي قام المستخدم الحالي بنشرها.
+ */
 public class MyListings extends AppCompatActivity {
     
     private ImageView ivBack, ivFilter;
@@ -44,6 +47,9 @@ public class MyListings extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     
+    /**
+     * يتم استدعاؤها عند إنشاء النشاط؛ تقوم بتهيئة Firebase والواجهة وتحميل العقارات الخاصة بالمستخدم.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,9 @@ public class MyListings extends AppCompatActivity {
         }
     }
     
+    /**
+     * ربط عناصر واجهة المستخدم بمتغيرات الكود.
+     */
     private void initializeViews() {
         try {
             ivBack = findViewById(R.id.ivBack);
@@ -76,6 +85,9 @@ public class MyListings extends AppCompatActivity {
         }
     }
     
+    /**
+     * إعداد قائمة العرض (RecyclerView) والمحول (Adapter) الخاص بها.
+     */
     private void setupRecyclerView() {
         try {
             listingList = new ArrayList<>();
@@ -87,6 +99,9 @@ public class MyListings extends AppCompatActivity {
         }
     }
     
+    /**
+     * إعداد مستمعي النقرات للأزرار (الرجوع، التصفية، إضافة عقار).
+     */
     private void setupClickListeners() {
         try {
             if (ivBack != null) {
@@ -112,6 +127,9 @@ public class MyListings extends AppCompatActivity {
         }
     }
     
+    /**
+     * تحميل العقارات الخاصة بالمستخدم الحالي فقط من قاعدة بيانات Firebase.
+     */
     private void loadMyListings() {
         try {
             if (mAuth.getCurrentUser() == null) {
@@ -151,6 +169,9 @@ public class MyListings extends AppCompatActivity {
         }
     }
     
+    /**
+     * تحديث حالة الواجهة لإظهار رسالة "لا توجد عقارات" إذا كانت القائمة فارغة.
+     */
     private void updateEmptyState() {
         try {
             if (emptyStateLayout != null && rvMyListings != null) {
@@ -167,12 +188,20 @@ public class MyListings extends AppCompatActivity {
         }
     }
     
+    /**
+     * معالجة النقر على عقار لفتح شاشة التفاصيل الخاصة به.
+     * @param listing العقار الذي تم اختياره.
+     */
     private void onListingClick(ListingItem listing) {
         Intent intent = new Intent(MyListings.this, ListingDetailsActivity.class);
         intent.putExtra("listingId", listing.getListingId());
         startActivity(intent);
     }
     
+    /**
+     * معالجة النقر على زر التعديل لفتح شاشة إضافة/تعديل العقار.
+     * @param listing العقار المراد تعديله.
+     */
     private void onEditClick(ListingItem listing) {
         Intent intent = new Intent(MyListings.this, AddDormActivity.class);
         intent.putExtra("listingId", listing.getListingId());
@@ -180,17 +209,23 @@ public class MyListings extends AppCompatActivity {
         startActivity(intent);
     }
     
+    /**
+     * عرض مربع حوار لتصفية أو ترتيب العقارات المعروضة.
+     */
     private void showFilterDialog() {
-        String[] options = {"All", "Active", "Inactive", "Price: Low to High", "Price: High to Low"};
+        String[] options = {"الكل", "نشط", "غير نشط", "السعر: من الأقل للأعلى", "السعر: من الأعلى للأقل"};
         
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        builder.setTitle("Filter Listings")
+        builder.setTitle("تصفية العقارات")
                 .setItems(options, (dialog, which) -> {
-                    Toast.makeText(this, "Filter: " + options[which], Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "تصفية: " + options[which], Toast.LENGTH_SHORT).show();
                 })
                 .show();
     }
     
+    /**
+     * فئة تمثل عنصر العقار الواحد وتحتوي على جميع بياناته.
+     */
     public static class ListingItem {
         private String listingId, title, price, location, city, area, address, description, imageUrl, userId, status;
         private int bedrooms, bathrooms, size;
@@ -244,6 +279,9 @@ public class MyListings extends AppCompatActivity {
         public void setPhotoUrls(List<String> photoUrls) { this.photoUrls = photoUrls; }
     }
     
+    /**
+     * محول خاص بـ RecyclerView لعرض بطاقات العقارات الخاصة بالمستخدم.
+     */
     private static class MyListingAdapter extends RecyclerView.Adapter<MyListingAdapter.ListingViewHolder> {
         
         private List<ListingItem> listings;
@@ -310,11 +348,17 @@ public class MyListings extends AppCompatActivity {
             return listings.size();
         }
         
+        /**
+         * تنسيق التاريخ من طابع زمني (Timestamp) إلى نص مقروء.
+         */
         private String getFormattedDate(long timestamp) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
             return sdf.format(new java.util.Date(timestamp));
         }
         
+        /**
+         * فئة لربط عناصر واجهة المستخدم لكل بطاقة عقار.
+         */
         static class ListingViewHolder extends RecyclerView.ViewHolder {
             TextView tvTitle, tvPrice, tvLocation, tvBedrooms, tvBathrooms, tvArea, tvListedDate, tvStatus;
             MaterialButton btnViewDetails, btnEdit;

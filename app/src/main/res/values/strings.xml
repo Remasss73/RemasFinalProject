@@ -165,8 +165,8 @@
     <string name="no_images">No images</string>
     <string name="photo">Photo</string>
 
-    <!-- AI Smart Task Assistant -->
-    <string name="smart_task_assistant">Smart Task Assistant</string>
-    <string name="enter_task_hint">Enter task title or topic (e.g., Fix the car)</string>
-    <string name="suggest_steps_with_ai">Suggest Steps with AI</string>
+    <!-- AI College & Dorm Recommendation Assistant -->
+    <string name="smart_task_assistant">College &amp; Dorm Recommendation Assistant</string>
+    <string name="enter_task_hint">Enter your area of study and topic (e.g., Computer Science in Tel Aviv)</string>
+    <string name="suggest_steps_with_ai">Get Recommendations</string>
 </resources>

@@ -25,8 +25,7 @@ public class ChatActivity extends BaseActivity {
      * إعداد مستمعي النقرات لفتح محادثة الذكاء الاصطناعي أو الرجوع للخلف.
      */
     private void setupClickListeners() {
-        @SuppressLint("WrongViewCast") 
-        MaterialCardView aiChatContainer = findViewById(R.id.aiChatContainer);
+        android.widget.LinearLayout aiChatContainer = findViewById(R.id.aiChatContainer);
         if (aiChatContainer != null) {
             aiChatContainer.setOnClickListener(v -> {
                 Intent intent = new Intent(ChatActivity.this, ai.class);

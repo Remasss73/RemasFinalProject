@@ -345,7 +345,17 @@ public class AddDormActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_IMAGE_REQUEST && data != null) {
-                if (data.getData() != null) { addPhotoView(data.getData()); }
+                if (data.getClipData() != null) {
+                    int count = data.getClipData().getItemCount();
+                    for (int i = 0; i < count; i++) {
+                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        if (selectedImageUris.size() < MAX_PHOTOS) {
+                            addPhotoView(imageUri);
+                        }
+                    }
+                } else if (data.getData() != null) {
+                    addPhotoView(data.getData());
+                }
             } else if (requestCode == CAMERA_REQUEST && currentCameraPhotoUri != null) {
                 addPhotoView(currentCameraPhotoUri);
             }

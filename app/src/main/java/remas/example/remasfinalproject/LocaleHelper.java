@@ -23,10 +23,10 @@ public class LocaleHelper {
      * @return السياق المحدث باللغة الصحيحة.
      */
     public static Context onAttach(Context context) {
-        String lang = getPersistedData(context, Locale.getDefault().getLanguage());
+        // This forces English ("en") as the default if no language is saved
+        String lang = getPersistedData(context, "en");
         return setLocale(context, lang);
     }
-
     /**
      * الحصول على كود اللغة الحالي المحفوظ (مثلاً "ar" أو "en").
      * @param context سياق التطبيق.

@@ -26,7 +26,7 @@ import kotlin.coroutines.CoroutineContext;
 import kotlinx.coroutines.CoroutineScope;
 
 /**
- * نشاط المساعد الذكي: يستخدم نموذج Gemini لتقديم اقتراحات وخطوات للمهام التي يدخلها المستخدم.
+ * نشاط المساعد الذكي: يستخدم نموذج Gemini لتقديم توصيات بالكليات والسكن الجامعي بناءً على مجال الدراسة والموضوع الذي يدخله المستخدم.
  */
 public class ai extends AppCompatActivity {
     private GenerativeModel model;
@@ -50,13 +50,16 @@ public class ai extends AppCompatActivity {
         btnSuggestSteps = findViewById(R.id.btnSuggestSteps);
         pbLoading = findViewById(R.id.pbLoading);
         tvAiResponse = findViewById(R.id.tvAiResponse);
-        
+
+        // Set initial greeting message
+        tvAiResponse.setText("Hello! How can I help you today? Please enter the area you're interested to study in and what topic, so I can recommend colleges/universities in that area that teach that topic that would be most suitable for you, and then recommend dorms around that college/university for easy transportation.");
+
         btnSuggestSteps.setOnClickListener(v -> {
             String topic = etTaskTopic.getText().toString().trim();
             if (!topic.isEmpty()) {
                 askFirebaseAiGeminiForSteps(topic);
             } else {
-                Toast.makeText(ai.this, "يرجى إدخال موضوع المهمة", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ai.this, "Please enter your area of study and topic", Toast.LENGTH_SHORT).show();
             }
         });
         
@@ -69,16 +72,18 @@ public class ai extends AppCompatActivity {
     }
 
     /**
-     * إرسال طلب لنموذج Gemini للحصول على خطوات مقترحة للمهمة المدخلة.
-     * @param topic عنوان أو وصف المهمة المراد الحصول على خطوات لها.
+     * إرسال طلب لنموذج Gemini للحصول على توصيات بالكليات والسكن الجامعي بناءً على مجال الدراسة والموضوع.
+     * @param topic مجال الدراسة والموضوع الذي يدخله المستخدم.
      */
     private void askFirebaseAiGeminiForSteps(String topic) {
         pbLoading.setVisibility(View.VISIBLE);
         tvAiResponse.setText("");
         btnSuggestSteps.setEnabled(false);
-        
-        String promptStr = "I want to perform the following task: '" + topic + "'. " +
-                "Can you suggest a clear, step-by-step checklist to complete this task effectively?";
+
+        String promptStr = "The user is interested in studying: '" + topic + "'. " +
+                "Please recommend colleges/universities in that area that teach this topic that would be most suitable for them. " +
+                "Then, recommend dorms around those recommended colleges/universities for easy transportation. " +
+                "Provide specific recommendations with details about the colleges and nearby dorm options.";
         
         // استخدام CoroutineScope للتعامل مع العمليات في الخلفية (Background Thread)
         CoroutineScope scope = new CoroutineScope() {

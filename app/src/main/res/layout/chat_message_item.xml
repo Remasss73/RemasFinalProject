@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="4dp">
+
+    <!-- Date Separator -->
+    <TextView
+        android:id="@+id/tvDateSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today"
+        android:textColor="#94A3B8"
+        android:textSize="12sp"
+        android:background="#334155"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:layout_gravity="center"
+        android:layout_marginVertical="8dp"
+        android:visibility="gone"/>
+
+    <!-- Message Container -->
+    <LinearLayout
+        android:id="@+id/messageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:paddingHorizontal="8dp">
+
+        <!-- Profile Picture (for received messages) -->
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_dialog_email"
+            android:background="#38BDF8"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Message Bubble -->
+        <LinearLayout
+            android:id="@+id/messageBubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/message_bubble_received"
+            android:padding="12dp"
+            android:maxWidth="280dp">
+
+            <!-- Sender Name (for group chats) -->
+            <TextView
+                android:id="@+id/tvSenderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LUXE STAY AI"
+                android:textColor="#38BDF8"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                android:visibility="gone"/>
+
+            <!-- Message Text -->
+            <TextView
+                android:id="@+id/tvMessageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello! How can I help you today?"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- File Attachment Container -->
+            <LinearLayout
+                android:id="@+id/fileAttachmentContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#0F172A"
+                android:padding="8dp"
+                android:layout_marginBottom="4dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/ivFileIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_upload"
+                    android:backgroundTint="#38BDF8"
+                    android:layout_marginEnd="8dp"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvFileName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="document.pdf"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+
+                    <TextView
+                        android:id="@+id/tvFileSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2.5 MB"
+                        android:textColor="#94A3B8"
+                        android:textSize="11sp"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivDownloadFile"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_menu_download"
+                    android:backgroundTint="#38BDF8"
+                    android:layout_marginStart="8dp"/>
+
+            </LinearLayout>
+
+            <!-- Image Attachment -->
+            <ImageView
+                android:id="@+id/ivImageAttachment"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:background="#0F172A"
+                android:layout_marginBottom="4dp"
+                android:visibility="gone"/>
+
+            <!-- Message Info (Time and Status) -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/tvMessageTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:30 AM"
+                    android:textColor="#94A3B8"
+                    android:textSize="11sp"/>
+
+                <ImageView
+                    android:id="@+id/ivMessageStatus"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@android:drawable/ic_menu_preferences"
+                    android:backgroundTint="#10B981"
+                    android:layout_marginStart="4dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -120,6 +120,16 @@
             android:orientation="vertical"
             android:gravity="end">
 
+            <!-- Date -->
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textColor="#64748B"
+                android:textSize="10sp"
+                android:layout_marginBottom="2dp"/>
+
             <!-- Time -->
             <TextView
                 android:id="@+id/tvTime"

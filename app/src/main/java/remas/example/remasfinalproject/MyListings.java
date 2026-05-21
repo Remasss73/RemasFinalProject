@@ -20,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -228,6 +229,7 @@ public class MyListings extends AppCompatActivity {
      */
     public static class ListingItem {
         private String listingId, title, price, location, city, area, address, description, imageUrl, userId, status;
+        private String userName, userProfilePicture;
         private int bedrooms, bathrooms, size;
         private long timestamp;
         private List<String> amenities;
@@ -277,6 +279,10 @@ public class MyListings extends AppCompatActivity {
         public void setLongitude(double longitude) { this.longitude = longitude; }
         public List<String> getPhotoUrls() { return photoUrls; }
         public void setPhotoUrls(List<String> photoUrls) { this.photoUrls = photoUrls; }
+        public String getUserName() { return userName; }
+        public void setUserName(String userName) { this.userName = userName; }
+        public String getUserProfilePicture() { return userProfilePicture; }
+        public void setUserProfilePicture(String userProfilePicture) { this.userProfilePicture = userProfilePicture; }
     }
     
     /**
@@ -324,6 +330,45 @@ public class MyListings extends AppCompatActivity {
             
             holder.tvStatus.setBackgroundColor("Active".equals(listing.getStatus()) ? 0xFF10B981 : 0xFFF59E0B);
             
+            if (listing.getImageUrl() != null && !listing.getImageUrl().isEmpty()) {
+                com.bumptech.glide.Glide.with(holder.itemView.getContext())
+                    .load(listing.getImageUrl())
+                    .apply(new com.bumptech.glide.request.RequestOptions().centerCrop())
+                    .into(holder.ivListingImage);
+            }
+            
+            // Load current user's name and profile picture
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = auth.getCurrentUser();
+            if (currentUser != null) {
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid());
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            String userName = dataSnapshot.child("fullName").getValue(String.class);
+                            String userProfilePicture = dataSnapshot.child("profileImageUrl").getValue(String.class);
+                            
+                            if (userName != null && holder.tvUserName != null) {
+                                holder.tvUserName.setText(userName);
+                            }
+                            
+                            if (userProfilePicture != null && !userProfilePicture.isEmpty() && holder.ivUserProfile != null) {
+                                com.bumptech.glide.Glide.with(holder.itemView.getContext())
+                                    .load(userProfilePicture)
+                                    .apply(new com.bumptech.glide.request.RequestOptions().circleCrop())
+                                    .into(holder.ivUserProfile);
+                            }
+                        }
+                    }
+                    
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error
+                    }
+                });
+            }
+            
             holder.itemView.setOnClickListener(v -> {
                 if (onListingClickListener != null) {
                     onListingClickListener.onListingClick(listing);
@@ -360,8 +405,9 @@ public class MyListings extends AppCompatActivity {
          * فئة لربط عناصر واجهة المستخدم لكل بطاقة عقار.
          */
         static class ListingViewHolder extends RecyclerView.ViewHolder {
-            TextView tvTitle, tvPrice, tvLocation, tvBedrooms, tvBathrooms, tvArea, tvListedDate, tvStatus;
+            TextView tvTitle, tvPrice, tvLocation, tvBedrooms, tvBathrooms, tvArea, tvListedDate, tvStatus, tvUserName;
             MaterialButton btnViewDetails, btnEdit;
+            ImageView ivListingImage, ivUserProfile;
             
             public ListingViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -373,8 +419,11 @@ public class MyListings extends AppCompatActivity {
                 tvArea = itemView.findViewById(R.id.tvArea);
                 tvListedDate = itemView.findViewById(R.id.tvListedDate);
                 tvStatus = itemView.findViewById(R.id.tvStatus);
+                tvUserName = itemView.findViewById(R.id.tvUserName);
                 btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
                 btnEdit = itemView.findViewById(R.id.btnEdit);
+                ivListingImage = itemView.findViewById(R.id.ivListingImage);
+                ivUserProfile = itemView.findViewById(R.id.ivUserProfile);
             }
         }
     }

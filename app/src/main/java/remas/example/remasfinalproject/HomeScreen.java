@@ -201,6 +201,81 @@ public class HomeScreen extends BaseActivity {
     }
     
     /**
+     * Show TikTok-style popup with user profile info, chat button, and listings.
+     * @param userId The user ID to show profile for
+     */
+    private void showUserProfilePopup(String userId) {
+        // Load user data
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String userName = dataSnapshot.child("fullName").getValue(String.class);
+                    String userProfilePicture = dataSnapshot.child("profileImageUrl").getValue(String.class);
+                    String userBio = dataSnapshot.child("bio").getValue(String.class);
+                    String userLocation = dataSnapshot.child("location").getValue(String.class);
+                    
+                    showUserBottomSheet(userId, userName, userProfilePicture, userBio, userLocation);
+                }
+            }
+            
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+            }
+        });
+    }
+    
+    /**
+     * Show bottom sheet with user profile info and actions.
+     */
+    private void showUserBottomSheet(String userId, String userName, String profilePicture, String bio, String location) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        
+        // Create custom view for bottom sheet
+        View dialogView = getLayoutInflater().inflate(R.layout.user_profile_bottom_sheet, null);
+        builder.setView(dialogView);
+        
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        
+        // Set up views
+        ImageView ivProfilePic = dialogView.findViewById(R.id.ivUserProfileSheet);
+        TextView tvName = dialogView.findViewById(R.id.tvUserNameSheet);
+        TextView tvBio = dialogView.findViewById(R.id.tvUserBioSheet);
+        TextView tvLocation = dialogView.findViewById(R.id.tvUserLocationSheet);
+        com.google.android.material.button.MaterialButton btnChat = dialogView.findViewById(R.id.btnChat);
+        com.google.android.material.button.MaterialButton btnViewListings = dialogView.findViewById(R.id.btnViewListings);
+        
+        // Load profile picture
+        if (profilePicture != null && !profilePicture.isEmpty()) {
+            Glide.with(this)
+                .load(profilePicture)
+                .apply(new RequestOptions().circleCrop())
+                .into(ivProfilePic);
+        }
+        
+        // Set text
+        tvName.setText(userName != null ? userName : "User");
+        tvBio.setText(bio != null && !bio.isEmpty() ? bio : "No bio");
+        tvLocation.setText(location != null && !location.isEmpty() ? location : "Unknown location");
+        
+        // Chat button click
+        btnChat.setOnClickListener(v -> {
+            openChatWithUser(userId, dialogView);
+            dialog.dismiss();
+        });
+        
+        // View listings button click
+        btnViewListings.setOnClickListener(v -> {
+            // Navigate to user's listings (you could create a new activity for this)
+            dialog.dismiss();
+            Toast.makeText(this, "Viewing " + userName + "'s listings", Toast.LENGTH_SHORT).show();
+        });
+        
+        dialog.show();
+    }
+    
+    /**
      * إعادة تحديث القائمة من الخادم.
      */
     private void refreshListings() {
@@ -357,6 +432,54 @@ public class HomeScreen extends BaseActivity {
                     .into(holder.ivListingImage);
             }
             
+            // Load user data
+            if (listing.getUserId() != null) {
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(listing.getUserId());
+                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            String userName = dataSnapshot.child("fullName").getValue(String.class);
+                            String userProfilePicture = dataSnapshot.child("profileImageUrl").getValue(String.class);
+                            
+                            if (userName != null) {
+                                holder.tvUserName.setText(userName);
+                            }
+                            
+                            if (userProfilePicture != null && !userProfilePicture.isEmpty()) {
+                                Glide.with(holder.itemView.getContext())
+                                    .load(userProfilePicture)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(holder.ivUserProfile);
+                            }
+                        }
+                    }
+                    
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error
+                    }
+                });
+            }
+            
+            // Make profile picture clickable to show TikTok-style popup
+            holder.ivUserProfile.setOnClickListener(v -> {
+                showUserProfilePopup(listing.getUserId());
+            });
+            
+            // Handle favorite icon click
+            holder.ibFavorite.setOnClickListener(v -> {
+                toggleFavorite(listing, holder.ibFavorite);
+            });
+            
+            // Check if listing is already favorited and update icon
+            checkFavoriteStatus(listing.getListingId(), holder.ibFavorite);
+            
+            // Handle chat icon click
+            holder.ibChat.setOnClickListener(v -> {
+                openChatWithUser(listing.getUserId(), holder.itemView);
+            });
+            
             holder.itemView.setOnClickListener(v -> {
                 if (onListingClickListener != null) onListingClickListener.onListingClick(listing);
             });
@@ -371,10 +494,90 @@ public class HomeScreen extends BaseActivity {
             return sdf.format(new java.util.Date(timestamp));
         }
         
+        private void toggleFavorite(MyListings.ListingItem listing, ImageButton favoriteButton) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser == null) return;
+            
+            String currentUserId = currentUser.getUid();
+            DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference()
+                .child("favorites")
+                .child(currentUserId)
+                .child(listing.getListingId());
+            
+            favoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // Remove from favorites
+                        favoritesRef.removeValue();
+                        favoriteButton.setColorFilter(android.graphics.Color.WHITE);
+                    } else {
+                        // Add to favorites
+                        favoritesRef.setValue(true);
+                        favoriteButton.setColorFilter(android.graphics.Color.RED);
+                    }
+                }
+                
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle error
+                }
+            });
+        }
+        
+        private void checkFavoriteStatus(String listingId, ImageButton favoriteButton) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser == null) return;
+            
+            String currentUserId = currentUser.getUid();
+            DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference()
+                .child("favorites")
+                .child(currentUserId)
+                .child(listingId);
+            
+            favoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        favoriteButton.setColorFilter(android.graphics.Color.RED);
+                    } else {
+                        favoriteButton.setColorFilter(android.graphics.Color.WHITE);
+                    }
+                }
+                
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle error
+                }
+            });
+        }
+        
+        private void openChatWithUser(String targetUserId, View itemView) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser == null || targetUserId == null) return;
+            
+            String currentUserId = currentUser.getUid();
+            if (currentUserId.equals(targetUserId)) return;
+            
+            // Create or get chat room
+            DatabaseReference chatsRef = FirebaseDatabase.getInstance().getReference().child("chats");
+            String chatRoomId = currentUserId.compareTo(targetUserId) < 0 
+                ? currentUserId + "_" + targetUserId 
+                : targetUserId + "_" + currentUserId;
+            
+            // Navigate to chat activity
+            android.content.Context context = itemView.getContext();
+            android.content.Intent intent = new android.content.Intent(context, ChatActivity.class);
+            intent.putExtra("chatRoomId", chatRoomId);
+            intent.putExtra("targetUserId", targetUserId);
+            context.startActivity(intent);
+        }
+        
         static class ListingViewHolder extends RecyclerView.ViewHolder {
-            TextView tvTitle, tvPrice, tvLocation, tvBedrooms, tvBathrooms, tvArea, tvListedDate, tvStatus;
+            TextView tvTitle, tvPrice, tvLocation, tvBedrooms, tvBathrooms, tvArea, tvListedDate, tvStatus, tvUserName;
             MaterialButton btnViewDetails, btnEdit;
-            ImageView ivListingImage;
+            ImageView ivListingImage, ivUserProfile;
+            ImageButton ibFavorite, ibChat;
             public ListingViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvTitle = itemView.findViewById(R.id.tvTitle);
@@ -385,9 +588,13 @@ public class HomeScreen extends BaseActivity {
                 tvArea = itemView.findViewById(R.id.tvArea);
                 tvListedDate = itemView.findViewById(R.id.tvListedDate);
                 tvStatus = itemView.findViewById(R.id.tvStatus);
+                tvUserName = itemView.findViewById(R.id.tvUserName);
                 btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
                 btnEdit = itemView.findViewById(R.id.btnEdit);
                 ivListingImage = itemView.findViewById(R.id.ivListingImage);
+                ivUserProfile = itemView.findViewById(R.id.ivUserProfile);
+                ibFavorite = itemView.findViewById(R.id.ibFavorite);
+                ibChat = itemView.findViewById(R.id.ibChat);
             }
         }
     }

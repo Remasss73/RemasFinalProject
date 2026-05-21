@@ -68,8 +68,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="8dp"
                         android:src="@android:drawable/ic_menu_mylocation"
-                        android:background="#FFFFFF"
-                        android:padding="16dp"
+                        android:background="@android:color/transparent"
                         android:scaleType="centerCrop"
                         android:elevation="4dp" />
 

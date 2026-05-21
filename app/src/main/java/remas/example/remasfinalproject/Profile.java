@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -141,6 +144,10 @@ public class Profile extends BaseActivity {
      * إعداد وظائف الأزرار مثل تعديل الملف، حفظ التغييرات، وتغيير الصورة.
      */
     private void setupClickListeners() {
+        ivProfileImage.setOnClickListener(v -> {
+            if (!isUploading) showImageSourceDialog();
+        });
+        
         fabCamera.setOnClickListener(v -> {
             if (!isUploading) showImageSourceDialog();
         });
@@ -327,6 +334,17 @@ public class Profile extends BaseActivity {
                                 SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
                                 tvMemberSince.setText(sdf.format(new Date(memberSince)));
                             }
+                            
+                            // Load profile image with circular crop
+                            if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                                Glide.with(Profile.this)
+                                    .load(profileImageUrl)
+                                    .apply(new RequestOptions().circleCrop())
+                                    .into(ivProfileImage);
+                            } else {
+                                ivProfileImage.setImageResource(android.R.drawable.ic_menu_myplaces);
+                            }
+                            
                             loadUserListingsCount(currentUser.getUid());
                             disableEditing();
                         }
@@ -374,9 +392,17 @@ public class Profile extends BaseActivity {
      * التحقق من منح التطبيق صلاحية الوصول إلى ملفات الصور.
      */
     private void checkStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-        } else openGallery();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ uses READ_MEDIA_IMAGES
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, PERMISSION_REQUEST_CODE);
+            } else openGallery();
+        } else {
+            // Android 12 and below uses READ_EXTERNAL_STORAGE
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+            } else openGallery();
+        }
     }
 
     /**
@@ -405,7 +431,8 @@ public class Profile extends BaseActivity {
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                     if (permissions[i].equals(Manifest.permission.CAMERA)) openCamera();
-                    else if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) openGallery();
+                    else if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE) || 
+                             permissions[i].equals(Manifest.permission.READ_MEDIA_IMAGES)) openGallery();
                 }
             }
         }
@@ -421,10 +448,16 @@ public class Profile extends BaseActivity {
             if (requestCode == CAMERA_REQUEST_CODE) {
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 selectedImageUri = getImageUri(imageBitmap);
-                ivProfileImage.setImageBitmap(imageBitmap);
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(ivProfileImage);
             } else if (requestCode == GALLERY_REQUEST_CODE) {
                 selectedImageUri = data.getData();
-                ivProfileImage.setImageURI(selectedImageUri);
+                Glide.with(this)
+                    .load(selectedImageUri)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(ivProfileImage);
             }
         }
     }

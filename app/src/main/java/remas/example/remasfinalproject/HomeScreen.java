@@ -227,6 +227,31 @@ public class HomeScreen extends BaseActivity {
     }
     
     /**
+     * Open chat with a specific user.
+     * @param targetUserId The user ID to chat with
+     * @param view The view for context
+     */
+    private void openChatWithUser(String targetUserId, View view) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null || targetUserId == null) return;
+        
+        String currentUserId = currentUser.getUid();
+        if (currentUserId.equals(targetUserId)) return;
+        
+        // Create or get chat room
+        DatabaseReference chatsRef = FirebaseDatabase.getInstance().getReference().child("chats");
+        String chatRoomId = currentUserId.compareTo(targetUserId) < 0 
+            ? currentUserId + "_" + targetUserId 
+            : targetUserId + "_" + currentUserId;
+        
+        // Navigate to chat activity
+        android.content.Intent intent = new android.content.Intent(this, ChatActivity.class);
+        intent.putExtra("chatRoomId", chatRoomId);
+        intent.putExtra("targetUserId", targetUserId);
+        startActivity(intent);
+    }
+    
+    /**
      * Show bottom sheet with user profile info and actions.
      */
     private void showUserBottomSheet(String userId, String userName, String profilePicture, String bio, String location) {
@@ -391,7 +416,7 @@ public class HomeScreen extends BaseActivity {
     /**
      * محول خاص بـ RecyclerView لعرض بطاقات العقارات في الشاشة الرئيسية.
      */
-    private static class HomeListingAdapter extends RecyclerView.Adapter<HomeListingAdapter.ListingViewHolder> {
+    private class HomeListingAdapter extends RecyclerView.Adapter<HomeListingAdapter.ListingViewHolder> {
         
         private List<MyListings.ListingItem> listings;
         private OnListingClickListener onListingClickListener;

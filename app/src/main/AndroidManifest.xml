@@ -30,7 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RemasFinalProject">
         <activity
-            android:name=".ai"
+            android:name=".AiActivity"
             android:exported="false" />
         <!-- ALL ACTIVITIES GO HERE -->
         <activity

@@ -1,0 +1,595 @@
+@startuml
+class remas.example.remasfinalproject.ChatActivity {
+# void onCreate(Bundle)
+- void setupClickListeners()
++ boolean onOptionsItemSelected(MenuItem)
++ void onBackPressed()
+}
+
+class remas.example.remasfinalproject.SignIn {
+- TextView tv_ForgotPassword
+- TextView tv_CreateAccount
+- TextInputLayout tilEmail
+- TextInputEditText etEmail
+- MaterialButton btnSignIn
+# void onCreate(Bundle)
+- boolean validateFields()
+- void setupAutoCapitalization()
+}
+
+
+class remas.example.remasfinalproject.ForgottenPassword {
+- TextInputLayout tilEmail
+- TextInputEditText etEmail
+- MaterialButton btnResetPassword
+- TextView tvBackToLogin
+- FirebaseAuth mAuth
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupClickListeners()
+- boolean validateEmail()
+- void sendPasswordResetEmail()
+- void setupAutoCapitalization()
+}
+
+
+class remas.example.remasfinalproject.ListingDetailsActivity {
+- ImageView ivBack
+- TextView tvTitle
+- RecyclerView rvAmenities
+- MaterialButton btnEdit
+- String listingId
+- MyListings.ListingItem currentListing
+- AmenityAdapter amenityAdapter
+- FirebaseAuth mAuth
+- DatabaseReference mDatabase
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupAmenitiesRecyclerView()
+- void setupClickListeners()
+- void loadListingDetails()
+- void updateUI()
+- List<String> getDefaultAmenities()
+- void showMoreOptions()
+- void editListing()
+- void showDeleteConfirmation()
+- void deleteListing()
+}
+
+
+class remas.example.remasfinalproject.ListingDetailsActivity$AmenityAdapter {
+- List<String> amenities
++ void updateAmenities(List<String>)
++ AmenityViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(AmenityViewHolder,int)
++ int getItemCount()
+}
+
+
+class remas.example.remasfinalproject.ListingDetailsActivity$AmenityAdapter$AmenityViewHolder {
+~ TextView tvAmenity
+}
+
+class remas.example.remasfinalproject.data.Dorm.Dorms {
++ long keyId
++ String city
++ String address
++ String zipcode
++ String description
++ String rent
++ String amenities
++ String photos
++ String status
+- String DormId
++ long getKeyId()
++ void setKeyId(long)
++ void setDormId(String)
++ String getDormId()
++ String getCity()
++ void setCity(String)
++ String getAddress()
++ void setAddress(String)
++ String getZipcode()
++ void setZipcode(String)
++ String getDescription()
++ void setDescription(String)
++ String getRent()
++ void setRent(String)
++ String getAmenities()
++ void setAmenities(String)
++ String getPhotos()
++ void setPhotos(String)
++ String getStatus()
++ void setStatus(String)
++ String toString()
++ String getPrice()
++ String getTitle()
++ String getBeds()
++ String getBaths()
++ String getOwnerName()
+}
+
+
+class remas.example.remasfinalproject.data.Dorm.Dorms$Dorm {
+- String DormId
+- String city
+- String address
+- String zipcode
+- String description
+- String rent
+- String amenities
+- String photos
+- String status
+}
+
+class remas.example.remasfinalproject.HomeScreen {
+- ImageButton ibMenu
+- LinearLayout llHome
+- LinearLayout emptyStateLayout
+- RecyclerView rvListings
+- ImageView ivUserProfile
+- FirebaseAuth mAuth
+- DatabaseReference mDatabase
+- StorageReference mStorage
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupClickListeners()
+- void setupRecyclerView()
+- void showEmptyState()
+- void showListings()
+- void refreshListings()
+- void showPopupMenu()
+- void showAboutDialog()
+- void logoutUser()
+# void onResume()
+- void setupOnBackPressed()
+- void loadUserProfile()
+}
+
+
+class remas.example.remasfinalproject.MyListings {
+- ImageView ivBack
+- RecyclerView rvMyListings
+- LinearLayout emptyStateLayout
+- MaterialButton btnAddFirstListing
+- MyListingAdapter listingAdapter
+- List<ListingItem> listingList
+- FirebaseAuth mAuth
+- DatabaseReference mDatabase
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupRecyclerView()
+- void setupClickListeners()
+- void loadMyListings()
+- void updateEmptyState()
+- void onListingClick(ListingItem)
+- void onEditClick(ListingItem)
+- void showFilterDialog()
+}
+
+
+class remas.example.remasfinalproject.MyListings$ListingItem {
+- String listingId
+- int bedrooms
+- long timestamp
+- List<String> amenities
++ String getListingId()
++ void setListingId(String)
++ String getTitle()
++ void setTitle(String)
++ String getPrice()
++ void setPrice(String)
++ String getLocation()
++ void setLocation(String)
++ String getCity()
++ void setCity(String)
++ String getArea()
++ void setArea(String)
++ String getAddress()
++ void setAddress(String)
++ String getDescription()
++ void setDescription(String)
++ String getImageUrl()
++ void setImageUrl(String)
++ String getUserId()
++ void setUserId(String)
++ String getStatus()
++ void setStatus(String)
++ int getBedrooms()
++ void setBedrooms(int)
++ int getBathrooms()
++ void setBathrooms(int)
++ int getSize()
++ void setSize(int)
++ int getArea()
++ void setArea(int)
++ long getTimestamp()
++ void setTimestamp(long)
++ List<String> getAmenities()
++ void setAmenities(List<String>)
+}
+
+
+class remas.example.remasfinalproject.MyListings$MyListingAdapter {
+- List<ListingItem> listings
+- OnListingClickListener onListingClickListener
+- OnEditClickListener onEditClickListener
++ ListingViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ListingViewHolder,int)
++ int getItemCount()
+- String getFormattedDate(long)
+}
+
+
+interface remas.example.remasfinalproject.MyListings$MyListingAdapter$OnListingClickListener {
+~ void onListingClick(ListingItem)
+}
+
+interface remas.example.remasfinalproject.MyListings$MyListingAdapter$OnEditClickListener {
+~ void onEditClick(ListingItem)
+}
+
+class remas.example.remasfinalproject.MyListings$MyListingAdapter$ListingViewHolder {
+~ TextView tvTitle
+~ MaterialButton btnViewDetails
+}
+
+class remas.example.remasfinalproject.SplashScreen {
+# void onCreate(Bundle)
+}
+
+interface remas.example.remasfinalproject.data.Seeker.SeekerQuery {
+~ void insert(Seekers)
+~ void insertAll(Seekers)
+~ List<Seekers> getAll()
+~ List<Seekers> loadAllByIds(int[])
+~ Seekers checkEmailPassword(String,String)
+~ Seekers checkEmail(String)
+~ void update(Seekers)
+~ void delete(Seekers)
+~ void deleteById(int)
+}
+
+interface remas.example.remasfinalproject.data.Dorm.DormQuery {
+~ void insert(Dorms)
+~ void insertAll(Dorms)
+~ List<Dorms> getAll()
+~ List<Dorms> loadAllByIds(int[])
+~ void update(Dorms)
+~ void delete(Dorms)
+~ void deleteById(int)
+}
+
+abstract class remas.example.remasfinalproject.data.AppDatabase {
+- {static} AppDatabase db
++ {abstract}SeekerQuery getSeekersQuery()
++ {abstract}DormQuery getDormQuery()
++ {static} AppDatabase getDB(Context)
+}
+
+
+class remas.example.remasfinalproject.data.Dorm.DormAdapter {
+- List<Dorms> dormList
+- Context context
++ void setDormList(List<Dorms>)
++ DormViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(DormViewHolder,int)
++ int getItemCount()
+}
+
+
+class remas.example.remasfinalproject.data.Dorm.DormAdapter$DormViewHolder {
+~ TextView tvPrice
+~ MaterialButton btnViewDetails
+}
+
+class remas.example.remasfinalproject.SettingsActivity {
+- Toolbar toolbar
+- MaterialButton btnEditProfile
+- MaterialButton btnNotifications
+- MaterialButton btnHelpCenter
+- MaterialButton btnAboutApp
+- CircularProgressIndicator progressIndicator
+- FirebaseAuth mAuth
+- SharedPreferences sharedPreferences
+- {static} String PREFS_NAME
+- {static} String LANGUAGE_KEY
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupToolbar()
+- void setupClickListeners()
+- void showChangePasswordDialog()
+- void showDeleteAccountDialog()
+- void showAboutDialog()
+- void showLanguageSelectionDialog()
+- String getCurrentLanguage()
+- void setLanguage(String)
+- void openNotificationSettings()
+- void openPrivacyPolicy()
+- void openTermsOfService()
+- void openContactEmail()
+- void openFeedbackEmail()
+- void openBugReportEmail()
+- void openAppStoreForRating()
+- void shareApp()
+- void showLoadingState(boolean)
+}
+
+
+class remas.example.remasfinalproject.Profile {
+- {static} String TAG
+- {static} int CAMERA_REQUEST_CODE
+- {static} int GALLERY_REQUEST_CODE
+- {static} int PERMISSION_REQUEST_CODE
+- Toolbar toolbar
+- ImageView ivProfileImage
+- FloatingActionButton fabCamera
+- TextInputLayout tilFullName
+- TextInputEditText etFullName
+- MaterialButton btnSaveProfile
+- TextView tvMemberSince
+- CircularProgressIndicator progressIndicator
+- FirebaseAuth mAuth
+- DatabaseReference mDatabase
+- StorageReference mStorage
+- Uri selectedImageUri
+- String profileImageUrl
+- boolean isEditMode
+- boolean isUploading
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupToolbar()
+- void setupClickListeners()
+- void setupAnimations()
+- void showImageSourceDialog()
+- void setupAutoCapitalization()
+- void toggleEditMode()
+- void enableEditing()
+- void disableEditing()
+- void animateEditMode(boolean)
+- void showStatusMessage(String,String)
+- void loadUserProfile()
+- void loadUserListingsCount(String)
+- void showLoadingState(boolean)
+- void checkCameraPermission()
+- void checkStoragePermission()
+- void openCamera()
+- void openGallery()
++ void onRequestPermissionsResult(int,String[],int[])
+# void onActivityResult(int,int,Intent)
+- Uri getImageUri(Bitmap)
+- void saveProfile()
+- void uploadProfileImage(String,String,String,String,String)
+- void saveProfileDataToFirebase(String,String,String,String,String,String)
+- void showChangePasswordDialog()
+}
+
+
+class remas.example.remasfinalproject.ListingItem {
+- String listingId
+- String title
+- String price
+- String location
+- String city
+- String areaName
+- String description
+- String imageUrl
+- String userId
+- String status
+- int bedrooms
+- int bathrooms
+- int propertySize
+- long timestamp
+- List<String> amenities
++ String getListingId()
++ void setListingId(String)
++ String getTitle()
++ void setTitle(String)
++ String getPrice()
++ void setPrice(String)
++ String getLocation()
++ void setLocation(String)
++ int getPropertySize()
++ void setPropertySize(int)
++ int getBedrooms()
++ void setBedrooms(int)
++ int getBathrooms()
++ void setBathrooms(int)
++ String getDescription()
++ void setDescription(String)
++ String getUserId()
++ void setUserId(String)
++ List<String> getAmenities()
++ void setAmenities(List<String>)
++ char[] getSize()
+}
+
+
+class remas.example.remasfinalproject.ChatNotificationManager {
+- {static} String CHANNEL_ID
+- {static} String CHANNEL_NAME
+- {static} int NOTIFICATION_ID
+- Context context
+- android.app.NotificationManager notificationManager
+- DatabaseReference mDatabase
+- FirebaseAuth mAuth
+- void createNotificationChannel()
+- void startListeningForMessages()
++ void showWhatsAppStyleNotification(MessageData)
++ void showNewMessageNotification(String,String,String)
++ void showAIChatNotification(String)
++ void clearAllNotifications()
+}
+
+
+class remas.example.remasfinalproject.ChatNotificationManager$MessageData {
+- String senderName
+- String messageText
+- String chatId
+- long timestamp
+- boolean isRead
++ String getSenderName()
++ void setSenderName(String)
++ String getMessageText()
++ void setMessageText(String)
++ String getChatId()
++ void setChatId(String)
++ long getTimestamp()
++ void setTimestamp(long)
++ boolean isRead()
++ void setRead(boolean)
++ String getFormattedTime()
+}
+
+
+class remas.example.remasfinalproject.MainActivity {
+# void onCreate(Bundle)
+}
+
+class remas.example.remasfinalproject.SignUp {
+- {static} String TAG
+- TextInputLayout tilName
+- TextInputEditText etName
+- MaterialButton btnSignUp
+- TextView tvSignIn
+# void onCreate(Bundle)
+- boolean validateFields()
+- void setupFieldNavigation()
+- void setupAutoCapitalization()
+- void performRegistration()
+}
+
+
+class remas.example.remasfinalproject.HelpActivity {
+- Toolbar toolbar
+- MaterialButton btnContactSupport
+- MaterialButton btnEmergencyContact
+- CircularProgressIndicator progressIndicator
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupToolbar()
+- void setupClickListeners()
+- void openContactSupport()
+- void openFAQ()
+- void openUserGuide()
+- void openVideoTutorials()
+- void openEmergencyContact()
+- void openLiveChat()
+- void openIssueReport()
+- void showLoadingState(boolean)
+}
+
+
+class remas.example.remasfinalproject.data.Seeker.Seekers {
+- long keyId
+- String fullName
+- int age
+- String city
+- String email
+- String password
+- String phone
+- String userId
++ long getKeyId()
++ void setKeyId(long)
++ String getFullName()
++ void setFullName(String)
++ int getAge()
++ void setAge(int)
++ String getCity()
++ void setCity(String)
++ String getEmail()
++ void setEmail(String)
++ String getPassword()
++ void setPassword(String)
++ String getPhone()
++ void setPhone(String)
++ String getUserId()
++ void setUserId(String)
++ String toString()
+}
+
+
+class remas.example.remasfinalproject.AddDormActivity {
+- ImageView ivBack
+- TextInputLayout tilTitle
+- TextInputEditText etTitle
+- double currentLatitude
+- String currentAddress
+- TextView tvBedrooms
+- ImageButton ibMinusBedrooms
+- CheckBox cbWifi
+- RadioGroup rgFurnished
+- RadioButton rbUnfurnished
+- MaterialButton btnSaveDraft
+- int bedrooms
+- int bathrooms
+- boolean isEditMode
+- String listingId
+- {static} int PICK_IMAGE_REQUEST
+- {static} int CAMERA_REQUEST
+- {static} int PERMISSION_REQUEST_CODE
+- java.util.List<Uri> selectedImageUris
+- LinearLayout llPhotosContainer
+- Uri currentCameraPhotoUri
+- FirebaseAuth mAuth
+- DatabaseReference mDatabase
+# void onCreate(Bundle)
+- void checkEditMode()
+- void initializeViews()
+- void setupClickListeners()
+- void loadListingData()
+- boolean validateInputs()
+- void saveDraft()
+- void publishListing()
+- void saveListingToDatabase(String)
+- void showPhotoPickerDialog()
+- void checkCameraPermission()
+- void openCamera()
+- void openGallery()
++ void onRequestPermissionsResult(int,String[],int[])
+# void onActivityResult(int,int,Intent)
+- void addPhotoView(Uri)
+- void removePhoto(Uri,View)
+- void getCurrentLocation()
+- void getLocationAndShowMap()
+- void showMapDialog()
+- void showLocationDialog()
+- void openMapApp()
+- void setupAutoCapitalization()
+}
+
+
+
+
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.ChatActivity
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.SignIn
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.ForgottenPassword
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.ListingDetailsActivity
+remas.example.remasfinalproject.ListingDetailsActivity +.. remas.example.remasfinalproject.ListingDetailsActivity$AmenityAdapter
+remas.example.remasfinalproject.Adapter <|-- remas.example.remasfinalproject.ListingDetailsActivity$AmenityAdapter
+remas.example.remasfinalproject.ListingDetailsActivity$AmenityAdapter +.. remas.example.remasfinalproject.ListingDetailsActivity$AmenityAdapter$AmenityViewHolder
+remas.example.remasfinalproject.ViewHolder <|-- remas.example.remasfinalproject.ListingDetailsActivity$AmenityAdapter$AmenityViewHolder
+java.io.Serializable <|.. remas.example.remasfinalproject.data.Dorm.Dorms
+remas.example.remasfinalproject.data.Dorm.Dorms +.. remas.example.remasfinalproject.data.Dorm.Dorms$Dorm
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.HomeScreen
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.MyListings
+remas.example.remasfinalproject.MyListings +.. remas.example.remasfinalproject.MyListings$ListingItem
+remas.example.remasfinalproject.MyListings +.. remas.example.remasfinalproject.MyListings$MyListingAdapter
+remas.example.remasfinalproject.Adapter <|-- remas.example.remasfinalproject.MyListings$MyListingAdapter
+remas.example.remasfinalproject.MyListings$MyListingAdapter +.. remas.example.remasfinalproject.MyListings$MyListingAdapter$OnListingClickListener
+remas.example.remasfinalproject.MyListings$MyListingAdapter +.. remas.example.remasfinalproject.MyListings$MyListingAdapter$OnEditClickListener
+remas.example.remasfinalproject.MyListings$MyListingAdapter +.. remas.example.remasfinalproject.MyListings$MyListingAdapter$ListingViewHolder
+remas.example.remasfinalproject.ViewHolder <|-- remas.example.remasfinalproject.MyListings$MyListingAdapter$ListingViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.SplashScreen
+androidx.room.RoomDatabase <|-- remas.example.remasfinalproject.data.AppDatabase
+remas.example.remasfinalproject.data.Dorm.Adapter <|-- remas.example.remasfinalproject.data.Dorm.DormAdapter
+remas.example.remasfinalproject.data.Dorm.DormAdapter +.. remas.example.remasfinalproject.data.Dorm.DormAdapter$DormViewHolder
+remas.example.remasfinalproject.data.Dorm.ViewHolder <|-- remas.example.remasfinalproject.data.Dorm.DormAdapter$DormViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.SettingsActivity
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.Profile
+remas.example.remasfinalproject.ChatNotificationManager +.. remas.example.remasfinalproject.ChatNotificationManager$MessageData
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.SignUp
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.HelpActivity
+androidx.appcompat.app.AppCompatActivity <|-- remas.example.remasfinalproject.AddDormActivity
+@enduml

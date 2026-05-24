@@ -14,6 +14,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,11 +60,12 @@ public class Profile extends BaseActivity {
     // UI Components
     private Toolbar toolbar;
     private ImageView ivProfileImage;
-    private FloatingActionButton fabCamera, fabGallery;
+    private FloatingActionButton fabEditImage;
     private TextInputLayout tilFullName, tilEmail, tilPhone, tilLocation, tilBio;
     private TextInputEditText etFullName, etEmail, etPhone, etLocation, etBio;
-    private MaterialButton btnSaveProfile, btnCancel, btnEditProfile, btnChangePassword, btnViewListings;
-    private TextView tvMemberSince, tvListingsCount, tvProfileStatus, tvUserName;
+    private MaterialButton btnSaveProfile, btnCancel, btnEditProfile, btnLogout;
+    private TextView tvMemberSince, tvListingsCount, tvProfileStatus, tvUserName, tvFavoritesCount, tvBlockedCount;
+    private LinearLayout layoutEditActions, layoutMyListings, layoutFavorites, layoutBlockedUsers, layoutChangePassword, layoutNotifications, layoutPrivacy;
     private CircularProgressIndicator progressIndicator;
     
     // Firebase
@@ -103,8 +105,7 @@ public class Profile extends BaseActivity {
     private void initializeViews() {
         toolbar = findViewById(R.id.toolbar);
         ivProfileImage = findViewById(R.id.ivProfileImage);
-        fabCamera = findViewById(R.id.fabCamera);
-        fabGallery = findViewById(R.id.fabGallery);
+        fabEditImage = findViewById(R.id.fabEditImage);
         tilFullName = findViewById(R.id.tilFullName);
         etFullName = findViewById(R.id.etFullName);
         tilEmail = findViewById(R.id.tilEmail);
@@ -118,14 +119,24 @@ public class Profile extends BaseActivity {
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         btnCancel = findViewById(R.id.btnCancel);
         btnEditProfile = findViewById(R.id.btnEditProfile);
+        btnLogout = findViewById(R.id.btnLogout);
         tvMemberSince = findViewById(R.id.tvMemberSince);
         tvListingsCount = findViewById(R.id.tvListingsCount);
         tvProfileStatus = findViewById(R.id.tvProfileStatus);
         tvUserName = findViewById(R.id.tvUserName);
+        tvFavoritesCount = findViewById(R.id.tvFavoritesCount);
+        tvBlockedCount = findViewById(R.id.tvBlockedCount);
+        layoutEditActions = findViewById(R.id.layoutEditActions);
+        layoutMyListings = findViewById(R.id.layoutMyListings);
+        layoutFavorites = findViewById(R.id.layoutFavorites);
+        layoutBlockedUsers = findViewById(R.id.layoutBlockedUsers);
+        layoutChangePassword = findViewById(R.id.layoutChangePassword);
+        layoutNotifications = findViewById(R.id.layoutNotifications);
+        layoutPrivacy = findViewById(R.id.layoutPrivacy);
         progressIndicator = findViewById(R.id.progressIndicator);
 
-        ivProfileImage.setImageResource(android.R.drawable.ic_menu_myplaces);
-        ivProfileImage.setBackgroundResource(R.drawable.profile_image_background);
+        // Make profile image circular
+        ivProfileImage.setClipToOutline(true);
     }
 
     /**
@@ -145,29 +156,47 @@ public class Profile extends BaseActivity {
      */
     private void setupClickListeners() {
         ivProfileImage.setOnClickListener(v -> {
-            if (!isUploading) showImageSourceDialog();
+            if (isEditMode && !isUploading) showImageSourceDialog();
         });
         
-        fabCamera.setOnClickListener(v -> {
-            if (!isUploading) showImageSourceDialog();
-        });
-        
-        fabGallery.setOnClickListener(v -> {
+        fabEditImage.setOnClickListener(v -> {
             if (!isUploading) showImageSourceDialog();
         });
         
         btnEditProfile.setOnClickListener(v -> toggleEditMode());
         btnSaveProfile.setOnClickListener(v -> saveProfile());
-        btnCancel.setOnClickListener(v -> finish());
+        btnCancel.setOnClickListener(v -> {
+            toggleEditMode();
+            loadUserProfile();
+        });
         
-        btnChangePassword = findViewById(R.id.btnChangePassword);
-        btnViewListings = findViewById(R.id.btnViewListings);
-        
-        btnChangePassword.setOnClickListener(v -> showChangePasswordDialog());
-        btnViewListings.setOnClickListener(v -> {
+        // Quick actions
+        layoutMyListings.setOnClickListener(v -> {
             Intent intent = new Intent(Profile.this, MyListings.class);
             startActivity(intent);
         });
+        
+        layoutFavorites.setOnClickListener(v -> {
+            // TODO: Navigate to favorites screen
+            Toast.makeText(this, "Favorites feature coming soon", Toast.LENGTH_SHORT).show();
+        });
+        
+        layoutBlockedUsers.setOnClickListener(v -> {
+            // TODO: Navigate to blocked users screen
+            Toast.makeText(this, "Blocked users feature coming soon", Toast.LENGTH_SHORT).show();
+        });
+        
+        // Settings
+        layoutChangePassword.setOnClickListener(v -> showChangePasswordDialog());
+        layoutNotifications.setOnClickListener(v -> {
+            Toast.makeText(this, "Notifications settings coming soon", Toast.LENGTH_SHORT).show();
+        });
+        layoutPrivacy.setOnClickListener(v -> {
+            Toast.makeText(this, "Privacy settings coming soon", Toast.LENGTH_SHORT).show();
+        });
+        
+        // Logout
+        btnLogout.setOnClickListener(v -> showLogoutDialog());
     }
 
     /**
@@ -240,13 +269,11 @@ public class Profile extends BaseActivity {
         if (isEditMode) {
             enableEditing();
             btnEditProfile.setText(getString(R.string.cancel));
-            btnSaveProfile.setVisibility(View.VISIBLE);
-            btnCancel.setVisibility(View.VISIBLE);
+            layoutEditActions.setVisibility(View.VISIBLE);
         } else {
             disableEditing();
-            btnEditProfile.setText("✏️ " + getString(R.string.edit_profile));
-            btnSaveProfile.setVisibility(View.GONE);
-            btnCancel.setVisibility(View.GONE);
+            btnEditProfile.setText(getString(R.string.edit_profile));
+            layoutEditActions.setVisibility(View.GONE);
             loadUserProfile();
         }
     }
@@ -260,9 +287,7 @@ public class Profile extends BaseActivity {
         etPhone.setEnabled(true);
         etLocation.setEnabled(true);
         etBio.setEnabled(true);
-        fabCamera.setVisibility(View.VISIBLE);
-        fabGallery.setVisibility(View.VISIBLE);
-        animateEditMode(true);
+        fabEditImage.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -274,20 +299,9 @@ public class Profile extends BaseActivity {
         etPhone.setEnabled(false);
         etLocation.setEnabled(false);
         etBio.setEnabled(false);
-        fabCamera.setVisibility(View.GONE);
-        fabGallery.setVisibility(View.GONE);
-        animateEditMode(false);
+        fabEditImage.setVisibility(View.GONE);
     }
 
-    /**
-     * إضافة تأثير حركي لأزرار تغيير الصورة عند الدخول في وضع التعديل.
-     */
-    private void animateEditMode(boolean editing) {
-        float alpha = editing ? 1.0f : 0.5f;
-        float scale = editing ? 1.05f : 1.0f;
-        if (fabCamera != null) fabCamera.animate().alpha(alpha).scaleX(scale).scaleY(scale).setDuration(300).start();
-        if (fabGallery != null) fabGallery.animate().alpha(alpha).scaleX(scale).scaleY(scale).setDuration(300).start();
-    }
 
     /**
      * عرض رسالة حالة ملونة أسفل الشاشة لفترة قصيرة.
@@ -346,6 +360,8 @@ public class Profile extends BaseActivity {
                             }
                             
                             loadUserListingsCount(currentUser.getUid());
+                            loadFavoritesCount(currentUser.getUid());
+                            loadBlockedUsersCount(currentUser.getUid());
                             disableEditing();
                         }
                     }
@@ -363,7 +379,41 @@ public class Profile extends BaseActivity {
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            tvListingsCount.setText(String.valueOf(dataSnapshot.getChildrenCount()));
+                            tvListingsCount.setText(dataSnapshot.getChildrenCount() + " listings");
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+        }
+    }
+    
+    /**
+     * حساب عدد المفضلات للمستخدم.
+     */
+    private void loadFavoritesCount(String userId) {
+        if (tvFavoritesCount != null) {
+            mDatabase.child("favorites").child(userId)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            tvFavoritesCount.setText(String.valueOf(dataSnapshot.getChildrenCount()));
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+        }
+    }
+    
+    /**
+     * حساب عدد المستخدمين المحظورين.
+     */
+    private void loadBlockedUsersCount(String userId) {
+        if (tvBlockedCount != null) {
+            mDatabase.child("blockedUsers").child(userId)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            tvBlockedCount.setText(String.valueOf(dataSnapshot.getChildrenCount()));
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {}
@@ -525,5 +575,22 @@ public class Profile extends BaseActivity {
                     if (user != null) mAuth.sendPasswordResetEmail(user.getEmail()).addOnCompleteListener(t -> Toast.makeText(this, "تم إرسال الرابط", Toast.LENGTH_SHORT).show());
                 })
                 .setNegativeButton(getString(R.string.cancel), null).show();
+    }
+    
+    /**
+     * عرض مربع حوار لتأكيد تسجيل الخروج.
+     */
+    private void showLogoutDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Logout", (dialog, which) -> {
+                    mAuth.signOut();
+                    Intent intent = new Intent(Profile.this, SignIn.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("Cancel", null).show();
     }
 }

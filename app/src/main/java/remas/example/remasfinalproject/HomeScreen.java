@@ -127,7 +127,7 @@ public class HomeScreen extends BaseActivity {
      */
     private void setupRecyclerView() {
         listingList = new ArrayList<>();
-        listingAdapter = new HomeListingAdapter(listingList, this::onListingClick);
+        listingAdapter = new HomeListingAdapter(listingList, this::onListingClick, this);
         rvListings.setLayoutManager(new LinearLayoutManager(this));
         rvListings.setAdapter(listingAdapter);
         loadListingsFromFirebase();
@@ -224,6 +224,18 @@ public class HomeScreen extends BaseActivity {
                 // Handle error
             }
         });
+    }
+    
+    /**
+     * Open user profile activity for a specific user.
+     * @param userId The user ID to view profile for
+     */
+    private void openUserProfile(String userId) {
+        if (userId == null || userId.isEmpty()) return;
+        
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
     
     /**
@@ -416,18 +428,20 @@ public class HomeScreen extends BaseActivity {
     /**
      * محول خاص بـ RecyclerView لعرض بطاقات العقارات في الشاشة الرئيسية.
      */
-    private class HomeListingAdapter extends RecyclerView.Adapter<HomeListingAdapter.ListingViewHolder> {
-        
+    private static class HomeListingAdapter extends RecyclerView.Adapter<HomeListingAdapter.ListingViewHolder> {
+
         private List<MyListings.ListingItem> listings;
         private OnListingClickListener onListingClickListener;
-        
+        private HomeScreen homeScreen;
+
         public interface OnListingClickListener {
             void onListingClick(MyListings.ListingItem listing);
         }
-        
-        public HomeListingAdapter(List<MyListings.ListingItem> listings, OnListingClickListener onListingClickListener) {
+
+        public HomeListingAdapter(List<MyListings.ListingItem> listings, OnListingClickListener onListingClickListener, HomeScreen homeScreen) {
             this.listings = listings;
             this.onListingClickListener = onListingClickListener;
+            this.homeScreen = homeScreen;
         }
         
         @NonNull
@@ -487,22 +501,22 @@ public class HomeScreen extends BaseActivity {
                 });
             }
             
-            // Make profile picture clickable to show TikTok-style popup
+            // Make profile picture clickable to open user profile
             holder.ivUserProfile.setOnClickListener(v -> {
-                showUserProfilePopup(listing.getUserId());
+                homeScreen.openUserProfile(listing.getUserId());
             });
-            
+
             // Handle favorite icon click
             holder.ibFavorite.setOnClickListener(v -> {
                 toggleFavorite(listing, holder.ibFavorite);
             });
-            
+
             // Check if listing is already favorited and update icon
             checkFavoriteStatus(listing.getListingId(), holder.ibFavorite);
-            
+
             // Handle chat icon click
             holder.ibChat.setOnClickListener(v -> {
-                openChatWithUser(listing.getUserId(), holder.itemView);
+                homeScreen.openChatWithUser(listing.getUserId(), holder.itemView);
             });
             
             holder.itemView.setOnClickListener(v -> {

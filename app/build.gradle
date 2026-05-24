@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -10,7 +11,7 @@ android {
     defaultConfig {
         applicationId "remas.example.remasfinalproject"
         minSdk 27
-        targetSdk 36
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -23,21 +24,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
+    // Modern way to write lint options to avoid Gradle 9.0 warnings
     lint {
-        disable 'DeprecatedMethodCallInExpression', 'Deprecation'
+        checkReleaseBuilds false
         abortOnError false
     }
-
 }
 
-
-
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
@@ -49,33 +49,23 @@ dependencies {
     implementation libs.credentials.play.services.auth
     implementation libs.googleid
     implementation libs.firebase.firestore
+    implementation libs.firebase.crashlytics
     
-    // Glide for image loading
+    // Glide for images
     implementation 'com.github.bumptech.glide:glide:4.16.0'
-    
-    // Google AI SDK for Gemini
-    implementation 'com.google.ai.client.generativeai:generativeai:0.9.0'
-    
-    // Guava for ListenableFuture
-    implementation 'com.google.guava:guava:32.1.3-android'
-    
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
-    //for room data base
-    def room_version = "2.8.3"
+    // Updated Room database to match your project version
+    def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-    // optional - RxJava2 support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
-    // optional - RxJava3 support for Room
-    implementation "androidx.room:room-rxjava3:$room_version"
-    // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation "androidx.room:room-guava:$room_version"
-    // optional - Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
-    // optional - Paging 3 Integration
-    implementation "androidx.room:room-paging:$room_version"
 
+    // Google AI SDK
+    implementation 'com.google.ai.client.generativeai:generativeai:0.9.0'
+    // Guava for ListenableFuture
+    implementation 'com.google.guava:guava:33.0.0-android'
 }

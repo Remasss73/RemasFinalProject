@@ -3,6 +3,8 @@ package remas.example.remasfinalproject;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,6 +24,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -239,10 +242,17 @@ public class AddDormActivity extends BaseActivity {
         MyListings.ListingItem listing = new MyListings.ListingItem();
         listing.setTitle(etTitle.getText().toString().trim());
         listing.setCity(etCity.getText().toString().trim());
+        listing.setAddress(etAddress.getText().toString().trim());
         listing.setPrice("₪" + etPrice.getText().toString().trim());
         listing.setStatus(status);
         listing.setUserId(mAuth.getCurrentUser().getUid());
         listing.setTimestamp(System.currentTimeMillis());
+        
+        // Save location coordinates if available
+        if (currentLatitude != 0 && currentLongitude != 0) {
+            listing.setLatitude(currentLatitude);
+            listing.setLongitude(currentLongitude);
+        }
         
         if (selectedImageUris.isEmpty()) saveListingToFirebase(listing, progressDialog);
         else uploadImagesAndSaveListing(listing, progressDialog);
@@ -385,35 +395,91 @@ public class AddDormActivity extends BaseActivity {
      */
     private void getCurrentLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
-        } else getLocationAndShowMap();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 200);
+        } else {
+            getLocationAndAutofill();
+        }
     }
     
     /**
-     * تفعيل مستشعر الموقع الجغرافي وحفظ الإحداثيات.
+     * تفعيل مستشعر الموقع الجغرافي وحفظ الإحداثيات مع التعبئة التلقائية للعنوان.
      */
-    private void getLocationAndShowMap() {
+    private void getLocationAndAutofill() {
         try {
             LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-            lm.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    currentLatitude = location.getLatitude();
-                    currentLongitude = location.getLongitude();
-                    showMapDialog();
-                }
-                @Override public void onStatusChanged(String p, int s, Bundle e) {}
-                @Override public void onProviderEnabled(String p) {}
-                @Override public void onProviderDisabled(String p) {}
-            }, null);
-        } catch (SecurityException e) {}
+            
+            // Try GPS first, fall back to network provider
+            Location location = null;
+            if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            }
+            if (location == null && lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+            
+            if (location != null) {
+                currentLatitude = location.getLatitude();
+                currentLongitude = location.getLongitude();
+                reverseGeocodeAndAutofill(location);
+            } else {
+                // Request single update if no last known location
+                lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        currentLatitude = location.getLatitude();
+                        currentLongitude = location.getLongitude();
+                        reverseGeocodeAndAutofill(location);
+                    }
+                    @Override public void onStatusChanged(String p, int s, Bundle e) {}
+                    @Override public void onProviderEnabled(String p) {}
+                    @Override public void onProviderDisabled(String p) {}
+                }, null);
+            }
+        } catch (SecurityException e) {
+            Toast.makeText(this, "Location permission required", Toast.LENGTH_SHORT).show();
+        }
     }
     
     /**
-     * إظهار تأكيد للمستخدم بأنه تم تحديد الموقع بنجاح.
+     * تحويل الإحداثيات إلى عنوان وتعبئة الحقول تلقائياً.
      */
-    private void showMapDialog() {
-        new AlertDialog.Builder(this).setTitle("تم تحديد الموقع").setMessage("تم التقاط موقعك الحالي بنجاح.").setPositiveButton("موافق", null).show();
+    private void reverseGeocodeAndAutofill(Location location) {
+        try {
+            Geocoder geocoder = new Geocoder(this, java.util.Locale.getDefault());
+            java.util.List<Address> addresses = geocoder.getFromLocation(
+                location.getLatitude(), 
+                location.getLongitude(), 
+                1
+            );
+            
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                
+                // Autofill city
+                String city = address.getLocality();
+                if (city != null && !city.isEmpty()) {
+                    etCity.setText(city);
+                }
+                
+                // Autofill address
+                StringBuilder addressBuilder = new StringBuilder();
+                if (address.getThoroughfare() != null) {
+                    addressBuilder.append(address.getThoroughfare());
+                }
+                if (address.getSubThoroughfare() != null) {
+                    addressBuilder.append(" ").append(address.getSubThoroughfare());
+                }
+                if (addressBuilder.length() > 0) {
+                    etAddress.setText(addressBuilder.toString());
+                }
+                
+                Toast.makeText(this, "Location autofilled successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Could not determine address from location", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error getting address: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
     
     /**
@@ -421,5 +487,27 @@ public class AddDormActivity extends BaseActivity {
      */
     private void setupAutoCapitalization() {
         // إعدادات التنسيق التلقائي
+    }
+    
+    /**
+     * التعامل مع نتيجة طلب صلاحية الموقع.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 200) {
+            boolean hasPermission = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    hasPermission = false;
+                    break;
+                }
+            }
+            if (hasPermission) {
+                getLocationAndAutofill();
+            } else {
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

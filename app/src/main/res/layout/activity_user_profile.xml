@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F172A"
+    tools:context=".UserProfileActivity">
+
+    <!-- Header with back button -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/headerCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="#1E293B"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:backgroundTint="#38BDF8"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="User Profile"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="12dp"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="72dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Profile Header -->
+            <LinearLayout
+                android:id="@+id/llProfileHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp"
+                android:background="#1E293B"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/ivProfilePicture"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@android:drawable/ic_menu_myplaces"
+                    android:background="@drawable/circular_profile_image"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Name"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:textColor="#94A3B8"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvMemberSince"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Member since January 2024"
+                    android:textColor="#64748B"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+            <!-- Stats Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tvListingsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 Listings"
+                            android:textColor="#38BDF8"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Listings"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="40dp"
+                        android:background="#334155"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Active"
+                            android:textColor="#10B981"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Status"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Bio Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvBio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No bio available"
+                        android:textColor="#94A3B8"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="4dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Buttons -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnChat"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Open Chat"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#38BDF8"
+                android:layout_marginBottom="12dp"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_dialog_email"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewListings"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="View Listings"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#10B981"
+                android:layout_marginBottom="12dp"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_agenda"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBlock"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Block User"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#EF4444"
+                android:layout_marginBottom="12dp"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_close_clear_cancel"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReport"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Report User"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#F59E0B"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_info_details"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
